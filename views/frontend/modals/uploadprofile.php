@@ -1,4 +1,4 @@
-<!-- Delete Modal -->
+<!-- Update Profile Modal -->
 <div class="modal fade" id="uploadProfile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

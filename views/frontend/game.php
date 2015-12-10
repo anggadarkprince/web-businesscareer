@@ -61,7 +61,7 @@
             <header class="game-header">
                 <div class="row">
                     <div class="col-md-7">
-                        <a href="<?=$this->framework->url->get_base_url()?>"><img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/logo-support.png" width="600" class="img-responsive"></a>
+                        <a href="<?=$this->framework->url->get_base_url()?>"><img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/logo-support.png" width="380" class="img-responsive"></a>
                     </div>
                     <div class="col-md-5">
                         <ul class="list-inline social-links">
@@ -124,11 +124,9 @@
                     <li><a href="<?=$this->framework->url->get_base_url()?>/page/privacy">Privacy</a></li>
                     <li><a href="<?=$this->framework->url->get_base_url()?>/page/disclaimer">Disclaimer</a></li>
                     <li><a href="<?=$this->framework->url->get_base_url()?>/page/agreement">Agreement</a></li>
-                    <li><a href="<?=$this->framework->url->get_base_url()?>/page/faq">Help &amp; FAQ</a></li>
-                    <li><a href="<?=$this->framework->url->get_base_url()?>/page/sign">Search</a></li>
                     <li><a href="<?=$this->framework->url->get_base_url()?>/page/contact">Contact</a></li>
                 </ul>
-                <p>All work copyright of respective owner, &copy 2014 SeriousGame.Inc, made with <span class="glyphicon glyphicon-heart"></span> and Actionscript 3.0</p>
+                <p>&copy <?=date("Y")?> SeriousGame.Inc, made with <span class="glyphicon glyphicon-heart"></span> and Actionscript 3.0</p>
             </footer>
         </div>
 

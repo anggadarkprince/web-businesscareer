@@ -64,8 +64,8 @@ class Player extends Model
                 $player = $this->FetchDataRow();
 
                 // create registration log
-                $log = Log::getInstance();
-                $log->logging_web_registration($player[Player::COLUMN_PLY_ID], json_encode($data));
+                //$log = Log::getInstance();
+                //$log->logging_web_registration($player[Player::COLUMN_PLY_ID], json_encode($data));
             }
 
             return $result;
@@ -124,8 +124,8 @@ class Player extends Model
                     $player = $this->FetchDataRow();
 
                     // create confirm log
-                    $log = Log::getInstance();
-                    $log->logging_web_confirm($player[Player::COLUMN_PLY_ID], json_encode($data));
+                    //$log = Log::getInstance();
+                    //$log->logging_web_confirm($player[Player::COLUMN_PLY_ID], json_encode($data));
                 }
 
                 return true;

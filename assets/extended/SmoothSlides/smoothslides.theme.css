@@ -38,8 +38,6 @@
     display: inline-block;
     font-size: 20px;
     padding: 5px 10px;
-    border-radius: 4px;
-    background: #fff;  
 }
 .ss-paginate a:link,
 .ss-paginate a:visited {
@@ -55,7 +53,7 @@
 
 }
 .ss-current {
-    background: #3a3a3a !important;
+    background: #fff !important;
 }
 
 /* Previous & Next Buttons */

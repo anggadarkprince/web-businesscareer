@@ -77,7 +77,7 @@ class playerController extends Controller
         session_start();
         if ($model_player->check_email($_POST['reg-email'])) {
             $_SESSION['operation'] = 'error';
-            $_SESSION['message'] = 'Email has registered, please login or confirmation!';
+            $_SESSION['message'] = 'Email has registered before!';
             transport("page");
         } else {
             if ($model_player->register($data)) {

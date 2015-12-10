@@ -12,7 +12,7 @@
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-8">
                     <h1>Register Failed</h1>
-                    <h3>Take a Seconds to Play the Game</h3>
+                    <h3>Take a Second to Play the Game</h3>
                     <p><a href="<?=$this->framework->url->get_base_url()?>">Click here to registration again</a></p>
                 </div>
             </div>
@@ -25,8 +25,8 @@
                     <span class="fui-check-inverted" style="font-size: 4em"></span>
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-8">
-                    <h1>Email Confirm Request</h1>
-                    <h3>Take a Seconds to Play the Game</h3>
+                    <h1>Request a Email Confirmation</h1>
+                    <h3>Take a Second to Play the Game</h3>
                     <p>Thanks <?php
                         if(isset($email)){
                             echo $email;

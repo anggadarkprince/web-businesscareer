@@ -3,7 +3,7 @@
     <section class="featured hidden-xs">
         <div class="cover">
             <div class="ss-slides">
-                <div class="ss-slide" title="Serious Game, Playfull Business" data-subtitle="High Design Concept for Learning Game">
+                <div class="ss-slide" title="Serious Game, Playful Business" data-subtitle="High Design Concept for Learning Game">
                     <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover1.png" class="img-responsive center-block">
                 </div>
                 <div class="ss-slide" title="Application Snap Screenshot" data-subtitle="High Design Concept for Learning Game">
@@ -42,7 +42,7 @@
 
                     <div class="alert alert-danger alert-block pam" style="margin-top: 20px">
                         <button type="button" class="close" data-dismiss="alert">×</button>
-                        <small><?php echo $_SESSION['message']; ?></small>
+                        <p class="small"><?php echo $_SESSION['message']; ?></p>
                     </div>
 
                 <?php

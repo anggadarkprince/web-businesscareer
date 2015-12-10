@@ -41,7 +41,7 @@
         <hr>
         <div class="row footer-bottom">
             <div class="col-md-6">
-                <p><strong>&copy Copyright 2014 Allrights Reserved Sketch Project Studio</strong></p>
+                <p><strong>&copy Copyright <?=date("Y")?> All rights Reserved Sketch Project Studio</strong></p>
                 <p class="text-muted">Powered by Adobe Gaming <sup>®</sup> Made with Love and Actionscript 3.0</p>
             </div>
             <div class="col-md-6 text-right">
