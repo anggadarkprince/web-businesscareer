@@ -8,14 +8,14 @@
     <div class="content">
         <h3 class="lead man">Top 10 Player</h3>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <table id="datatable" class="table table-hover table-condensed">
                     <thead>
                     <tr>
                         <th></th>
                         <th>Game Point</th>
                         <th>Game Cash</th>
-                        <th>Rank</th>
+                        <th class="text-center">Rank</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -27,9 +27,9 @@
                     ?>
                     <tr>
                         <th><?=$player["ply_name"]?></th>
-                        <td><?=$player["ply_point"]?></td>
-                        <td><?=$player["ply_cash"]?></td>
-                        <td>1</td>
+                        <td><?=number_format($player["ply_point"], 0, ',', '.')?> PTS</td>
+                        <td>IDR <?=number_format($player["ply_cash"], 0, ',', '.')?></td>
+                        <td class="text-center"><?=$number++?></td>
                     </tr>
 
                     <?php
@@ -39,7 +39,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12 mtl hidden-xs">
                 <div id="chartdatatable"></div>
             </div>
         </div>
@@ -50,28 +50,75 @@
 <script>
     $(document).ready(function(){
         $('#chartdatatable').highcharts({
-            data: {
-                table: document.getElementById('datatable')
-            },
             chart: {
                 type: 'column'
             },
             title: {
-                text: 'Data extracted from a HTML table in the page'
+                text: 'Top 10 Player Statistic'
             },
-            colors: ['#81a249', '#88ac4c', '#94b857'],
+            subtitle: {
+                text: 'Serious Game : Business Career The Game'
+            },
+            colors: ['#81a249', '#a2c566'],
+            xAxis: {
+                categories: [
+                    <?php
+                        if(isset($leaderboard)){
+                            foreach($leaderboard as $row){
+                                echo "'".$row["ply_name"]."',";
+                            }
+                        }
+                    ?>
+                ]
+            },
             yAxis: {
-                allowDecimals: false,
+                min: 0,
                 title: {
-                    text: 'Units'
+                    text: 'Player Total'
                 }
             },
             tooltip: {
-                formatter: function() {
-                    return '<b>'+ this.series.name +'</b><br/>'+
-                        this.y +' '+ this.x.toLowerCase();
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                '<td style="padding:0"><b>{point.y}</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
                 }
-            }
+            },
+            series: [{
+                name: 'Game Point',
+                data: [
+                    <?php
+                        if(isset($leaderboard)){
+                            foreach($leaderboard as $row){
+                                echo ($row["ply_point"] * 100).",";
+                            }
+                        }
+                    ?>
+                ]
+
+            },{
+                name: 'Game Cash',
+                data: [
+                    <?php
+                        if(isset($leaderboard)){
+                            foreach($leaderboard as $row){
+                                echo $row["ply_cash"].",";
+                            }
+                        }
+                    ?>
+                ]
+
+            }]
         });
+
+        $(".highcharts-axis-labels").first().find("text").attr("y", 340);
+        $(".highcharts-title").attr("y", 20);
     });
 </script>

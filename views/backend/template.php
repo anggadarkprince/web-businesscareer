@@ -7,19 +7,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <!-- Loading Bootstrap -->
-        <link href="<?=$this->framework->url->get_base_url()?>/assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/bootstrap/css/bootstrap.css">
 
         <!-- Loading Flat UI -->
-        <link href="<?=$this->framework->url->get_base_url()?>/assets/css/flat-ui.css" rel="stylesheet">
+        <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/css/flat-ui.css">
 
-        <!-- Loading Public Styles -->
-        <link href="<?=$this->framework->url->get_base_url()?>/assets/css/private.css" rel="stylesheet">
+        <!-- Loading Private Styles -->
+        <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/css/private.css">
 
         <!-- Loading Font Awesome Styles -->
         <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/css/font-awesome.min.css">
 
-        <link href="<?=$this->framework->url->get_base_url()?>/assets/extended/jQueryDatatable/css/jquery.dataTables.css" rel="stylesheet"/>
+        <!-- Loading Data Table Styles -->
+        <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/extended/jQueryDatatable/css/jquery.dataTables.css"/>
 
+        <!-- Favicon -->
         <link rel="shortcut icon" href="<?=$this->framework->url->get_base_url()?>/assets/images/favicon.png">
 
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->

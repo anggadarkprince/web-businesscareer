@@ -13,7 +13,7 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#feedback" data-toggle="tab"><span class="fui-mail"></span> Feedback Record</a></li>
                     <li><a href="#important" data-toggle="tab"><span class="fui-heart"></span> Important Mark</a></li>
-                    <li><a href="#delete" data-toggle="tab"><span class="fui-cross"></span> Deleted History</a></li>
+                    <li class="hidden-xs"><a href="#delete" data-toggle="tab"><span class="fui-cross"></span> Deleted History</a></li>
                 </ul>
 
                 <script>
@@ -256,20 +256,25 @@
                                     var json_data = JSON.parse(data);
                                     var output = "";
                                     var count = 1;
-                                    $.each(json_data,function(i,row){
-                                        output+="<tr data-name='"+row.fdb_name+"' data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_timestamp+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
-                                        output+="<td>"+(count++)+"</td>";
-                                        output+="<td>"+row.fdb_name+"</td>";
-                                        output+="<td>"+row.fdb_subject+"</td>";
-                                        output+="<td>"+row.fdb_email+"</td>";
-                                        output+="<td><a href='#' id='detailButton' data-toggle='modal' data-target='#detailFeedback'>Detail</a></td>";
-                                        output+="<td>";
-                                        output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Reply Feedback'><a href='#' class='btn btn-embossed btn-xs btn-custom' id='replyButton' data-toggle='modal' data-target='#replyFeedback'><span class='fui-mail'></span></a></span>";
-                                        output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Mark as Important'><a href='#' class='btn btn-embossed btn-xs btn-info' id='markButton' data-toggle='modal' data-target='#markFeedback'><span class='fui-heart'></span></a></span>";
-                                        output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Remove Record'><a href='#' class='btn btn-embossed btn-xs btn-danger' id='deleteButton' data-toggle='modal' data-target='#deleteFeedback'><span class='fui-cross'></span></a></span>";
-                                        output+="</td>";
-                                        output+="</tr>";
-                                    });
+                                    if(json_data.length == 0){
+                                        output+="<tr class='text-center'><td colspan='6'>No Data Available</td></tr>";
+                                    }
+                                    else{
+                                        $.each(json_data,function(i,row){
+                                            output+="<tr data-name='"+row.fdb_name+"' data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_timestamp+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
+                                            output+="<td>"+(count++)+"</td>";
+                                            output+="<td>"+row.fdb_name+"</td>";
+                                            output+="<td>"+row.fdb_subject+"</td>";
+                                            output+="<td>"+row.fdb_email+"</td>";
+                                            output+="<td><a href='#' id='detailButton' data-toggle='modal' data-target='#detailFeedback'>Detail</a></td>";
+                                            output+="<td>";
+                                            output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Reply Feedback'><a href='#' class='btn btn-embossed btn-xs btn-custom' id='replyButton' data-toggle='modal' data-target='#replyFeedback'><span class='fui-mail'></span></a></span>";
+                                            output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Mark as Important'><a href='#' class='btn btn-embossed btn-xs btn-info' id='markButton' data-toggle='modal' data-target='#markFeedback'><span class='fui-heart'></span></a></span>";
+                                            output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Remove Record'><a href='#' class='btn btn-embossed btn-xs btn-danger' id='deleteButton' data-toggle='modal' data-target='#deleteFeedback'><span class='fui-cross'></span></a></span>";
+                                            output+="</td>";
+                                            output+="</tr>";
+                                        });
+                                    }
                                     $("#data_standard").html(output);
                                 },
                                 error: function(e) {
@@ -287,20 +292,25 @@
                                     var json_data = JSON.parse(data);
                                     var output = "";
                                     var count = 1;
-                                    $.each(json_data,function(i,row){
-                                        output+="<tr data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_timestamp+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
-                                        output+="<td>"+(count++)+"</td>";
-                                        output+="<td>"+row.fdb_name+"</td>";
-                                        output+="<td>"+row.fdb_subject+"</td>";
-                                        output+="<td>"+row.fdb_email+"</td>";
-                                        output+="<td><a href='#' id='detailButton' data-toggle='modal' data-target='#detailFeedback'>Detail</a></td>";
-                                        output+="<td>";
-                                        output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Reply Feedback'><a href='#' class='btn btn-embossed btn-xs btn-custom' id='replyButton' data-toggle='modal' data-target='#replyFeedback'><span class='fui-mail'></span></a></span>";
-                                        output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Remove as Important'><a href='#' class='btn btn-embossed btn-xs btn-danger' id='unmarkButton' data-toggle='modal' data-target='#unmarkFeedback'><span class='fui-heart'></span></a></span>";
-                                        output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Remove Record'><a href='#' class='btn btn-embossed btn-xs btn-danger' id='deleteButton' data-toggle='modal' data-target='#deleteFeedback'><span class='fui-cross'></span></a></span>";
-                                        output+="</td>";
-                                        output+="</tr>";
-                                    });
+                                    if(json_data.length == 0){
+                                        output+="<tr class='text-center'><td colspan='6'>No Data Available</td></tr>";
+                                    }
+                                    else{
+                                        $.each(json_data,function(i,row){
+                                            output+="<tr data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_timestamp+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
+                                            output+="<td>"+(count++)+"</td>";
+                                            output+="<td>"+row.fdb_name+"</td>";
+                                            output+="<td>"+row.fdb_subject+"</td>";
+                                            output+="<td>"+row.fdb_email+"</td>";
+                                            output+="<td><a href='#' id='detailButton' data-toggle='modal' data-target='#detailFeedback'>Detail</a></td>";
+                                            output+="<td>";
+                                            output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Reply Feedback'><a href='#' class='btn btn-embossed btn-xs btn-custom' id='replyButton' data-toggle='modal' data-target='#replyFeedback'><span class='fui-mail'></span></a></span>";
+                                            output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Remove as Important'><a href='#' class='btn btn-embossed btn-xs btn-danger' id='unmarkButton' data-toggle='modal' data-target='#unmarkFeedback'><span class='fui-heart'></span></a></span>";
+                                            output+="   <span data-toggle='tooltip' data-placement='top' data-original-title='Remove Record'><a href='#' class='btn btn-embossed btn-xs btn-danger' id='deleteButton' data-toggle='modal' data-target='#deleteFeedback'><span class='fui-cross'></span></a></span>";
+                                            output+="</td>";
+                                            output+="</tr>";
+                                        });
+                                    }
                                     $("#data_important").html(output);
                                 },
                                 error: function(e) {
@@ -317,14 +327,19 @@
                                 success: function(data){
                                     var json_data = JSON.parse(data);
                                     var output = "";
-                                    $.each(json_data,function(i,row){
-                                        output+="<tr>";
-                                        output+="<td>"+row.fdb_timestamp+"</td>";
-                                        output+="<td>"+row.fdb_id+"</td>";
-                                        output+="<td>"+row.fdb_subject+"</td>";
-                                        output+="<td>"+row.fdb_email+"</td>";
-                                        output+="</tr>";
-                                    });
+                                    if(json_data.length == 0){
+                                        output+="<tr class='text-center'><td colspan='6'>No Data Available</td></tr>";
+                                    }
+                                    else{
+                                        $.each(json_data,function(i,row){
+                                            output+="<tr>";
+                                            output+="<td>"+row.fdb_timestamp+"</td>";
+                                            output+="<td>"+row.fdb_id+"</td>";
+                                            output+="<td>"+row.fdb_subject+"</td>";
+                                            output+="<td>"+row.fdb_email+"</td>";
+                                            output+="</tr>";
+                                        });
+                                    }
                                     $("#data_deleted").html(output);
                                 },
                                 error: function(e) {

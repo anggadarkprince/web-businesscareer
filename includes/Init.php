@@ -17,10 +17,14 @@
 
     /*** include the url class ***/
     include __SITE_PATH . '/application/' . 'urlvars.class.php';
-	
+
 	include 'helper.php';
 
-    /*** auto load models classes ***/
+    /**
+     * auto load models classes
+     * @param $class_name
+     * @return bool
+     */
     function __autoload($class_name) {
         $filename = strtolower($class_name) . '.class.php';
         $file = __SITE_PATH . '/models/' . $filename;

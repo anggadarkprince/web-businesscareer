@@ -4,7 +4,7 @@
 }
 
 body{
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Roboto, Helvetica, Arial, sans-serif;
     background: #3d3d3d;
 }
 
@@ -55,7 +55,7 @@ a:hover{
 
 footer{
     background: none;
-    font-size: 0.7em;
+    font-size: 0.8em;
     margin-top: 20px;
 }
 

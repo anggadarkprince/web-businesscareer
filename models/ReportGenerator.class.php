@@ -519,6 +519,6 @@ class ReportGenerator extends Printer
      */
     public function print_report()
     {
-        $this->Output();
+        $this->Output("Business Career Report.pdf", "I");
     }
 } 

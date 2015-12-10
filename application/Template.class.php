@@ -22,11 +22,9 @@
         private $vars = array();
 
         /**
-         *
          * @constructor
          * @access public
-         * @return void
-         *
+         * @param $registry
          */
         function __construct($registry) {
             $this->framework = $registry;

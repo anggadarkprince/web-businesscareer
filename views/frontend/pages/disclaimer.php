@@ -15,7 +15,7 @@
 
                     Peraturan berikut di bawah ini berlaku pada dan mengatur seluruh fitur yang terdapat di situs SeriousGame.Inc. Mohon dibaca dengan teliti sebelum Anda mendaftarkan diri dan berpartisipasi pada komunitas di SeriousGame.Inc. Dengan memproses pendaftaran, Anda menyatakan bahwa Anda setuju untuk mematuhi peraturan-peraturan di bawah ini:
                 </p>
-                <br>
+
                 <ol class="small mll mbl">
                     <li class="mbl">Anggota komunitas dan pengunjung bertanggung jawab secara pribadi dan penuh atas konten/materi yang ditulis dan diterbitkan oleh mereka, dan Anda setuju untuk membebaskan serta tidak membebani komunitas ini beserta para pengelola termasuk administrator, moderator, dan pemiliknya atas segala klaim yang terjadi yang disebabkan oleh pesan yang Anda sebarkan di komunitas. SeriousGame.Inc berhak untuk menerbitkan segala informasi yang kami miliki tentang diri Anda pada saat terjadi keluhan dan permasalahan hukum yang disebabkan oleh pesan apapun yang Anda terbitkan. Harap diperhatikan bahwa seluruh alamat IP akan direkam untuk semua pesan yang diterbitkan.</li>
                     <li class="mbl">SeriousGame.Inc tidak dapat dituntut untuk segala pernyataan, kekeliruan, ketidaktepatan atau kekurangan pada segala konten yang dikirim oleh anggota komunitas atau pengunjung pada komunitas SeriousGame.Inc. SeriousGame.Inc juga tidak bertanggung jawab atas ketepatan isi informasi dari peserta komunitas manapun, dan tidak akan mempunyai tanggung jawab hukum untuk hasil diskusi di komunitas.</li>
@@ -44,6 +44,8 @@
 
                     Dengan mendaftarkan diri Anda pada komunitas SeriousGame.Inc ini, Anda termasuk di kriteria di atas dan karenanya setuju untuk mematuhi dan terikat oleh seluruh peraturan tersebut.
                 </p>
+
+                <br>
 
             </section>
         </div>

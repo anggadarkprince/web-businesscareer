@@ -16,7 +16,7 @@ class statisticController extends Controller
             $model_player = Player::getInstance();
             $model_leaderboard = Leaderboard::getInstance();
 
-            $model_player->total_player();
+            $model_player->get_total_player();
             $model_player->unread_new_player();
             $this->framework->view->page = "statistic";
             $this->framework->view->content = "/backend/pages/statistic";

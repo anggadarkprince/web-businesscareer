@@ -37,7 +37,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th width="60" class="text-center"></th>
+                            <th width="50" class="text-center"></th>
                             <th class="text-left">PLAYER STATUS</th>
                             <th width="100" class="text-right">TOTAL</th>
                         </tr>
@@ -81,7 +81,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th width="60" class="text-center"></th>
+                            <th width="50" class="text-center"></th>
                             <th class="text-left">FEEDBACK STATUS</th>
                             <th width="100" class="text-right">TOTAL</th>
                         </tr>
@@ -125,7 +125,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th width="60" class="text-center"></th>
+                            <th width="50" class="text-center"></th>
                             <th class="text-left">TRAFFIC STATUS</th>
                             <th width="100" class="text-right">TOTAL</th>
                         </tr>
@@ -145,9 +145,7 @@
                             <td colspan="3"><div id="charttraffic"></div></td>
                         </tr>
                         <tr>
-                            <td>
-
-                            </td>
+                            <td></td>
                             <td>
                                 <h6>Average / Day</h6>
                                 <p class="small">We do expect traffic will keep increase everyday and player more excite about Serious Game.</p>

@@ -17,10 +17,10 @@ class reportController extends Controller
             $model_feedback = Feedback::getInstance();
             $model_administrator = Administrator::getInstance();
 
-            $model_player->total_player();
+            $model_player->get_total_player();
             $model_player->unread_new_player();
             $this->framework->view->page = "report";
-            $this->framework->view->player = $model_player->player_report();
+            $this->framework->view->player = $model_player->get_player_report();
             $this->framework->view->feedback = $model_feedback->retrieve_feedback_report();
             $this->framework->view->traffic = $model_administrator->retrieve_traffic_report();
             $this->framework->view->chart = $model_administrator->retrieve_traffic_chart_data();
@@ -84,7 +84,7 @@ class reportController extends Controller
 
             $model_report = new ReportGenerator();
 
-            $model_report->get_report_overall($model_player->player_report(), $model_feedback->retrieve_feedback_report(), $model_administrator->retrieve_traffic_report(), $model_leaderboard->get_top10_ranking());
+            $model_report->get_report_overall($model_player->get_player_report(), $model_feedback->retrieve_feedback_report(), $model_administrator->retrieve_traffic_report(), $model_leaderboard->get_top10_ranking());
             $model_report->print_report();
         } else {
             transport("administrator");

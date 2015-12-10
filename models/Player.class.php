@@ -11,12 +11,9 @@ class Player extends Model
 {
 
     // applied singleton pattern
-    private static $instance = NULL;
-
     const ACTIVE = "ACTIVE";
     const SUSPEND = 'SUSPEND';
     const PENDING = 'PENDING';
-
     const COLUMN_PLY_ID = "ply_id";
     const COLUMN_PLY_KEY = "ply_key";
     const COLUMN_PLY_NAME = "ply_name";
@@ -27,7 +24,7 @@ class Player extends Model
     const COLUMN_PLY_READ = "ply_read";
     const COLUMN_PLY_UPDATED_AT = "ply_updated_at";
     const COLUMN_PLY_CREATED_AT = "ply_created_at";
-
+    private static $instance = NULL;
 
     /**
      * default constructor
@@ -72,67 +69,6 @@ class Player extends Model
         } else {
             return false;
         }
-    }
-
-    /**
-     * @param $name
-     * @param $email
-     * @return string
-     */
-    public function generate_key($name, $email)
-    {
-        $key = $name . $email . uniqid();
-        return md5($key);
-    }
-
-    /**
-     * @param $email
-     * @return bool
-     */
-    public function check_email($email)
-    {
-        $state = array(
-            player::COLUMN_PLY_EMAIL => $email
-        );
-        $query = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
-        if ($query && $this->CountRow() == 1) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param $email
-     * @param $key
-     * @return bool
-     */
-    public function confirm($email, $key)
-    {
-        $data = array(
-            player::COLUMN_PLY_STATE => player::ACTIVE
-        );
-        if ($this->Update(Utility::TABLE_PLAYER, $data, array(player::COLUMN_PLY_KEY => $key))) {
-            $state = array(
-                player::COLUMN_PLY_EMAIL => $email,
-                player::COLUMN_PLY_KEY => $key
-            );
-            $query = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
-            if ($query && $this->CountRow() == 1) {
-                $result = $this->ReadSingleData(Utility::TABLE_PLAYER, array(Player::COLUMN_PLY_EMAIL => $email));
-
-                if ($result) {
-                    $player = $this->FetchDataRow();
-
-                    // create confirm log
-                    //$log = Log::getInstance();
-                    //$log->logging_web_confirm($player[Player::COLUMN_PLY_ID], json_encode($data));
-                }
-
-                return true;
-            }
-            return false;
-        }
-        return false;
     }
 
     /**
@@ -202,64 +138,64 @@ class Player extends Model
     }
 
     /**
-     * @param null $id
-     * @return null
+     * @param $name
+     * @param $email
+     * @return string
      */
-    public function fetch($id = null)
+    public function generate_key($name, $email)
     {
-        if ($id == null) {
-            $condition = "";
-        } else {
-            $condition = "WHERE ply_id = $id";
+        $key = $name . $email . uniqid();
+        return md5($key);
+    }
+
+    /**
+     * @param $email
+     * @return bool
+     */
+    public function check_email($email)
+    {
+        $state = array(
+            player::COLUMN_PLY_EMAIL => $email
+        );
+        $query = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
+        if ($query && $this->CountRow() == 1) {
+            return true;
         }
+        return false;
+    }
 
-        $query = "
-            SELECT
-              ply_id,
-              ply_avatar,
-              ply_name,
-              ply_email,
-              IFNULL(star,1) as ply_star,
-              IFNULL(gme_cash,0) as ply_cash,
-              ply_state
+    /**
+     * @param $email
+     * @param $key
+     * @return bool
+     */
+    public function confirm($email, $key)
+    {
+        $data = array(
+            player::COLUMN_PLY_STATE => player::ACTIVE
+        );
+        if ($this->Update(Utility::TABLE_PLAYER, $data, array(player::COLUMN_PLY_KEY => $key))) {
+            $state = array(
+                player::COLUMN_PLY_EMAIL => $email,
+                player::COLUMN_PLY_KEY => $key
+            );
+            $query = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
+            if ($query && $this->CountRow() == 1) {
+                $result = $this->ReadSingleData(Utility::TABLE_PLAYER, array(Player::COLUMN_PLY_EMAIL => $email));
 
-            FROM bc_player
+                if ($result) {
+                    $player = $this->FetchDataRow();
 
-            LEFT JOIN
-            (
-              SELECT
-                pac_player,
-                CEILING(COUNT(pac_player)/2) AS star
-              FROM
-              (
-                SELECT
-                  IFNULL(pac_player,gme_player) as pac_player
-                  FROM bc_game_data LEFT JOIN bc_player_achievement
-                  ON gme_player = pac_player
-                  GROUP BY pac_achievement,gme_player
-                  ORDER BY pac_player
-              ) player_achievement
+                    // create confirm log
+                    //$log = Log::getInstance();
+                    //$log->logging_web_confirm($player[Player::COLUMN_PLY_ID], json_encode($data));
+                }
 
-              GROUP BY pac_player
-            ) star
-              ON ply_id = pac_player
-
-            LEFT JOIN bc_game_data
-              ON ply_id = gme_player
-
-            $condition
-        ";
-
-        $result = $this->ManualQuery($query);
-        if ($result && $this->CountRow() > 0) {
-            if ($id == null) {
-                return $this->FetchData();
-            } else {
-                return $this->FetchDataRow();
+                return true;
             }
-        } else {
-            return null;
+            return false;
         }
+        return false;
     }
 
     /**
@@ -327,6 +263,67 @@ class Player extends Model
             $competitor2_avatar = "noimage.jpg";
         }
         return array("player" => $player_avatar, "competitor1" => $competitor1_avatar, "competitor2" => $competitor2_avatar);
+    }
+
+    /**
+     * @param null $id
+     * @return null
+     */
+    public function fetch($id = null)
+    {
+        if ($id == null) {
+            $condition = "";
+        } else {
+            $condition = "WHERE ply_id = $id";
+        }
+
+        $query = "
+            SELECT
+              ply_id,
+              ply_avatar,
+              ply_name,
+              ply_email,
+              IFNULL(star,1) as ply_star,
+              IFNULL(gme_cash,0) as ply_cash,
+              ply_state
+
+            FROM bc_player
+
+            LEFT JOIN
+            (
+              SELECT
+                pac_player,
+                CEILING(COUNT(pac_player)/2) AS star
+              FROM
+              (
+                SELECT
+                  IFNULL(pac_player,gme_player) as pac_player
+                  FROM bc_game_data LEFT JOIN bc_player_achievement
+                  ON gme_player = pac_player
+                  GROUP BY pac_achievement,gme_player
+                  ORDER BY pac_player
+              ) player_achievement
+
+              GROUP BY pac_player
+            ) star
+              ON ply_id = pac_player
+
+            LEFT JOIN bc_game_data
+              ON ply_id = gme_player
+
+            $condition
+        ";
+
+        $result = $this->ManualQuery($query);
+        if ($result && $this->CountRow() > 0) {
+            if ($id == null) {
+                return $this->FetchData();
+            } else {
+                return $this->FetchDataRow();
+            }
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -454,7 +451,7 @@ class Player extends Model
 
                         GROUP BY date(" . player::COLUMN_PLY_CREATED_AT . ")
 
-                        LIMIT 12";
+                        LIMIT 10";
 
         if ($this->ManualQuery($query)) {
             return $this->FetchData();

@@ -7,19 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Loading Bootstrap -->
-    <link href="<?=$this->framework->url->get_base_url()?>/assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/bootstrap/css/bootstrap.css">
 
     <!-- Loading Flat UI -->
-    <link href="<?=$this->framework->url->get_base_url()?>/assets/css/flat-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/css/flat-ui.css">
 
     <!-- Loading Public Styles -->
-    <link href="<?=$this->framework->url->get_base_url()?>/assets/css/public.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/css/public.css">
 
-    <link href="<?=$this->framework->url->get_base_url()?>/assets/extended/jQueryImgAreaSelect/css/imgareaselect-animated.css" rel="stylesheet">
+    <!-- Loading Jquery Image Area Select Styles -->
+    <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/extended/jQueryImgAreaSelect/css/imgareaselect-animated.css">
 
-    <!-- Loading Smoothslides -->
+    <!-- Loading Smooth Slides -->
     <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/extended/SmoothSlides/smoothslides.theme.css">
 
+    <!-- Favicon -->
     <link rel="shortcut icon" href="<?=$this->framework->url->get_base_url()?>/assets/images/favicon.png">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
@@ -27,18 +29,14 @@
     <script src="<?=$this->framework->url->get_base_url()?>/assets/js/html5shiv.js"></script>
     <script src="<?=$this->framework->url->get_base_url()?>/assets/js/respond.min.js"></script>
     <![endif]-->
-
-
 </head>
 
 <body>
-
         <?php $this->framework->view->show('/frontend/elements/header')?>
 
         <?php $this->framework->view->show($content)?>
 
         <?php $this->framework->view->show('/frontend/elements/footer')?>
-
 
         <!-- Load JS here for greater good =============================-->
         <script src="<?=$this->framework->url->get_base_url()?>/assets/js/jquery-1.8.3.min.js"></script>
@@ -51,7 +49,6 @@
         <script src="<?=$this->framework->url->get_base_url()?>/assets/js/flatui-radio.js"></script>
         <script src="<?=$this->framework->url->get_base_url()?>/assets/js/jquery.tagsinput.js"></script>
         <script src="<?=$this->framework->url->get_base_url()?>/assets/js/jquery.placeholder.js"></script>
-
         <script src="<?=$this->framework->url->get_base_url()?>/assets/extended/jQueryValidation/jquery.validate.min.js"></script>
         <script src="<?=$this->framework->url->get_base_url()?>/assets/extended/jQueryImgAreaSelect/js/jquery.imgareaselect.pack.js"></script>
         <script src="<?=$this->framework->url->get_base_url()?>/assets/extended/SmoothSlides/smoothslides.min.js" type="text/javascript"></script>

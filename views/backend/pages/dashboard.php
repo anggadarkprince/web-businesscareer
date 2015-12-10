@@ -38,7 +38,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Total'
+                    text: 'Player Total'
                 }
             },
             tooltip: {
@@ -69,5 +69,9 @@
 
             }]
         });
+
+        $(".highcharts-title").attr("y", 20);
+        $(".highcharts-axis-labels").first().find("text").attr("y", 350);
+        $(".highcharts-legend").attr("transform", "translate(458,365)");
     });
 </script>

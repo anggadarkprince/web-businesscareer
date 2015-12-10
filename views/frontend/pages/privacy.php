@@ -33,6 +33,8 @@
                     <li>SeriousGame.Inc menggunakan data identitas no handphone user untuk keperluan verifikasi login, identitas unik user, dan keperluan publikasi informasi dari SeriousGame.Inc.</li>
                 </ol>
 
+                <br>
+
             </section>
         </div>
     </div>

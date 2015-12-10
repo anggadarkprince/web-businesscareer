@@ -46,6 +46,8 @@
                     SeriousGame.Inc sangat keras dalam menangani Pornografi. Tindakan memosting / memberikan link untuk kategori ini adalah DILARANG / NOT ALLOWED !! Pelanggar di kenakan suspend terhadap IP-nya.
                 </p>
 
+                <br>
+
             </section>
         </div>
     </div>

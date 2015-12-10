@@ -15,7 +15,7 @@ class dashboardController extends Controller
         if (authenticate::is_authorized()) {
             $model_player = Player::getInstance();
 
-            $model_player->total_player();
+            $model_player->get_total_player();
             $model_player->unread_new_player();
 
             $this->framework->view->page = "dashboard";

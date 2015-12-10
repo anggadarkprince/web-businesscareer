@@ -34,13 +34,11 @@
 			$this->registry = $registry;
 		}
 
-		/**
-		*
-		* @set controllers directory path
-		* @param string $path
-		* @return void
-		*
-		*/
+        /**
+         * @set controllers directory path
+         * @param string $path
+         * @throws Exception
+         */
 		function setPath($path) {
 			/*** check if path is a directory ***/
 			if (!is_dir($path))

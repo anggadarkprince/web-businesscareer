@@ -7,14 +7,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- Loading Bootstrap -->
-    <link href="<?=$this->framework->url->get_base_url()?>/assets/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/bootstrap/css/bootstrap.css">
 
     <!-- Loading Flat UI -->
-    <link href="<?=$this->framework->url->get_base_url()?>/assets/css/flat-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/css/flat-ui.css">
 
-    <!-- Loading Public Styles -->
-    <link href="<?=$this->framework->url->get_base_url()?>/assets/css/login.css" rel="stylesheet">
+    <!-- Loading Login Styles -->
+    <link rel="stylesheet" href="<?=$this->framework->url->get_base_url()?>/assets/css/login.css">
 
+    <!-- Loading Favicon Styles -->
     <link rel="shortcut icon" href="<?=$this->framework->url->get_base_url()?>/assets/images/favicon.png">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
@@ -22,8 +23,6 @@
     <script src="<?=$this->framework->url->get_base_url()?>/assets/js/html5shiv.js"></script>
     <script src="<?=$this->framework->url->get_base_url()?>/assets/js/respond.min.js"></script>
     <![endif]-->
-
-
 </head>
 
 <body>
@@ -44,7 +43,6 @@
                                 <p class="text-muted">Control Panel Sign In</p>
                             </div>
                         </div>
-
 
                         <div class="form-group">
                             <input type="text" class="form-control login-field" value="" placeholder="Enter your ID" name="username" id="login-name" />
@@ -95,17 +93,15 @@
                         <a class="login-link" href="#">Lost your password?</a>
                     </form>
                 </div>
-                <footer class="center-block text-center text-inverse">
-                    &copy 2014 made with <span class="glyphicon glyphicon-heart"></span> and Actionscript 3.0<br>
+                <footer class="center-block text-center">
+                    &copy <?=date("Y")?> made with <span class="glyphicon glyphicon-heart"></span> and Actionscript 3.0<br>
                     All work copyright of respective owner
                 </footer>
             </div>
         </div>
     </div>
 
-
-
-    <!-- Load JS here for greater good =============================-->
+    <!-- Load JS here for greater good -->
     <script src="<?=$this->framework->url->get_base_url()?>/assets/js/jquery-1.8.3.min.js"></script>
     <script src="<?=$this->framework->url->get_base_url()?>/assets/js/jquery-ui-1.10.3.custom.min.js"></script>
     <script src="<?=$this->framework->url->get_base_url()?>/assets/js/jquery.ui.touch-punch.min.js"></script>
