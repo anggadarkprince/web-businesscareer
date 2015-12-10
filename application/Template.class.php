@@ -1,0 +1,68 @@
+<?php
+	/**
+	 * Created by Vanilla Developer.
+	 * User: Angga Ari Wijaya
+	 * Date: 11/15/13
+	 * Time: 11:07 AM
+	 * To change this template use File | Settings | File Templates.
+	 */
+	 
+    class Template {
+
+        /*
+         * @the registry
+         * @access private
+         */
+        private $framework;
+
+        /*
+         * @Variables array
+         * @access private
+         */
+        private $vars = array();
+
+        /**
+         *
+         * @constructor
+         * @access public
+         * @return void
+         *
+         */
+        function __construct($registry) {
+            $this->framework = $registry;
+        }
+
+
+         /**
+         *
+         * @set undefined vars
+         * @param string $index
+         * @param mixed $value
+         * @return void
+         *
+         */
+		public function __set($index, $value)
+		{
+			$this->vars[$index] = $value;
+		}
+
+
+        function show($name) {
+            $path = __SITE_PATH . '/views' . '/' . $name . '.php';
+
+            if (file_exists($path) == false)
+            {
+                throw new Exception('Template not found in '. $path);
+                return false;
+            }
+
+            // Load variables
+            foreach ($this->vars as $key => $value)
+            {
+                $$key = $value;
+            }
+
+            include ($path);
+        }
+
+    }
