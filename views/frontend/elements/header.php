@@ -57,6 +57,12 @@ if(isset($page))
             </ul>
         </div><!-- /.navbar-collapse -->
     </nav>
-    <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover1.png" class="img-responsive center-block visible-xs mobile-cover">
+    <div class="mobile-cover-wrapper">
+        <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover1.png" class="img-responsive center-block visible-xs mobile-cover">
+        <div class="label">
+            <h3>BUSINESS CAREER THE GAME</h3>
+            <p>PLAYFULL SERIOUS GAME</p>
+        </div>
+    </div>
 </header>
 

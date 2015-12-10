@@ -24,10 +24,10 @@
                     <label class="control-label">Message</label>
                     <textarea class="form-control" name="message" id="message" placeholder="Some critic and suggest" rows="4" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-embossed btn-lg btn-danger pull-right" id="feedbackSubmit"><span class="fui-chat"></span> SUBMIT</button>
+                <button type="submit" class="btn btn-embossed btn-lg btn-danger" id="feedbackSubmit"><span class="fui-chat"></span> SUBMIT</button>
             </form>
         </div>
-        <div class="col-md-6 menu-icon">
+        <div class="col-md-6 menu-icon hidden-xs">
             <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/contact-icon.png" class="img-responsive">
         </div>
     </div>

@@ -31,7 +31,7 @@
         <div class="col-md-4 menu-login">
             <h1>Sign In Now</h1>
             <h3>Learn and Training Game</h3>
-            <p>Your data will load automatically, after login, system will trace your activity and save in log file, you can access your history.</p>
+            <p class="hidden-xs">Your data will load automatically, after login, system will trace your activity and save in log file, you can access your history.</p>
             
             <?php
             if(isset($_SESSION['operation']))
@@ -61,7 +61,7 @@
                     <label class="control-label">Password</label>
                     <input class="form-control" type="password" name="log-password" id="password" placeholder="Put your Password here" required>
                 </div>
-                <button type="submit" class="btn btn-embossed btn-lg btn-danger pull-right"><span class="fui-lock"></span> SIGN IN</button>
+                <button type="submit" class="btn btn-embossed btn-lg btn-danger pull-right btn-sign-in"><span class="fui-lock"></span> SIGN IN</button>
             </form>
         </div>
 
