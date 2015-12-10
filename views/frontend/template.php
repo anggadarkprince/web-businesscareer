@@ -60,8 +60,9 @@
         <script>
             $(window).load(function() {
                 $(document).smoothSlides({
-                    playTimer: 5000,
-                    effect:['zoomIn', 'zoomOut']
+                    duration: 4000,
+                    effect:['panLeft', 'panRight'],
+                    navigation: 'false'
                 });
             });
 

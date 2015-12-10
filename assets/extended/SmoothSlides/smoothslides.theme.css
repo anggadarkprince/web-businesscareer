@@ -7,19 +7,22 @@
     z-index: 3;
 }
 .ss-caption {
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
     border-radius: 4px;
-    color: #FFF;
+    color: rgba(255,255,255, 0.8);
     text-transform: uppercase;
     letter-spacing: 4px;
-    text-shadow: 0 0 10px rgba(50, 50, 50, 0.89);
+    text-shadow: 0 0 10px rgba(50, 50, 50, 0.6);
     padding: 15px 10px;
     font-family: sans-serif;
-    font-size: 30px;
+    font-size: 40px;
     display: inline-block;
+    font-weight: bold;
 }
 .ss-caption p{
-    margin-top: 15px;
+    margin-top: 25px;
     font-size: 17px;
+    font-weight: normal;
 }
 
 /* Pagination */
@@ -45,15 +48,14 @@
     height: 12px;
     border-radius: 6px;
     margin: 3px 6px;
-    background: #F0353A;
+    background: #b3b3b3;
     -webkit-transition:all .2s ease-out;
 }
 .ss-paginate a:hover {
-    box-shadow: 0 0px 0 2px #F0353A;
+
 }
 .ss-current {
-    background: #FFF!important;
-    box-shadow: 0 0px 0 2px #F0353A;
+    background: #3a3a3a !important;
 }
 
 /* Previous & Next Buttons */

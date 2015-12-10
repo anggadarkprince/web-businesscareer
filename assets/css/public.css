@@ -4,7 +4,7 @@
 }
 body{
     background: #3d3d3d;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
 }
 body.game{
     background: url("../images/layout/game-backdrop.png") fixed center;
@@ -16,6 +16,39 @@ hr{
 }
 
 /* HEADER STYLE */
+.navbar-inverse {
+    background-color: #242323;
+}
+.navbar-nav{
+    padding-bottom: 15px;
+    border-bottom: 8px solid #1c1c1c;
+}
+.navbar-inverse .navbar-collapse{
+    border-color: #1c1c1c;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+    color: #FFF;
+    background-color: #ec7063;
+}
+.navbar-inverse .navbar-nav li:hover a{
+    color: #ec7063;
+}
+.navbar-inverse .navbar-toggle:hover:before,
+.navbar-inverse .navbar-toggle:focus:before{
+    color: #ec7063;
+}
+.navbar-inverse .navbar-brand:hover,
+.navbar-inverse .navbar-brand:focus{
+    color: #ec7063;
+}
+.top-header-mobile{
+    margin-bottom: 20px;
+}
+.mobile-cover{
+    margin-top: 30px;
+}
 .top-header{
     background: url("../images/layout/header-bar.png") no-repeat center top;
     width: 100%;
@@ -33,21 +66,30 @@ hr{
     position: absolute;
     display: block;
     top: 20px;
-    left: 250px;
+    left: 260px;
     margin-top: 5px;
-    font-size: 1em;
+    font-size: 0.9em;
+}
+.top-header > .navigation li:first-child{
+    padding-left: 5px;
 }
 .top-header > .navigation li{
     margin: 3px;
 }
 .top-header > .navigation li a{
     padding: 10px;
+    color: #eaeaea;
+}
+.top-header > .navigation li.active a,
+.top-header > .navigation li:hover a{
     color: #ffffff;
 }
 .top-header > .navigation li.active,
 .top-header > .navigation li:hover{
     background: #6f6f6f;
     border-radius: 5px;
+    font-weight: bold;
+    padding-left: 5px;
 }
 .top-header > .logo h1{
     background: url("../images/layout/logo.png") no-repeat center;
@@ -173,10 +215,10 @@ hr{
     margin-top: 8px;
     font-weight: bold;
     letter-spacing: 1px;
-    font-family: "Century Gothic";
+    font-family: "Roboto", Helvetica, Arial, sans-serif;
 }
 .form-menu .basic-information .form-group{
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .avatar-player-wrapper{
     border-radius: 50%;
@@ -200,7 +242,6 @@ hr{
 /* DISCOVERY STYLE */
 .discovery{
     margin-bottom: 30px;
-    font-family: "Century Gothic";
 }
 .discovery > div{
     padding: 30px;
@@ -211,8 +252,13 @@ hr{
     font-size: 2.2em;
     margin: 0;
 }
+.discovery h1{
+    margin-bottom: 5px;
+}
 .discovery h3{
-    font-size: 1em;
+    font-size: 0.9em;
+    color: #eaeaea;
+    letter-spacing: 1px;
     margin-bottom: 20px;
 }
 .discovery img{
@@ -298,15 +344,19 @@ footer > .footer-top{
     padding: 10px 10px 30px 10px;
 }
 footer > .footer-top p{
-    font-size:0.85em;
+    font-size:0.9em;
 }
 footer > .footer-bottom{
     padding-top: 20px;
     margin-bottom: 20px;
 }
 
+footer .technology,
+footer .about{
+    margin-right: 25px;
+}
 footer .technology > p{
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 footer .about > .social-links li{
@@ -324,7 +374,7 @@ footer .about > .social-links li.rss a{
     background: url("../images/layout/social-rss.png") no-repeat left center;
 }
 footer .about > .social-links li a{
-    padding: 10px 10px 5px 45px;
+    padding: 8px 10px 8px 45px;
 }
 
 footer .connect > .contact li{
@@ -352,6 +402,9 @@ footer > .footer-bottom p{
     margin: 0;
     font-size:0.85em;
 }
+footer > .footer-bottom .mini-nav{
+    margin: 7px 0;
+}
 footer > .footer-bottom .mini-nav li{
     padding: 0;
 }
@@ -365,7 +418,6 @@ footer > .footer-bottom .mini-nav li a{
 footer > .footer-bottom .mini-nav li:last-child:after{
     content: "";
 }
-
 
 label.error{
     color: #ff8c8c;
@@ -479,7 +531,14 @@ label.error{
 
 /* Medium */
 @media (min-width: 992px) and (max-width: 1199px) {
-
+    .top-header > .navigation{
+        top: 30px;
+        left: 300px;
+    }
+    .top-header > .logo h1{
+        margin: 20px 10px;
+        right: 10%;
+    }
     footer .about > .social-links li{
         font-size: 0.8em;
         padding-right: 0;
@@ -495,6 +554,24 @@ label.error{
 
 /* Small */
 @media (min-width: 768px) and (max-width: 991px) {
+    .top-header > .navigation{
+        top: 35px;
+        left: 170px;
+    }
+    .top-header > .logo h1{
+        background: url("../images/layout/logo.png") no-repeat;
+        background-size: 300px;
+        width: 60px;
+        height: 100px;
+        margin: 30px 10px;
+        right: 10%;
+    }
+    .menu-login{
+        margin-bottom: 100px;
+    }
+    .menu-play{
+        display: none;
+    }
     .form-menu .menu-play{
         position: relative;
         height: 430px;
@@ -516,6 +593,22 @@ label.error{
     .discovery img{
         margin-right: auto;
         margin-left: auto;
+    }
+    footer .footer-top{
+        padding-bottom: 10px;
+    }
+    footer .technology,
+    footer .about{
+        margin-right: 0;
+    }
+    footer .connect .contact li{
+        display: inline-block;
+        margin-right: 40px;
+        padding-left: 30px;
+        vertical-align: top;
+    }
+    footer .connect .contact li:last-child{
+        margin-right: 0;
     }
 }
 
@@ -541,7 +634,9 @@ label.error{
         position: static;
         float: right;
     }
-
+    .menu-login{
+        margin-bottom: 100px;
+    }
     .discovery{
         text-align: center;
     }
@@ -556,6 +651,10 @@ label.error{
     footer img{
         margin-left: auto;
         margin-right: auto;
+    }
+    footer .technology,
+    footer .about{
+        margin-right: 0;
     }
     footer > .footer-top .connect .contact{
         width: 250px;

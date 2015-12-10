@@ -1,19 +1,18 @@
-<?php
+<?php if(!isset($_SESSION['operation'])){ ?>
 
-if(!isset($_SESSION['operation']))
-{
-  ?>
-
-    <section class="featured">
+    <section class="featured hidden-xs">
         <div class="cover">
             <div class="ss-slides">
                 <div class="ss-slide" title="Serious Game, Playfull Business" data-subtitle="High Design Concept for Learning Game">
                     <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover1.png" class="img-responsive center-block">
                 </div>
                 <div class="ss-slide" title="Application Snap Screenshot" data-subtitle="High Design Concept for Learning Game">
-                    <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover3.png" class="img-responsive center-block">
+                    <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover2.png" class="img-responsive center-block">
                 </div>
 				<div class="ss-slide" title="Game World Map Open" data-subtitle="High Design Concept for Learning Game">
+                    <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover3.png" class="img-responsive center-block">
+                </div>
+                <div class="ss-slide" title="Different Challenges Everyday" data-subtitle="High Design Concept for Learning Game">
                     <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/cover4.png" class="img-responsive center-block">
                 </div>
             </div>
@@ -21,16 +20,11 @@ if(!isset($_SESSION['operation']))
         <div class="featured-bottom"></div>
     </section>
 
-<?php
-}
-else{
-?>
+<?php } else{ ?>
 
     <div style="padding-top: 90px; padding-bottom: 70px"></div>
 
-<?php
-}
-?>
+<?php } ?>
 
 <div class="container">
     <div class="row form-menu">
@@ -69,10 +63,9 @@ else{
                 </div>
                 <button type="submit" class="btn btn-embossed btn-lg btn-danger pull-right"><span class="fui-lock"></span> SIGN IN</button>
             </form>
-
         </div>
 
-        <div class="col-md-4 text-center menu-play">
+        <div class="col-md-4 text-center menu-play hidden-xs">
             <div class="play">
                 <a href="#" type="button" class="btn btn-embossed btn-info btn-hg" data-toggle='modal' data-target='#gameLogin'>PLAY</a>
                 <p>Serious Game</p>

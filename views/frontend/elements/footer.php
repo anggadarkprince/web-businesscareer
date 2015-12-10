@@ -1,10 +1,10 @@
-<div class="map">
+<div class="map hidden-xs">
     <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/map.png" class="img-responsive center-block">
 </div>
 
 <div class="container">
     <footer>
-        <div class="row footer-top">
+        <div class="row footer-top hidden-xs">
             <div class="col-md-4 technology">
                 <h3>Technology</h3>
                 <p>Powered by Adobe Gaming SDK, we develop with modular and long support term.</p>
@@ -12,14 +12,14 @@
             </div>
             <div class="col-md-4 about">
                 <h3>About Us</h3>
-                <p class="text-justify">Sketch Project Studio is game developer based in Jember, Indonesia. Our focus is developing and publishing high quality entertainment games to end-user as well as delivering solution for corporate and brand via advergame, training, simulation game, and e-learning game. For more inquiries, feel free to contact us. We would be more than happy to assist you.</p>
+                <p class="text-justify">Sketch Project Studio is game developer based in Jember, Indonesia. Our focus is developing and publishing high quality entertainment games to end-user as well as delivering solution for corporate and brand. For more inquiries, feel free to contact us. We would be more than happy to assist you.</p>
                 <ul class="list-inline social-links">
                     <li class="facebook"><a href="https://www.facebook.com/businesscareer" target="_blank"> Facebook</a></li>
                     <li class="twitter"><a href="https://www.twitter.com/businesscareer" target="_blank"> Twitter</a></li>
                     <li class="rss"><a href="http://businesscareer.wordpress.com" target="_blank"> Blog</a></li>
                 </ul>
             </div>
-            <div class="col-md-4 connect">
+            <div class="col-md-3 connect">
                 <h3>Connect</h3>
                 <ul class="list-unstyled contact">
                     <li class="contact-phone">
