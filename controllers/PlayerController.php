@@ -7,16 +7,21 @@
  * Time: 6:56 AM
  * To change this template use File | Settings | File Templates.
  */
-class playerController extends Controller
+class PlayerController extends Controller
 {
-
+    /**
+     * show player list on table and summarized.
+     * role: administrator
+     * redirected from: Controller.Player.delete() whatever player delete result
+     */
     public function index()
     {
         if (Authenticate::is_authorized()) {
-            $model_player = new player();
+            $model_player = new Player();
             $model_player->get_total_player();
             $model_player->read_new_player();
             $model_player->unread_new_player();
+
             $this->framework->view->page = "player";
             $this->framework->view->content = "/backend/pages/player";
             $this->framework->view->data_player = $model_player->fetch();
@@ -26,6 +31,10 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * check player authentication, if the player has been logged in before then redirect to sign in page.
+     * role: visitor
+     */
     public function login()
     {
         if (Authenticate::is_player()) {
@@ -33,18 +42,41 @@ class playerController extends Controller
         } else {
             $model_administrator = new Authenticate();
 
+            /*
+             * populate login data like email and password, then set login type for player.
+             * use setter method to registering information of authentication.
+             */
             $model_administrator->set_email($_POST['log-email']);
             $model_administrator->set_password($_POST['log-password']);
             $model_administrator->set_type(Authenticate::PLAYER);
 
+            /*
+             * check player authentication.
+             * authentication() function will return an array than contain 2 key,
+             * granted {true|false} and state {active|pending}.
+             */
             $login = $model_administrator->authenticate();
 
-            if ($login["granted"] && $login["state"] == player::ACTIVE) {
+            /*
+             * there are three condition returned into $login variable:
+             * 1. credential granted and account has activated, then redirect to sign in page.
+             * 2. credential granted but player has not been activated yet, then redirect to the registered page
+             *    that contains activation suggestion.
+             * 3. credential rejected or email and password mismatched neither active or pending
+             *    account will redirected back to the login page.
+             */
+            $credential = $login["granted"];
+            $activated = $login["state"] == Player::ACTIVE;
+            $pending = $login["state"] == Player::PENDING;
+
+            if ($credential && $activated) {
                 transport("page/sign/id=" . $_SESSION['ply_key']);
-            } else if ($login["granted"] && $login["state"] == player::PENDING) {
+            }
+            else if ($credential && $pending) {
                 $_SESSION['operation'] = 'success';
                 transport("page/registered");
-            } else {
+            }
+            else {
                 $_SESSION['operation'] = 'error';
                 $_SESSION['message'] = $login["state"];
                 transport("page");
@@ -52,6 +84,10 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * logout player session and redirect to home.
+     * role: player
+     */
     public function logout()
     {
         $auth = new Authenticate();
@@ -62,22 +98,37 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * register an user to player, then request activate the account via email
+     * role: visitor
+     */
     public function register()
     {
-        $model_player = new player();
+        $model_player = new Player();
 
-        $data = array(
-            player::COLUMN_PLY_KEY => $model_player->generate_key($_POST['reg-name'], $_POST['reg-email']),
-            player::COLUMN_PLY_NAME => $_POST['reg-name'],
-            player::COLUMN_PLY_EMAIL => $_POST['reg-email'],
+        /*
+         * populate data into array.
+         * generate user token by combining name + email and hash them into unique key.
+         * hash password with md5 (it's not a good choice, I will use blowfish algorithm in future).
+         * set player state to pending, wait for activate by player
+         */
+        $data = [
+            player::COLUMN_PLY_KEY      => $model_player->generate_key($_POST['reg-name'], $_POST['reg-email']),
+            player::COLUMN_PLY_NAME     => $_POST['reg-name'],
+            player::COLUMN_PLY_EMAIL    => $_POST['reg-email'],
             player::COLUMN_PLY_PASSWORD => md5($_POST['reg-password']),
-            player::COLUMN_PLY_STATE => player::PENDING
-        );
+            player::COLUMN_PLY_STATE    => player::PENDING
+        ];
 
         session_start();
+
+        /*
+         * check email availability on database, when old email exist then suggest to login.
+         * instead, passing data that populated before to register then redirect to activation info page.
+         */
         if ($model_player->check_email($_POST['reg-email'])) {
             $_SESSION['operation'] = 'error';
-            $_SESSION['message'] = 'Email has registered before!';
+            $_SESSION['message'] = 'The email has registered before!';
             transport("page");
         } else {
             if ($model_player->register($data)) {
@@ -87,17 +138,31 @@ class playerController extends Controller
             }
             transport("page/registered");
         }
-
     }
 
+    /**
+     * catch activation link from email site/confirm/{email}/{token}.
+     * check token and email combination then redirect to confirmation status
+     * role: visitor|player
+     */
     public function confirm()
     {
+        /*
+         * populate data from uri.
+         * sitepath/player/email/token
+         * part1 / part2 / part3 / part4
+         */
         $email = $this->framework->url->url_part(3);
         $key = $this->framework->url->url_part(4);
 
-        $model_player = new player();
+        $model_player = new Player();
 
         session_start();
+
+        /*
+         * invoke confirm method from player model and return boolean status.
+         * whatever confirmation result will be redirected to page/confirm.
+         */
         if ($model_player->confirm($email, $key)) {
             $_SESSION['operation'] = 'success';
         } else {
@@ -106,6 +171,12 @@ class playerController extends Controller
         transport("page/confirm");
     }
 
+    /**
+     * show player details, show achievement and statistic.
+     * role: administrator
+     * redirected from: Controller.Player.suspend() whatever suspend result
+     *                  Controller.Player.reactivate() whatever reactivate result
+     */
     public function detail()
     {
         if (Authenticate::is_authorized()) {
@@ -123,6 +194,10 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * show player log and info.
+     * role: administrator
+     */
     public function logging()
     {
         if (Authenticate::is_authorized()) {
@@ -139,10 +214,14 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * suspend a player temporarily. set session of update status.
+     * role: administrator
+     */
     public function suspend()
     {
         if (Authenticate::is_authorized()) {
-            $model_player = new player();
+            $model_player = new Player();
 
             $id = $this->framework->url->url_part(3);
 
@@ -157,10 +236,14 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * activate player state. set session of update status.
+     * role: administrator
+     */
     public function reactive()
     {
         if (Authenticate::is_authorized()) {
-            $model_player = new player();
+            $model_player = new Player();
 
             $id = $this->framework->url->url_part(3);
 
@@ -175,21 +258,33 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * update profile on front end page.
+     * change name or password.
+     * set session of update status.
+     * role: player
+     */
     public function update_profile()
     {
         if (Authenticate::is_player()) {
-            $model_player = new player();
+            $model_player = new Player();
 
-            $data = array(
-                player::COLUMN_PLY_NAME => $_POST["sgn-name"]
-            );
+            /*
+             * populate data and hash password if not empty.
+             * double check the password and confirm password has exact same character.
+             */
+            $data = [player::COLUMN_PLY_NAME => $_POST["sgn-name"]];
 
             if (isset($_POST['sgn-password']) && !empty($_POST['sgn-password'])) {
                 $data[Player::COLUMN_PLY_PASSWORD] = md5($_POST['sgn-password']);
             }
 
+            /*
+             * invoke update_profile() method form player model.
+             * update player session when profile successfully updated
+             */
             if ($model_player->update_profile($data)) {
-                $_SESSION['play_name'] = $_POST["sgn-name"];
+                $_SESSION['ply_name'] = $_POST["sgn-name"];
                 $_SESSION['operation'] = 'success';
             } else {
                 $_SESSION['operation'] = 'error';
@@ -200,10 +295,15 @@ class playerController extends Controller
         }
     }
 
+    /**
+     * update player avatar after cropped by javascript on front end page.
+     * set session of update status.
+     * role: player
+     */
     public function update_avatar()
     {
         if (Authenticate::is_player()) {
-            $model_player = new player();
+            $model_player = new Player();
             if ($model_player->update_avatar()) {
                 $_SESSION['operation'] = 'success';
             } else {
@@ -212,6 +312,28 @@ class playerController extends Controller
             transport("page/sign/id=" . $_SESSION['ply_id']);
         } else {
             transport("page");
+        }
+    }
+
+    /**
+     * delete player and all related data with this player
+     * role: administrator
+     */
+    public function delete()
+    {
+        if (Authenticate::is_authorized()) {
+            $model_player = new Player();
+
+            $id = $_POST["id"];
+
+            if ($model_player->delete_player($id)) {
+                $_SESSION['operation'] = 'success';
+            } else {
+                $_SESSION['operation'] = 'error';
+            }
+            transport("player");
+        } else {
+            transport("administrator");
         }
     }
 

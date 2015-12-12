@@ -147,6 +147,7 @@ class Log extends Model
     }
 
     /**
+     * invoked by: Model.Player.logout()
      * @return bool
      */
     public function logging_web_destroy()
@@ -223,6 +224,7 @@ class Log extends Model
     }
 
     /**
+     * invoked by: Controller.Player.logging()
      * @param $player
      * @return null
      */

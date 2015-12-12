@@ -7,7 +7,7 @@
  * Time: 6:56 AM
  * To change this template use File | Settings | File Templates.
  */
-class statisticController extends Controller
+class StatisticController extends Controller
 {
 
     public function index()

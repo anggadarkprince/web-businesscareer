@@ -41,5 +41,4 @@ class LeaderboardController extends Controller
         }
     }
 
-
 }

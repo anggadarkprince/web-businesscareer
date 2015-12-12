@@ -9,7 +9,6 @@
  */
 class Authenticate extends Model
 {
-
     // applied singleton pattern
     private static $instance = NULL;
 
@@ -22,7 +21,6 @@ class Authenticate extends Model
     private $email;
     private $password;
 
-
     /**
      * default constructor
      */
@@ -30,7 +28,6 @@ class Authenticate extends Model
     {
         parent::__construct();
     }
-
 
     /**
      * get singleton instance
@@ -43,62 +40,8 @@ class Authenticate extends Model
         return self::$instance;
     }
 
-
     /**
-     * @return bool true if super user has login, false if login not yet
-     */
-    public static function is_authorized()
-    {
-        // start session and check if superuser state exist in session
-        if (session_status() == 1) {
-            session_start();
-        }
-
-        if (isset($_SESSION['web_username']) && $_SESSION['web_state'] == User::ACTIVE) {
-            return true;
-        }
-        return false;
-    }
-
-
-    /**
-     * @return bool true if player has login, false if login not yet
-     */
-    public static function is_player()
-    {
-        // start session and check if player state exist in session
-        if (session_status() == 1) {
-            session_start();
-        }
-
-        if (isset($_SESSION['ply_username']) && $_SESSION['ply_state'] == player::ACTIVE) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * @param $token player secret key
-     * @return bool bool true if player has login, false if login not yet
-     */
-    public static function is_valid_token($token)
-    {
-        // start session and check if player state exist in session
-        if (session_status() == 1) {
-            session_start();
-        }
-
-        if (isset($_SESSION['ply_key'])) {
-            if ($_SESSION['ply_key'] == $token) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    /**
-     * @param $type
+     * @param $type {PLAYER|SUPERUSER}
      */
     public function set_type($type)
     {
@@ -106,7 +49,7 @@ class Authenticate extends Model
     }
 
     /**
-     * @param $email
+     * @param $email of administrator
      */
     public function set_email($email)
     {
@@ -114,7 +57,7 @@ class Authenticate extends Model
     }
 
     /**
-     * @param $password
+     * @param $password if administrator
      */
     public function set_password($password)
     {
@@ -123,7 +66,7 @@ class Authenticate extends Model
 
 
     /**
-     * @return mixed type getter
+     * @return mixed type getter {PLAYER|SUPERUSER}
      */
     public function get_type()
     {
@@ -146,27 +89,78 @@ class Authenticate extends Model
         return $this->password;
     }
 
+    /**
+     * invoked by: all possibilities need to check session existence for action on controller
+     * @return bool true if super user has login, false if login not yet
+     */
+    public static function is_authorized()
+    {
+        // start session and check if superuser state exist in session
+        if (session_status() == 1) {
+            session_start();
+        }
+
+        if (isset($_SESSION['web_username']) && $_SESSION['web_state'] == User::ACTIVE) {
+            return true;
+        }
+        return false;
+    }
 
     /**
-     * @return boolean contain user exist status
+     * invoked by: all possibilities need to check session existence for action on controller
+     * @return bool true if player has login, false if login not yet
+     */
+    public static function is_player()
+    {
+        // start session and check if player state exist in session
+        if (session_status() == 1) {
+            session_start();
+        }
+
+        if (isset($_SESSION['ply_username']) && $_SESSION['ply_state'] == player::ACTIVE) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * invoked by: all action that need confirm the credential in REST API
+     * @param $token player secret key
+     * @return bool bool true if player has login, false if login not yet
+     */
+    public static function is_valid_token($token)
+    {
+        if (session_status() == 1) {
+            session_start();
+        }
+
+        if (isset($_SESSION['ply_key'])) {
+            if ($_SESSION['ply_key'] == $token) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * this function handle super admin login and player login
+     * invoked by: Model.Authenticate.authenticate
+     * @return boolean contain user exist status
      */
     private function check_player_user()
     {
-        // prepare condition data login {email, password}
-        if ($this->get_type() == "PLAYER") {
-            $state = array(
-                player::COLUMN_PLY_EMAIL => Authenticate::get_email(),
-                player::COLUMN_PLY_PASSWORD => md5(Authenticate::get_password())
-            );
-            // do query ReadWhere from parent
+        if ($this->get_type() == Authenticate::PLAYER) {
+            $state = [
+                Player::COLUMN_PLY_EMAIL => Authenticate::get_email(),
+                Player::COLUMN_PLY_PASSWORD => md5(Authenticate::get_password())
+            ];
             $query = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
-        } else if ($this->get_type() == "SUPERUSER") {
-            $state = array(
+        }
+        else if ($this->get_type() == Authenticate::SUPERUSER) {
+            $state = [
                 User::COLUMN_USR_USERNAME => Authenticate::get_email(),
                 User::COLUMN_USR_PASSWORD => md5(Authenticate::get_password())
-            );
-            // do query ReadWhere from parent
+            ];
             $query = $this->ReadWhere(Utility::TABLE_USER, $state);
         } else {
             $query = false;
@@ -176,39 +170,43 @@ class Authenticate extends Model
 
 
     /**
-     * @return array contain login proceed and status
      * this function handle super admin login and player login
+     * invoked by: Controller.Player.login()
+     *             Controller.Administrator.login()
+     * @return array contain login proceed and status
      */
     public function authenticate()
     {
         // create result variable will contain status grant or denied and user STATE
         $result_data = array();
 
-        // if query success
+        /*
+         * invoke check_player_user() to run query by type of login.
+         * if query success then check number of selected row, make sure it will return 1 row.
+         * consider type of login then set the session
+         */
         if ($this->check_player_user()) {
             // check result set return number of row is 1
             if ($this->CountRow() == 1) {
-                // fetch player data
                 $data = $this->FetchDataRow();
 
-                //session_start();
                 if ($this->get_type() == "SUPERUSER") {
-                    // create variable super user login in session
-                    $_SESSION['web_id'] = $data['usr_id'];
-                    $_SESSION['web_username'] = $data['usr_username'];
-                    $_SESSION['web_name'] = $data['usr_name'];
-                    $_SESSION['web_avatar'] = $data['usr_avatar'];
-                    $_SESSION['web_state'] = $data['usr_state'];
+                    // create variable administrator login in session
+                    $_SESSION['web_id']         = $data['usr_id'];
+                    $_SESSION['web_username']   = $data['usr_username'];
+                    $_SESSION['web_name']       = $data['usr_name'];
+                    $_SESSION['web_avatar']     = $data['usr_avatar'];
+                    $_SESSION['web_state']      = $data['usr_state'];
 
                     $result_data["state"] = $data['usr_state'];
                 } else if ($this->get_type() == "PLAYER") {
                     // create variable player login in session
-                    $_SESSION['ply_id'] = $data['ply_id'];
-                    $_SESSION['ply_key'] = $data['ply_key'];
-                    $_SESSION['ply_username'] = $data['ply_email'];
-                    $_SESSION['ply_name'] = $data['ply_name'];
-                    $_SESSION['ply_avatar'] = $data['ply_avatar'];
-                    $_SESSION['ply_state'] = $data['ply_state'];
+                    $_SESSION['ply_id']         = $data['ply_id'];
+                    $_SESSION['ply_key']        = $data['ply_key'];
+                    $_SESSION['ply_username']   = $data['ply_email'];
+                    $_SESSION['ply_name']       = $data['ply_name'];
+                    $_SESSION['ply_avatar']     = $data['ply_avatar'];
+                    $_SESSION['ply_state']      = $data['ply_state'];
 
                     $result_data["state"] = $data['ply_state'];
                 }
@@ -231,19 +229,23 @@ class Authenticate extends Model
             $result_data["state"] = "SQL Data Retrieve Error";
         }
 
-        // return result data variable
         return $result_data;
     }
 
-
     /**
+     * invoked by: Controller.Player.logout()
+     *             Controller.Administrator.logout()
      * @param $user
      * @return bool
      */
     public function logout($user)
     {
         session_start();
-        // select logout mode
+
+        /*
+         * check what type of user that will logout.
+         * unset all active session
+         */
         if ($user == "SUPERUSER") {
             // check if bc_username exist in session
             if (isset($_SESSION["web_username"]) && !empty($_SESSION["web_username"])) {

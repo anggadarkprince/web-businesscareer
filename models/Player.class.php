@@ -9,7 +9,6 @@
  */
 class Player extends Model
 {
-
     // applied singleton pattern
     const ACTIVE = "ACTIVE";
     const SUSPEND = 'SUSPEND';
@@ -24,6 +23,7 @@ class Player extends Model
     const COLUMN_PLY_READ = "ply_read";
     const COLUMN_PLY_UPDATED_AT = "ply_updated_at";
     const COLUMN_PLY_CREATED_AT = "ply_created_at";
+
     private static $instance = NULL;
 
     /**
@@ -36,7 +36,7 @@ class Player extends Model
 
 
     /**
-     * @return null|object|User
+     * @return null|object|Player
      * get singleton instance
      */
     public static function getInstance()
@@ -165,6 +165,7 @@ class Player extends Model
     }
 
     /**
+     * invoked by: Controller.Player.confirm()
      * @param $email
      * @param $key
      * @return bool
@@ -199,6 +200,7 @@ class Player extends Model
     }
 
     /**
+     * invoked by: Controller.Player.suspend()
      * @param $id
      * @return bool
      */
@@ -214,6 +216,7 @@ class Player extends Model
     }
 
     /**
+     * invoked by: Controller.Player.reactive()
      * @param $id
      * @return bool
      */
@@ -266,6 +269,8 @@ class Player extends Model
     }
 
     /**
+     * invoked by: Controller.Player.index()
+     *             Controller.Player.detail()
      * @param null $id
      * @return null
      */
@@ -340,6 +345,7 @@ class Player extends Model
     }
 
     /**
+     * invoked by: Controller.Player.update_profile()
      * @param $data
      * @return bool
      */
@@ -423,6 +429,7 @@ class Player extends Model
 
 
     /**
+     * invoked by: Controller.Player.detail()
      * @param $id
      * @return null
      */
@@ -532,6 +539,13 @@ class Player extends Model
         } else {
             return null;
         }
+    }
+
+    public function delete_player($id)
+    {
+        $criteria = [Player::COLUMN_PLY_ID => $id];
+
+        return $this->Delete(Utility::TABLE_PLAYER, $criteria);
     }
 
 }

@@ -70,6 +70,9 @@ class PageController extends Controller
      * role: player
      * redirected from: Controller.Page.index() if user session is exist
      *                  Controller.Player.login() if credential is granted
+     *                  Controller.Player.logout() if destroy current session is failed
+     *                  Controller.Player.update_profile() if profile is updated
+     *                  Controller.Player.update_avatar() if avatar is changed
      */
     public function sign()
     {
