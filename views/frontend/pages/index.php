@@ -2,16 +2,16 @@
     <?php
         if(isset($section)){
             switch($section){
-                case pageController::HOME:
+                case PageController::HOME:
                     $this->framework->view->show('/frontend/elements/index_home');
                     break;
-                case pageController::REGISTERED:
+                case PageController::REGISTERED:
                     $this->framework->view->show('/frontend/elements/index_registered');
                     break;
-                case pageController::CONFIRM:
+                case PageController::CONFIRM:
                     $this->framework->view->show('/frontend/elements/index_confirm');
                     break;
-                case pageController::SIGN:
+                case PageController::SIGN:
                     $this->framework->view->show('/frontend/elements/index_sign');
                     break;
             }

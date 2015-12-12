@@ -4,9 +4,9 @@
             <h1>Contact Us</h1>
             <h3>Give us feedback for we develop better</h3>
             <p>Your personal information will not publish, we just retrieve your suggest and keep your privacy.</p>
-            <div class="alert alert-danger pam alert-feedback">
 
-            </div>
+            <div class="alert alert-danger pam alert-feedback"></div>
+
             <form method="post" id="feedbackForm">
                 <div class="control-group">
                     <label class="control-label">Name</label>

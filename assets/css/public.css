@@ -560,6 +560,10 @@ label.error{
     font-size: 20px;
 }
 
+.alert{
+    font-size: 14px;
+}
+
 /* Medium */
 @media (min-width: 992px) and (max-width: 1199px) {
     .top-header > .navigation{

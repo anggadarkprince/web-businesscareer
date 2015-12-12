@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Balance</label>
                             <div class="col-sm-9">
-                                <p class="form-control-static">IDR <?php if(isset($summary)){echo $summary["gme_cash"];} else{ echo "0";} ?></p>
+                                <p class="form-control-static">IDR <?php if(isset($summary)){echo number_format($summary["gme_cash"], 0, ',', '.');} else{ echo "0";} ?></p>
                             </div>
                         </div>
                         <div class="form-group">
@@ -51,7 +51,7 @@
                     ?>
                     <div class="alert alert-success alert-block pam">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <small>Alhamdulillah sesuatu banget, berhasil</small>
+                        <span class='fui-check mrs'></span> Profile updated successfully
                     </div>
                 <?php
                 }
@@ -59,7 +59,7 @@
                     ?>
                     <div class="alert alert-danger alert-block pam">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
-                        <small>Innalilahi, ada yang salah, gagal</small>
+                        <span class='fui-cross mrs'></span> Profile update failed
                     </div>
                 <?php
                 }

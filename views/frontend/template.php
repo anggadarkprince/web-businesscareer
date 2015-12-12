@@ -139,13 +139,13 @@
                         success: function(data) {
                             reset_alert();
                             alert.fadeIn().addClass("alert-success");
-                            alert.html("<button type='button' class='close' data-dismiss='alert'>X</button><span class='fui-check'></span> "+data); // fade in response data
+                            alert.html("<button type='button' class='close' data-dismiss='alert'>&times;</button><span class='fui-check'></span> "+data); // fade in response data
                             form.trigger('reset'); // reset form
                             submit.html('<span class="fui-chat"></span> Submit'); // reset submit button text
                         },
                         error: function(e) {
                             reset_alert();
-                            alert.html("<button type='button' class='close' data-dismiss='alert'>X</button><span class='fui-cross'></span> Sending request failed, try again...").addClass("alert-danger");
+                            alert.html("<button type='button' class='close' data-dismiss='alert'>&times;</button><span class='fui-cross'></span> Sending request failed, try again...").addClass("alert-danger");
                             console.log(e)
                         }
                     });

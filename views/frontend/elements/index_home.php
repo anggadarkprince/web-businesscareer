@@ -41,8 +41,8 @@
                     ?>
 
                     <div class="alert alert-danger alert-block pam" style="margin-top: 20px">
-                        <button type="button" class="close" data-dismiss="alert">×</button>
-                        <p class="small"><?php echo $_SESSION['message']; ?></p>
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <span class='fui-cross mrs'></span> <?php echo $_SESSION['message']; ?>
                     </div>
 
                 <?php
