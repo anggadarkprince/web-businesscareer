@@ -9,7 +9,10 @@
  */
 class ReportController extends Controller
 {
-
+    /**
+     * show report table overall from sidebar navigation.
+     * role: administrator
+     */
     public function index()
     {
         if (authenticate::is_authorized()) {
@@ -19,6 +22,7 @@ class ReportController extends Controller
 
             $model_player->get_total_player();
             $model_player->unread_new_player();
+
             $this->framework->view->page = "report";
             $this->framework->view->player = $model_player->get_player_report();
             $this->framework->view->feedback = $model_feedback->retrieve_feedback_report();
@@ -31,6 +35,10 @@ class ReportController extends Controller
         }
     }
 
+    /**
+     * export/download overall report into pdf
+     * role: administrator
+     */
     public function get_overall()
     {
         if (authenticate::is_authorized()) {

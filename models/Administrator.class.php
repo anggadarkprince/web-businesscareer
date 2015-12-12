@@ -96,6 +96,10 @@ class Administrator extends Model
     }
 
 
+    /**
+     * invoked by: Controller.Report.index()
+     * @return array
+     */
     public function retrieve_traffic_report()
     {
         $query = "
@@ -116,10 +120,14 @@ class Administrator extends Model
         if ($this->ManualQuery($query)) {
             return $this->FetchDataRow();
         } else {
-            return null;
+            return [];
         }
     }
 
+    /**
+     * invoked by: Controller.Report.index()
+     * @return array
+     */
     public function retrieve_traffic_chart_data()
     {
         $query = "
@@ -136,7 +144,7 @@ class Administrator extends Model
         if ($this->ManualQuery($query)) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 

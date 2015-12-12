@@ -469,7 +469,8 @@ class Player extends Model
 
 
     /**
-     * store total player
+     * store total player.
+     * invoked by: Controller.Report.index()
      */
     public function get_total_player()
     {
@@ -484,6 +485,7 @@ class Player extends Model
 
     /**
      * store unread new player
+     * invoked by: Controller.Report.index()
      */
     public function unread_new_player()
     {
@@ -506,7 +508,8 @@ class Player extends Model
     }
 
     /**
-     * @return null
+     * invoked by: Controller.Report.index()
+     * @return array
      */
     public function get_player_report()
     {
@@ -536,7 +539,7 @@ class Player extends Model
         if ($this->ManualQuery($query)) {
             return $this->FetchDataRow();
         } else {
-            return null;
+            return [];
         }
     }
 
