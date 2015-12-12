@@ -9,7 +9,6 @@
  */
 class Feedback extends Model
 {
-
     // applied singleton pattern
     private static $instance = NULL;
 
@@ -18,14 +17,13 @@ class Feedback extends Model
     const IMPORTANT = 'IMPORTANT';
     const DELETED = 'DELETED';
 
+    // define column if feedback table
     const COLUMN_FDB_ID = "fdb_id";
-    const COLUMN_FDB_TIMESTAMP = "fdb_timestamp";
     const COLUMN_FDB_NAME = "fdb_name";
     const COLUMN_FDB_EMAIL = "fdb_email";
     const COLUMN_FDB_SUBJECT = "fdb_subject";
     const COLUMN_FDB_MESSAGE = "fdb_message";
     const COLUMN_FDB_STATE = "fdb_state";
-
 
     /**
      * default constructor
@@ -35,9 +33,10 @@ class Feedback extends Model
         parent::__construct();
     }
 
-
     /**
-     * get singleton instance
+     * get singleton instance.
+     * role: visitor|player|administrator
+     * @return Feedback|null|object
      */
     public static function getInstance()
     {
@@ -47,24 +46,30 @@ class Feedback extends Model
         return self::$instance;
     }
 
-
     /**
+     * retrieve feedback by feedback type {standard|important|deleted}.
+     * role: administrator
+     * invoked by: Controller.feedback.get_data_feedback_standard()
+     *             Controller.feedback.get_data_feedback_important()
+     *             Controller.feedback.get_data_feedback_deleted()
      * @param $type
      * @return null
      */
     public function fetch($type)
     {
-        $data = array(
-            Feedback::COLUMN_FDB_STATE => $type
-        );
-        if ($this->ReadWhere(Utility::TABLE_FEEDBACK, $data)) {
+        $criteria = [Feedback::COLUMN_FDB_STATE => $type];
+
+        if ($this->ReadWhere(Utility::TABLE_FEEDBACK, $criteria)) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * visitor send a feedback from contact menu.
+     * role: visitor
+     * invoked by: Controller.feedback.send_feedback()
      * @param $data
      * @return bool
      */
@@ -74,6 +79,10 @@ class Feedback extends Model
     }
 
     /**
+     * reply visitor email, respond the their feedback.
+     * prepare email object, sender, content, and receiver.
+     * role: administrator
+     * invoked by: Controller.feedback.reply_feedback()
      * @param $name
      * @param $email
      * @param $subject
@@ -84,26 +93,31 @@ class Feedback extends Model
     {
         include_once __SITE_PATH . '/library/PHPMailer/PHPMailerAutoload.php';
 
-        $mail = new PHPMailer;
+        // get separated .ini configuration from stealing my email and password which used to sent email
+        $setting = parse_ini_file(get_base_url().'/setting.ini', true);
+        $email_address = $setting['email']['email_address'];
+        $email_password = $setting['email']['email_password'];
+
+        // instantiate PHPMailer and setup for configuration
+        $mail = new PHPMailer();
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'anggadarkprince@gmail.com';
-        $mail->Password = 'guardianoftime';
+        $mail->Username = $email_address;
+        $mail->Password = $email_password;
         $mail->SMTPSecure = 'tls';
-
         $mail->From = 'no-reply@seriousgame.com';
         $mail->FromName = 'SeriousGame.Inc';
         $mail->addAddress($email, $name);
         $mail->addReplyTo('no-reply@seriousgame.com', 'SeriousGame.Inc');
-        $mail->WordWrap = 50;
         $mail->isHTML(true);
 
+        // build email content
         $mail->Subject = 'Feedback ' . $subject;
         $body = $this->format_email('html', $name, $subject, $message);
         $mail->msgHTML($body, __SITE_PATH . 'assets/etc/');
 
-        //send the message, check for errors
+        // send the message, check for errors
         if (!$mail->send()) {
             echo "Mailer Error: " . $mail->ErrorInfo;
             return false;
@@ -114,6 +128,10 @@ class Feedback extends Model
     }
 
     /**
+     * format email template from assets/etc.
+     * replace string into dynamic value depends on data which given by reply() function.
+     * role: administrator
+     * invoked by: Model.Feedback.reply()
      * @param $format
      * @param $name
      * @param $subject
@@ -122,50 +140,59 @@ class Feedback extends Model
      */
     private function format_email($format, $name, $subject, $message)
     {
-        //set the root
+        // set root path
         $root = __SITE_PATH . "/assets/etc";
 
-        //grab the template content
+        // grab the template content
         $template = file_get_contents($root . '/reply_template.' . $format);
 
-        //replace all the tags
+        // replace the tags
         $template = preg_replace('%NAME%', $name, $template);
         $template = preg_replace('%SUBJECT%', $subject, $template);
         $template = preg_replace('%MESSAGE%', $message, $template);
-        $template = preg_replace('%SITEPATH%', "http://localhost/businesscareer", $template);
+        $template = preg_replace('%SITEPATH%', get_base_url(), $template);
 
-        //return the html of the template
         return $template;
     }
 
     /**
+     * mark a feedback as {standard|important} each type of state will be show on different page.
+     * role: administrator
+     * invoked by: Controller.Feedback.mark_important()
+     *             Controller.Feedback.remove_important()
      * @param $state
      * @param $id
      * @return bool
      */
     public function toggle_important($state, $id)
     {
-        $data = array(
-            Feedback::COLUMN_FDB_STATE => $state
-        );
-        return $this->Update(Utility::TABLE_FEEDBACK, $data, array(Feedback::COLUMN_FDB_ID => $id));
+        $criteria = [Feedback::COLUMN_FDB_STATE => $state];
+
+        return $this->Update(Utility::TABLE_FEEDBACK, $criteria, array(Feedback::COLUMN_FDB_ID => $id));
     }
 
     /**
-     * @param $state
+     * delete feedback (soft delete). just update the feedback state.
+     * given mark as deleted record
+     * role: administrator
+     * invoked by: Controller.Feedback.remove_feedback()
      * @param $id
      * @return bool
      */
-    public function remove($state, $id)
+    public function remove($id)
     {
-        $data = array(
-            Feedback::COLUMN_FDB_STATE => $state
-        );
-        return $this->Update(Utility::TABLE_FEEDBACK, $data, array(Feedback::COLUMN_FDB_ID => $id));
+        $criteria = [Feedback::COLUMN_FDB_STATE => Feedback::DELETED];
+
+        return $this->Update(Utility::TABLE_FEEDBACK, $criteria, array(Feedback::COLUMN_FDB_ID => $id));
     }
 
     /**
-     * @return null
+     * summarized the all feedback and turn into report table.
+     * accumulate feedback total {daily|weekly|monthly|yearly}
+     * role: administrator
+     * invoked by: Controller.Report.index()
+     *             Controller.Report.get_overall()
+     * @return Array
      */
     public function retrieve_feedback_report()
     {
@@ -205,7 +232,7 @@ class Feedback extends Model
         if ($this->ManualQuery($query)) {
             return $this->FetchDataRow();
         } else {
-            return null;
+            return [];
         }
     }
 

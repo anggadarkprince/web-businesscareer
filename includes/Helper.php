@@ -32,3 +32,28 @@ function binding_data($data){
     }
     echo $string;
 }
+
+function get_base_url(){
+    $protocol = strtolower(substr($_SERVER["SERVER_PROTOCOL"],0,5))=='https' ? 'https://' : 'http://';
+
+    $path = $_SERVER['PHP_SELF'];
+
+    $path_parts = pathinfo($path);
+    $directory = $path_parts['dirname'];
+
+    $directory = ($directory == "/") ? "" : $directory;
+
+    /**
+     * @return
+     * localhost
+     * or mysite.com
+     */
+    $host = $_SERVER['HTTP_HOST'];
+
+    /**
+     * @return
+     * http://localhost/mysite
+     * or http://mysite.com
+     */
+    return $protocol.$host.$directory;
+}
