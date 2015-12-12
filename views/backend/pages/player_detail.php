@@ -111,7 +111,7 @@
                             }
                             ?>
 
-                            <a href="<?=$this->framework->url->get_base_url()?>/report/get_player_detail/<?=$this->framework->url->url_part(3)?>" data-toggle='tooltip' data-placement='top' data-original-title='Print Player Achievement' class="btn btn-embossed btn-sm btn-danger"><span class="glyphicon glyphicon-print"></span> PRINT</a>
+                            <a href="<?=$this->framework->url->get_base_url()?>/player/get_player_detail/<?=$this->framework->url->url_part(3)?>" data-toggle='tooltip' data-placement='top' data-original-title='Print Player Achievement' class="btn btn-embossed btn-sm btn-danger"><span class="glyphicon glyphicon-print"></span> PRINT</a>
                             <a href="<?=$this->framework->url->get_base_url()?>/player/logging/<?=$this->framework->url->url_part(3)?>" data-toggle='tooltip' data-placement='top' data-original-title='Generate Player Logging' class="btn btn-embossed btn-sm btn-danger"><span class="glyphicon glyphicon-time"></span> LOGGING</a>
                         </div>
                     </div>
