@@ -2,7 +2,7 @@
     <div class="top-panel">
         <h3 class="icon-dashboard"> Dashboard</h3>
     </div>
-    <div class="titlebar">
+    <div class="title-bar">
         <span>Personal Information</span>
     </div>
     <div class="content">

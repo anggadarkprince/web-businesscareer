@@ -2,7 +2,7 @@
     <div class="top-panel">
         <h3 class="icon-feedback"> Player Feedback</h3>
     </div>
-    <div class="titlebar">
+    <div class="title-bar">
         <span>Data Suggest and Critic</span>
     </div>
     <div class="content">
@@ -401,12 +401,7 @@
                                 </tr>
                             </thead>
                             <tbody id="data_deleted">
-                                <tr>
-                                    <td>26/05/2014 18:45:67</td>
-                                    <td>4565</td>
-                                    <td>Fuck You</td>
-                                    <td>ff45@gmail.com</td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>

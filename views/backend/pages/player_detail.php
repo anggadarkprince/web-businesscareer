@@ -3,7 +3,7 @@
     <div class="top-panel">
         <h3 class="icon-player"> Player Detail</h3>
     </div>
-    <div class="titlebar">
+    <div class="title-bar">
         <span>Player Data Detail</span>
     </div>
     <div class="content">
