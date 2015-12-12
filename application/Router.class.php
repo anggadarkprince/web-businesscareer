@@ -9,17 +9,15 @@
 	 
     class Router {
 
-		/*
-		* @the registry
-		*/
+		/**
+		 * @the registry
+		 */
 		private $registry;
 
-		/*
-		* @the controllers path
-		*/
+		/**
+		 * @the controllers path
+		 */
 		private $path;
-
-		private $args = array();
 
         private $default_controller = 'page';
 
@@ -29,8 +27,11 @@
 
 		public $action;
 
-
-		function __construct($registry) {
+        /**
+         * @param $registry
+         */
+        function __construct($registry)
+        {
 			$this->registry = $registry;
 		}
 
@@ -39,7 +40,8 @@
          * @param string $path
          * @throws Exception
          */
-		function setPath($path) {
+		function setPath($path)
+        {
 			/*** check if path is a directory ***/
 			if (!is_dir($path))
 			{
@@ -52,12 +54,10 @@
 
 
 		/**
-		*
-		* @load the controllers
-		* @access public
-		* @return void
-		*
-		*/
+		 * @load the controllers
+		 * @access public
+		 * @return void
+		 */
 		public function loader()
 		{
             /*** check the route ***/
@@ -92,14 +92,12 @@
 
 
 		/**
-		*
-		* @get the controllers
-		* @access private
-		* @return void
-		*
-		*/
-        private function getController() {
-
+		 * @get the controllers
+		 * @access private
+		 * @return void
+		 */
+        private function getController()
+        {
             /*** get the route from the url ***/
             $route = (empty($_GET['magniva'])) ? '' : $_GET['magniva'];
 

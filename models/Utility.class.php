@@ -44,6 +44,8 @@ class Utility
     /**
      * utility helper
      * pre params for PDO query builder
+     * @param $string
+     * @return string
      */
     public static function pre_params($string)
     {
@@ -71,6 +73,8 @@ class Utility
     /**
      * utility helper
      * hashing data with md5
+     * @param $value
+     * @return string
      */
     public static function encrypt($value)
     {
@@ -90,6 +94,7 @@ class Utility
     /**
      * utility helper
      * pretty print for array
+     * @param $data
      */
     public static function pretty_print($data)
     {
@@ -122,6 +127,5 @@ class Utility
     {
         return number_format($value, $decimal, $decimal_separator, $thousand_separator);
     }
-
 
 } 

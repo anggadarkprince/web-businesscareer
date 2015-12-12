@@ -7,9 +7,15 @@
  * Time: 6:56 AM
  * To change this template use File | Settings | File Templates.
  */
-class dashboardController extends Controller
+class DashboardController extends Controller
 {
-
+    /**
+     * default administrator index page.
+     * role: administrator
+     * redirected from: Controller.Administrator.login() if credential is granted
+     *                  Controller.Administrator.logout() if destroy session is failed
+     *                  Controller.Administrator.index() if administrator session is exist
+     */
     public function index()
     {
         if (authenticate::is_authorized()) {
@@ -27,6 +33,12 @@ class dashboardController extends Controller
         }
     }
 
+    /**
+     * show setting page and load setting data from backend navigation menu.
+     * role: administrator
+     * redirected from: Controller.Dashboard.profile_update() whatever profile update result
+     *                  Controller.Dashboard.setting_update() whatever setting update result
+     */
     public function setting()
     {
         if (authenticate::is_authorized()) {
@@ -43,6 +55,10 @@ class dashboardController extends Controller
         }
     }
 
+    /**
+     * show about page from backend navigation menu and tap on header.
+     * role: administrator
+     */
     public function about()
     {
         if (authenticate::is_authorized()) {
@@ -55,23 +71,44 @@ class dashboardController extends Controller
     }
 
 
+    /**
+     * update profile data from setting page.
+     * role: administrator
+     */
     public function profile_update()
     {
         if (authenticate::is_authorized()) {
             $model_user = User::getInstance();
 
-            $data = array(
-                User::COLUMN_USR_PASSWORD => md5($_POST["profile_password"]),
-                User::COLUMN_USR_NAME => $_POST["profile_name"],
-                User::COLUMN_USR_ABOUT => $_POST["profile_about"],
-                User::COLUMN_USR_GENDER => $_POST["profile_gender"],
-            );
+            /*
+             * populate data from post request.
+             * hash password with md5 (it's worst practice, in future use blowfish algorithm)
+             */
+            $data = [
+                User::COLUMN_USR_PASSWORD   => md5($_POST["profile_password"]),
+                User::COLUMN_USR_NAME       => $_POST["profile_name"],
+                User::COLUMN_USR_ABOUT      => $_POST["profile_about"],
+                User::COLUMN_USR_GENDER     => $_POST["profile_gender"],
+            ];
 
-            if ($model_user->check_authorize_update(md5($_POST["profile_password"]))) {
+            /*
+             * update profile need to include the old password to prevent unauthorized user get rid your profile.
+             * if [profile_newpassword] is not empty then user has intention to make the new one.
+             * there are 3 condition that returned to setting page:
+             * 1. update success then given sign 'success' into session
+             * 2. update failed then given sign 'error' into session
+             * 3. old password mismatch with active user session then given 'warning' into session
+             */
+            if ($model_user->check_authorize_update(md5($_POST["profile_password"])))
+            {
                 if (isset($_POST["profile_newpassword"]) && !empty($_POST["profile_newpassword"])) {
                     $data[User::COLUMN_USR_PASSWORD] = md5($_POST["profile_newpassword"]);
                 }
 
+                /*
+                 * invoke update_user() in user model.
+                 * check return value that indicate administrator profile update or not
+                 */
                 if ($model_user->update_user($data)) {
                     $_SESSION['profile_operation'] = 'success';
                 } else {
@@ -87,23 +124,34 @@ class dashboardController extends Controller
         }
     }
 
-
+    /**
+     * update profile data from setting page.
+     * role: administrator
+     */
     public function setting_update()
     {
         if (authenticate::is_authorized()) {
             $model_administrator = Administrator::getInstance();
 
-            $data = array(
-                Administrator::COLUMN_STG_NAME => $_POST["website_name"],
-                Administrator::COLUMN_STG_DESCRIPTION => $_POST["website_description"],
-                Administrator::COLUMN_STG_KEYWORD => $_POST["website_keyword"],
-                Administrator::COLUMN_STG_EMAIL => $_POST["website_email"],
-                Administrator::COLUMN_STG_NUMBER => $_POST["website_number"],
-                Administrator::COLUMN_STG_ADDRESS => $_POST["website_address"],
-                Administrator::COLUMN_STG_FACEBOOK => $_POST["website_facebook"],
-                Administrator::COLUMN_STG_TWITTER => $_POST["website_twitter"]
-            );
+            /*
+             * populate data from post request.
+             * make sure form data match with setting keys
+             */
+            $data = [
+                Administrator::COLUMN_STG_NAME          => $_POST["website_name"],
+                Administrator::COLUMN_STG_DESCRIPTION   => $_POST["website_description"],
+                Administrator::COLUMN_STG_KEYWORD       => $_POST["website_keyword"],
+                Administrator::COLUMN_STG_EMAIL         => $_POST["website_email"],
+                Administrator::COLUMN_STG_NUMBER        => $_POST["website_number"],
+                Administrator::COLUMN_STG_ADDRESS       => $_POST["website_address"],
+                Administrator::COLUMN_STG_FACEBOOK      => $_POST["website_facebook"],
+                Administrator::COLUMN_STG_TWITTER       => $_POST["website_twitter"]
+            ];
 
+            /*
+             * invoke update_setting() method in administrator model.
+             * check the return value that indicate upload favicon and update database are success
+             */
             if ($model_administrator->update_setting($data)) {
                 $_SESSION['setting_operation'] = 'success';
             } else {

@@ -77,11 +77,11 @@ class FeedbackController extends Controller
         $model_feedback = new Feedback();
 
         $data = [
-            Feedback::COLUMN_FDB_NAME => $_POST['name'],
-            Feedback::COLUMN_FDB_EMAIL => $_POST['email'],
-            Feedback::COLUMN_FDB_SUBJECT => $_POST['subject'],
-            Feedback::COLUMN_FDB_MESSAGE => $_POST['message'],
-            Feedback::COLUMN_FDB_STATE => Feedback::STANDARD
+            Feedback::COLUMN_FDB_NAME       => $_POST['name'],
+            Feedback::COLUMN_FDB_EMAIL      => $_POST['email'],
+            Feedback::COLUMN_FDB_SUBJECT    => $_POST['subject'],
+            Feedback::COLUMN_FDB_MESSAGE    => $_POST['message'],
+            Feedback::COLUMN_FDB_STATE      => Feedback::STANDARD
         ];
 
         if ($model_feedback->send($data)) {
