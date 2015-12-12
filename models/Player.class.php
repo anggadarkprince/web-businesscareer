@@ -487,10 +487,9 @@ class Player extends Model
      */
     public function unread_new_player()
     {
-        $state = array(
-            player::COLUMN_PLY_READ => 0
-        );
+        $state = [player::COLUMN_PLY_READ => 0];
         $result = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
+
         if ($result) {
             $_SESSION['web_new_player'] = $this->CountRow();
         } else {

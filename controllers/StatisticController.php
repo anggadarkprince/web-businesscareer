@@ -9,7 +9,10 @@
  */
 class StatisticController extends Controller
 {
-
+    /**
+     * show statistic top 10 of player from sidebar navigation
+     * role: administrator
+     */
     public function index()
     {
         if (authenticate::is_authorized()) {
@@ -22,6 +25,23 @@ class StatisticController extends Controller
             $this->framework->view->content = "/backend/pages/statistic";
             $this->framework->view->leaderboard = $model_leaderboard->get_top10_ranking();
             $this->framework->view->show("backend/template");
+        } else {
+            transport("administrator");
+        }
+    }
+
+    /**
+     * export/download top 10 player into pdf
+     * role: administrator
+     */
+    public function get_player_top_10()
+    {
+        if (authenticate::is_authorized()) {
+            $model_report = new ReportGenerator();
+            $model_leaderboard = Leaderboard::getInstance();
+
+            $model_report->get_report_top_10($model_leaderboard->get_top10_ranking());
+            $model_report->print_report();
         } else {
             transport("administrator");
         }

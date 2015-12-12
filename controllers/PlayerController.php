@@ -10,14 +10,14 @@
 class PlayerController extends Controller
 {
     /**
-     * show player list on table and summarized.
+     * show player list on table and summarized from sidebar navigation.
      * role: administrator
      * redirected from: Controller.Player.delete() whatever player delete result
      */
     public function index()
     {
         if (Authenticate::is_authorized()) {
-            $model_player = new Player();
+            $model_player = Player::getInstance();
             $model_player->get_total_player();
             $model_player->read_new_player();
             $model_player->unread_new_player();
@@ -40,7 +40,7 @@ class PlayerController extends Controller
         if (Authenticate::is_player()) {
             transport("page/sign/id=" . $_SESSION['ply_key']);
         } else {
-            $model_administrator = new Authenticate();
+            $model_administrator = Authenticate::getInstance();
 
             /*
              * populate login data like email and password, then set login type for player.
@@ -90,7 +90,7 @@ class PlayerController extends Controller
      */
     public function logout()
     {
-        $auth = new Authenticate();
+        $auth = Authenticate::getInstance();
         if ($auth->logout(Authenticate::PLAYER)) {
             transport("page");
         } else {
@@ -104,7 +104,7 @@ class PlayerController extends Controller
      */
     public function register()
     {
-        $model_player = new Player();
+        $model_player = Player::getInstance();
 
         /*
          * populate data into array.
@@ -155,7 +155,7 @@ class PlayerController extends Controller
         $email = $this->framework->url->url_part(3);
         $key = $this->framework->url->url_part(4);
 
-        $model_player = new Player();
+        $model_player = Player::getInstance();
 
         session_start();
 
@@ -221,7 +221,7 @@ class PlayerController extends Controller
     public function suspend()
     {
         if (Authenticate::is_authorized()) {
-            $model_player = new Player();
+            $model_player = Player::getInstance();
 
             $id = $this->framework->url->url_part(3);
 
@@ -243,7 +243,7 @@ class PlayerController extends Controller
     public function reactive()
     {
         if (Authenticate::is_authorized()) {
-            $model_player = new Player();
+            $model_player = Player::getInstance();
 
             $id = $this->framework->url->url_part(3);
 
@@ -259,6 +259,44 @@ class PlayerController extends Controller
     }
 
     /**
+     * export/download player information into pdf
+     * role: administrator
+     */
+    public function get_player_detail()
+    {
+        if (authenticate::is_authorized()) {
+            $model_player = Player::getInstance();
+
+            $id = $this->framework->url->url_part(3);
+
+            $model_report = ReportGenerator::getInstance();
+            $model_report->get_report_player_detail($model_player->fetch($id));
+            $model_report->print_report();
+        } else {
+            transport("administrator");
+        }
+    }
+
+    /**
+     * export/download player log into pdf
+     * role: administrator
+     */
+    public function get_player_logging()
+    {
+        if (authenticate::is_authorized()) {
+            $model_logging = Log::getInstance();
+
+            $id = $this->framework->url->url_part(3);
+
+            $model_report = ReportGenerator::getInstance();
+            $model_report->get_report_player_log($model_logging->get_log($id));
+            $model_report->print_report();
+        } else {
+            transport("administrator");
+        }
+    }
+
+    /**
      * update profile on front end page.
      * change name or password.
      * set session of update status.
@@ -267,7 +305,7 @@ class PlayerController extends Controller
     public function update_profile()
     {
         if (Authenticate::is_player()) {
-            $model_player = new Player();
+            $model_player = Player::getInstance();
 
             /*
              * populate data and hash password if not empty.
@@ -303,7 +341,8 @@ class PlayerController extends Controller
     public function update_avatar()
     {
         if (Authenticate::is_player()) {
-            $model_player = new Player();
+            $model_player = Player::getInstance();
+
             if ($model_player->update_avatar()) {
                 $_SESSION['operation'] = 'success';
             } else {
@@ -322,7 +361,7 @@ class PlayerController extends Controller
     public function delete()
     {
         if (Authenticate::is_authorized()) {
-            $model_player = new Player();
+            $model_player = Player::getInstance();
 
             $id = $_POST["id"];
 

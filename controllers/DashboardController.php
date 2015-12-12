@@ -10,7 +10,7 @@
 class DashboardController extends Controller
 {
     /**
-     * default administrator index page.
+     * default administrator index page, show chart from sidebar navigation.
      * role: administrator
      * redirected from: Controller.Administrator.login() if credential is granted
      *                  Controller.Administrator.logout() if destroy session is failed
@@ -34,7 +34,7 @@ class DashboardController extends Controller
     }
 
     /**
-     * show setting page and load setting data from backend navigation menu.
+     * show setting page and load setting data from sidebar navigation.
      * role: administrator
      * redirected from: Controller.Dashboard.profile_update() whatever profile update result
      *                  Controller.Dashboard.setting_update() whatever setting update result

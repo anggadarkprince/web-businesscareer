@@ -31,49 +31,6 @@ class ReportController extends Controller
         }
     }
 
-    public function get_player_detail()
-    {
-        if (authenticate::is_authorized()) {
-            $model_player = new player();
-
-            $id = $this->framework->url->url_part(3);
-
-            $model_report = new ReportGenerator();
-            $model_report->get_report_player_detail($model_player->fetch($id));
-            $model_report->print_report();
-        } else {
-            transport("administrator");
-        }
-    }
-
-    public function get_player_logging()
-    {
-        if (authenticate::is_authorized()) {
-            $model_logging = new Log();
-
-            $id = $this->framework->url->url_part(3);
-
-            $model_report = new ReportGenerator();
-            $model_report->get_report_player_log($model_logging->get_log($id));
-            $model_report->print_report();
-        } else {
-            transport("administrator");
-        }
-    }
-
-    public function get_player_top_10()
-    {
-        if (authenticate::is_authorized()) {
-            $model_report = new ReportGenerator();
-            $model_leaderboard = Leaderboard::getInstance();
-
-            $model_report->get_report_top_10($model_leaderboard->get_top10_ranking());
-            $model_report->print_report();
-        } else {
-            transport("administrator");
-        }
-    }
-
     public function get_overall()
     {
         if (authenticate::is_authorized()) {

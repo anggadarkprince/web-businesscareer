@@ -159,6 +159,12 @@ class Leaderboard extends Model
     }
 
 
+    /**
+     * invoked by: Controller.Report.get_overall()
+     *             Controller.Statistic.get_player_top_10()
+     *             Controller.Statistic.index()
+     * @return array
+     */
     public function get_top10_ranking()
     {
         $query = "
@@ -209,7 +215,7 @@ class Leaderboard extends Model
             }
             return $data;
         } else {
-            return null;
+            return [];
         }
     }
 }
