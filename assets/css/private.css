@@ -252,12 +252,12 @@ footer.bottom-footer-fixed .content-footer {
     padding-left: 45px;
 }
 
-.content-wrapper .titlebar {
+.content-wrapper .title-bar {
     padding: 20px 40px 8px;
     border-bottom: 2px solid #cccccc;
 }
 
-.content-wrapper .titlebar span {
+.content-wrapper .title-bar span {
     margin: 0;
     border-bottom: 4px solid #777;
     width: auto;
@@ -402,6 +402,13 @@ address {
     right: 0;
 }
 
+#example_wrapper .dropdown-arrow{
+    right: 28px;
+}
+#example_wrapper .dropdown-menu{
+    margin-left: 30px;
+}
+
 /* HIGHCHART */
 .highcharts-title,
 .highcharts-subtitle,
@@ -417,6 +424,13 @@ address {
 }
 .highcharts-legend > rect{
     visibility: hidden !important;
+}
+
+.form-control {
+    height: inherit;
+}
+.control-label{
+    font-weight: bold;
 }
 
 @media (max-width: 767px) {

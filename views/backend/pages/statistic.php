@@ -2,7 +2,7 @@
     <div class="top-panel">
         <h3 class="icon-statistic"> Statistic</h3>
     </div>
-    <div class="titlebar">
+    <div class="title-bar">
         <span>Static Information</span>
     </div>
     <div class="content">

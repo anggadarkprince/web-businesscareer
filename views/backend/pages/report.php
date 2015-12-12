@@ -2,7 +2,7 @@
     <div class="top-panel">
         <h3 class="icon-report"> System Report</h3>
     </div>
-    <div class="titlebar">
+    <div class="title-bar">
         <span>Serious Game Report</span>
     </div>
     <div class="content">

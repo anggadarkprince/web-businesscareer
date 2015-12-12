@@ -175,7 +175,6 @@ $(document).ready(function() {
     $('#example_wrapper .dataTables_filter input').addClass("form-control input-sm").css("display","inline-block").css("width","auto").attr("placeholder","Search table data"); // modify table search input
     $('#example_wrapper .dataTables_length select').addClass("select2-wrapper col-md-12 selection"); // modify table per page dropdown
 
-
     //Too Small for new file - Helps the to tick all options in the table
 
     $('table td .checkbox').click( function() {
@@ -202,7 +201,7 @@ $(document).ready(function() {
 	$('#example input').click( function() {
         $(this).parent().parent().parent().toggleClass('row_selected');
     });
-	
+
 	
 	$(".dataTables_paginate a").click(function(e){
         e.preventDefault();

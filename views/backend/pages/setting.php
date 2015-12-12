@@ -2,7 +2,7 @@
     <div class="top-panel">
         <h3 class="icon-setting"> Setting</h3>
     </div>
-    <div class="titlebar">
+    <div class="title-bar">
         <span>System Setting</span>
     </div>
     <div class="content">
@@ -15,30 +15,30 @@
                         if(isset($_SESSION['setting_operation']))
                         {
                             $status = $_SESSION['setting_operation'];
-                            if($status=='success'){
-                                ?>
-                                <div class="alert alert-success alert-block pam">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <small><span class="fui-check-inverted"></span> &nbsp; Alhamdulillah sesuatu banget, update success</small>
-                                </div>
-                            <?php
-                            }
-                            else if($status=='warning'){
-                                ?>
-                                <div class="alert alert-warning alert-block pam">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <small><span class="fui-eye"></span> &nbsp; Innalilahi, password missmatch with active profile</small>
-                                </div>
-                            <?php
-                            }
-                            else if($status=='error'){
-                                ?>
-                                <div class="alert alert-danger alert-block pam">
-                                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <small><span class="fui-cross"></span> &nbsp; Innalilahi, something wrong, try again</small>
-                                </div>
-                            <?php
-                            }
+							if($status=='success'){
+								?>
+								<div class="alert alert-success alert-block pam">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<small><span class="fui-check"></span> &nbsp; Setting updated successfully</small>
+								</div>
+								<?php
+							}
+							else if($status=='warning'){
+								?>
+								<div class="alert alert-warning alert-block pam">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<small><span class="fui-cross"></span> &nbsp; Setting failed to update, try again</small>
+								</div>
+								<?php
+							}
+							else if($status=='error'){
+								?>
+								<div class="alert alert-danger alert-block pam">
+									<button type="button" class="close" data-dismiss="alert">&times;</button>
+									<small><span class="fui-cross"></span> &nbsp; Ouch, something is getting wrong</small>
+								</div>
+								<?php
+							}
                             unset($_SESSION['setting_operation']);
                         }
                         ?>
@@ -114,7 +114,7 @@
                                 ?>
                                 <div class="alert alert-success alert-block pam">
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <small><span class="fui-check-inverted"></span> &nbsp; Alhamdulillah sesuatu banget, update success</small>
+                                    <small><span class="fui-check"></span> &nbsp; Setting updated successfully</small>
                                 </div>
                             <?php
                             }
@@ -122,7 +122,7 @@
                                 ?>
                                 <div class="alert alert-warning alert-block pam">
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <small><span class="fui-eye"></span> &nbsp; Innalilahi, password missmatch with active profile</small>
+                                    <small><span class="fui-cross"></span> &nbsp; Current password is mismatch</small>
                                 </div>
                             <?php
                             }
@@ -130,7 +130,7 @@
                                 ?>
                                 <div class="alert alert-danger alert-block pam">
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
-                                    <small><span class="fui-cross"></span> &nbsp; Innalilahi, something wrong, try again</small>
+                                    <small><span class="fui-cross"></span> &nbsp; Ouch, something is getting wrong</small>
                                 </div>
                             <?php
                             }
@@ -161,8 +161,8 @@
 		                </div>
 		                <div class="control-group">
 		                    <label for="profile_gender" class="control-label">Gender</label><br>
-		                    <input type="radio" id="profile_gender" name="profile_gender" value="Male" <?php if(strtoupper($data_user["usr_gender"])=="MALE") echo "checked"?>> Male
-							<input type="radio" name="profile_gender" value="Female" <?php if(strtoupper($data_user["usr_gender"])=="FEMALE") echo "checked"?>> Female
+		                    <input type="radio" id="profile_gender" name="profile_gender" value="Male" <?php if(strtoupper($data_user["usr_gender"])=="MALE") echo "checked"?>> <label>Male</label> &nbsp;
+							<input type="radio" name="profile_gender" value="Female" <?php if(strtoupper($data_user["usr_gender"])=="FEMALE") echo "checked"?>> <label>Female</label>
 		                </div>						
 						<div class="control-group">
 		                    <label for="profile_password" class="control-label">Password</label>

@@ -2,7 +2,7 @@
     <div class="top-panel">
         <h3 class="icon-about"> About Build System</h3>
     </div>
-    <div class="titlebar">
+    <div class="title-bar">
         <span>System About</span>
     </div>
     <div class="content">
