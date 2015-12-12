@@ -43,7 +43,7 @@
                 <div id="chartdatatable"></div>
             </div>
         </div>
-        <a href="<?=$this->framework->url->get_base_url()?>/report/get_player_top_10" class="btn btn-embossed btn-sm btn-danger" data-toggle='tooltip' data-placement='top' data-original-title='Print Top 10 Player'><span class="glyphicon glyphicon-print"></span> PRINT</a>
+        <a href="<?=$this->framework->url->get_base_url()?>/statistic/get_player_top_10" class="btn btn-embossed btn-sm btn-danger" data-toggle='tooltip' data-placement='top' data-original-title='Print Top 10 Player'><span class="glyphicon glyphicon-print"></span> PRINT</a>
     </div>
 </div>
 

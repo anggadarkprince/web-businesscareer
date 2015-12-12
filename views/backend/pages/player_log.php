@@ -41,7 +41,7 @@
                         <a href="<?=$this->framework->url->get_base_url()?>/player/detail/<?=$this->framework->url->url_part(3)?>" class="btn btn-embossed btn-sm btn-custom" data-toggle='tooltip' data-placement='top' data-original-title='Back to Player Profile'><span class="glyphicon glyphicon-chevron-left"></span> BACK TO PROFILE</a>
                     </div>
                     <div class="pull-right">
-                        <a href="<?=$this->framework->url->get_base_url()?>/report/get_player_logging/<?=$this->framework->url->url_part(3)?>" class="btn btn-embossed btn-sm btn-danger" data-toggle='tooltip' data-placement='top' data-original-title='Print Logging'><span class="glyphicon glyphicon-print"></span> PRINT</a>
+                        <a href="<?=$this->framework->url->get_base_url()?>/player/get_player_logging/<?=$this->framework->url->url_part(3)?>" class="btn btn-embossed btn-sm btn-danger" data-toggle='tooltip' data-placement='top' data-original-title='Print Logging'><span class="glyphicon glyphicon-print"></span> PRINT</a>
                     </div>
                 </div>
             </div>
