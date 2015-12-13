@@ -29,6 +29,11 @@ class AchievementController extends Controller
             if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_achievement = Achievement::getInstance();
 
+                /*
+                 * populate type of achievement.
+                 * invoke method to unlock the achievement.
+                 * log this event about achievement earning.
+                 */
                 $achievement = $_POST["achievement"];
 
                 $result = $this->model_achievement->unlock_achievement($achievement);
