@@ -11,11 +11,18 @@ class AchievementController extends Controller
 {
     private $model_achievement;
 
+    /**
+     * prevent access this route via browser
+     */
     public function index()
     {
         transport("error404");
     }
 
+    /**
+     * save new achievement via REST.
+     * role: player
+     */
     public function unlock_achievement()
     {
         if (Authenticate::is_player()) {

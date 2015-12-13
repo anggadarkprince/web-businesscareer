@@ -20,7 +20,6 @@ class Achievement extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Achievement
      * get singleton instance
@@ -33,6 +32,11 @@ class Achievement extends Model
         return self::$instance;
     }
 
+    /**
+     * retrieve player achievement when load data.
+     * invoked by: Controller.GameServer.load_data()
+     * @return null
+     */
     public function get_achievement()
     {
         $player = $_SESSION['ply_id'];
@@ -42,7 +46,7 @@ class Achievement extends Model
             ach_achievement,
             ach_description,
             ach_reward,
-            CONCAT('achievement_',LCASE(ach_achievement)) as ac_title_atlas,
+            CONCAT('achievement_', LCASE(ach_achievement)) as ac_title_atlas,
             ach_atlas, IFNULL(earned,0) as earned
 
           FROM
@@ -72,6 +76,12 @@ class Achievement extends Model
         }
     }
 
+    /**
+     * save new achievement into database.
+     * invoked by: Controller.Achievement.unlock_achievement()
+     * @param $achievement
+     * @return bool
+     */
     public function unlock_achievement($achievement)
     {
         $data = array(

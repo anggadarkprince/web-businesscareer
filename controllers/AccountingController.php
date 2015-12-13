@@ -64,7 +64,7 @@ class AccountingController extends Controller
     public function retrieve_journal()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_journal = Journal::getInstance();
 
                 /*
@@ -133,7 +133,7 @@ class AccountingController extends Controller
     public function retrieve_trial_balance()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_journal = Journal::getInstance();
 
                 /*
@@ -163,7 +163,7 @@ class AccountingController extends Controller
     public function retrieve_loss_profit()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_journal = Journal::getInstance();
 
                 /*
