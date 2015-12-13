@@ -9,7 +9,6 @@
  */
 class Administrator extends Model
 {
-
     // applied singleton pattern
     private static $instance = NULL;
 
@@ -46,36 +45,48 @@ class Administrator extends Model
         return self::$instance;
     }
 
-
     /**
-     * @return null
      * retrieve all data user admin
+     * invoked by: Controller.Dashboard.setting()
+     * @return array
      */
     public function retrieve_setting()
     {
         if ($this->Read(Utility::TABLE_SETTING)) {
             return $this->FetchDataRow();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * update web setting, upload favicon and update database.
+     * invoked by: Controller.Dashboard.setting_update()
      * @param $data
      * @return bool
      */
     public function update_setting($data)
     {
+        /*
+         * update favicon is optional, then check if $_FILES is empty or not.
+         * upload file with image extension and file size 500kb.
+         */
         if (isset($_FILES['website_favicon']['name']) && !empty($_FILES['website_favicon']['name'])) {
-            $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
+            $valid_exts = ['jpeg', 'jpg', 'png', 'gif'];
             $max_file_size = 512 * 1024;
 
+            // check if file is larger than criteria and if error key is exist
             if (!$_FILES['website_favicon']['error'] && $_FILES['website_favicon']['size'] < $max_file_size) {
+
+                // get file extension
                 $ext = strtolower(pathinfo($_FILES['website_favicon']['name'], PATHINFO_EXTENSION));
+
+                // check valid file format
                 if (in_array($ext, $valid_exts)) {
 
                     $path = __SITE_PATH . '/assets/images/favicon.' . $ext;
 
+                    // upload favicon and fixed the name to favicon.ext
                     $upload = move_uploaded_file($_FILES['website_favicon']['tmp_name'], $path);
                     if ($upload) {
                         $data[Administrator::COLUMN_STG_FAVICON] = 'favicon.' . $ext;
@@ -92,11 +103,12 @@ class Administrator extends Model
                 return false;
             }
         }
+
         return $this->Update(Utility::TABLE_SETTING, $data);
     }
 
-
     /**
+     * retrieve max, min, avg statistic of all traffic data
      * invoked by: Controller.Report.index()
      * @return array
      */
@@ -125,6 +137,7 @@ class Administrator extends Model
     }
 
     /**
+     * retrieve statistic number of player which played the game for chart
      * invoked by: Controller.Report.index()
      * @return array
      */

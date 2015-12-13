@@ -43,9 +43,22 @@ class Journal extends Model
         }
     }
 
+    /**
+     * save transaction into database.
+     * invoked by: Controller.Journal.post_transaction()
+     * @param $description
+     * @param $debit
+     * @param $credit
+     * @param $value
+     * @param $day
+     * @return bool
+     */
     public function post_transaction($description, $debit, $credit, $value, $day)
     {
+        // generate unique id as key for transaction as one
         $key = uniqid();
+
+        // insert debit row
         $data = array(
             "jrl_player" => $_SESSION['ply_id'],
             "jrl_account" => $debit,
@@ -57,6 +70,7 @@ class Journal extends Model
         );
         $this->Create(Utility::TABLE_JOURNAL, $data);
 
+        // insert credit row
         $data = array(
             "jrl_player" => $_SESSION['ply_id'],
             "jrl_account" => $credit,
@@ -71,6 +85,13 @@ class Journal extends Model
         return true;
     }
 
+    /**
+     * retrieve journal from database.
+     * invoked by: Controller.Accounting.get_general_journal()
+     *             Model.Journal.get_general_ledger()
+     * @param null $day
+     * @return null
+     */
     public function get_general_journal($day = null)
     {
         $player = $_SESSION['ply_id'];
@@ -107,8 +128,19 @@ class Journal extends Model
         }
     }
 
+    /**
+     * retrieve general ledger from database.
+     * invoked by: Controller.Accounting.get_general_ledger()
+     *             Model.Journal.get_trial()
+     * @param null $day
+     * @return array
+     */
     public function get_general_ledger($day = null)
     {
+        /*
+         * retrieve general journal before convert into general ledger.
+         * retrieve account to compare data.
+         */
         if($day != null){
             $journal = $this->get_general_journal($day);
         }
@@ -118,6 +150,10 @@ class Journal extends Model
 
         $accounts = $this->get_account();
 
+        /*
+         * group transaction into each account.
+         * check if there is account empty just give one row as info.
+         */
         $ledger = array();
         foreach ($accounts as $account) {
             $table_account = array();
@@ -158,14 +194,33 @@ class Journal extends Model
         return $ledger;
     }
 
+    /**
+     * retrieve trial balance report from database.
+     * invoked by: Controller.Accounting.retrieve_trial_balance()
+     *             Model.Journal.get_loss_profit()
+     *             Model.Journal.get_balance_sheet()
+     * @return array
+     */
     public function get_trial()
     {
+        /*
+         * retrieve general ledger to convert into trial balance.
+         * loop through ledger data and accumulate debit and credit as normal position.
+         */
         $ledger = $this->get_general_ledger();
         $trial = array();
 
         foreach ($ledger as $table) {
             $total_debit = 0;
             $total_credit = 0;
+
+            /*
+             * loop through general table, accumulate each account table.
+             * if normal position is debit then debit transaction will increase the balance.
+             *                                  credit transaction will decrease the balance.
+             * if normal position is credit then credit transaction will increase the balance.
+             *                                  debit transaction will decrease the balance.
+             */
             foreach ($table as $row) {
                 if ($row["position"] == "DEBITS") {
                     if ($row["debit"] == "-") {
@@ -181,6 +236,8 @@ class Journal extends Model
                     }
                 }
             }
+
+            // populate data into array and push as trial balance array as balance account
             $account = array(
                 "account_id" => $table[0]["account_id"],
                 "account" => $table[0]["account"],
@@ -195,8 +252,18 @@ class Journal extends Model
         return $trial;
     }
 
+    /**
+     * retrieve loss and profit from database.
+     * invoked by: Controller.Journal.retrieve_loss_profit()
+     * @return array
+     */
     public function get_loss_profit()
     {
+        /*
+         * retrieve trial balance to get normal position of account.
+         * prepare array that handle loss and profit data.
+         * prepare expenses and revenues data, show advertising and marketing as separated detail
+         */
         $trial = $this->get_trial();
 
         $data = array();
@@ -214,6 +281,12 @@ class Journal extends Model
                 $temp = array("account" => $row["account"], "value" => $row["credit"]);
             }
 
+            /*
+             * retrieve account type from pattern.
+             * eg: $row['account'] -> [Revenue] then break into parts '['->(0), 'Revenue'->(1), ']'->(3)
+             * if type of account is Revenue then pass through it.
+             * if type of account is Expense, specially for Advertising and marketing show the detail.
+             */
             preg_match("/\[([^]]*)\]/", $row["account"], $account);
             preg_match("/\]([^]]*)\:/", $row["account"], $sub_expense);
             $account_type = $account[1];
@@ -231,6 +304,11 @@ class Journal extends Model
                 }
             }
         }
+
+        /*
+         * add advertising and marketing data front of array,
+         * push revenue and all expenses into loss and profit array.
+         */
         array_unshift($expense, $advertising);
         array_unshift($expense, $marketing);
 
@@ -239,8 +317,17 @@ class Journal extends Model
         return $data;
     }
 
+    /**
+     * retrieve balance from database.
+     * invoked by: Controller.Accounting.retrieve_balance()
+     * @return array
+     */
     public function get_balance_sheet()
     {
+        /*
+         * retrieve trial balance.
+         * prepare component of balance sheet as arrays.
+         */
         $trial = $this->get_trial();
 
         $current_assets = array();
@@ -248,7 +335,10 @@ class Journal extends Model
         $liabilities = array();
         $equity = array();
 
-
+        /*
+         * loop through trial balance data and distribute each component.
+         * separate between activa, pasiva and modal
+         */
         foreach ($trial as $row) {
             if ($row["position"] == "DEBITS") {
                 $temp = array("account" => $row["account"], "value" => $row["debit"]);
