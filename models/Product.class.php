@@ -51,7 +51,8 @@ class Product extends Model
 
 
     /**
-     * @return null
+     * invoked by: Controller.GameServer.load_data()
+     * @return array
      */
     public function get_product_data()
     {
@@ -145,7 +146,8 @@ class Product extends Model
     }
 
     /**
-     * @return null
+     * invoked by: Controller.GameServer.load_data()
+     * @return array
      */
     public function get_product_material()
     {
@@ -161,7 +163,7 @@ class Product extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 

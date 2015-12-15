@@ -232,6 +232,7 @@ class Player extends Model
     }
 
     /**
+     * invoked by: Controller.GameServer.get_simulation_avatar()
      * @return array
      */
     public function fetch_simulation_avatar()
@@ -430,6 +431,7 @@ class Player extends Model
 
     /**
      * invoked by: Controller.Player.detail()
+     *             Controller.GameServer.index()
      * @param $id
      * @return null
      */

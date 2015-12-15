@@ -21,7 +21,7 @@ class Material extends Model{
 
 
     /**
-     * @return null|object|Product
+     * @return null|object|Material
      * get singleton instance
      */
     public static function getInstance()
@@ -33,7 +33,8 @@ class Material extends Model{
     }
 
     /**
-     * @return null
+     * invoked by: Controller.GameServer.load_data()
+     * @return array
      */
     public function get_material_data()
     {
@@ -52,11 +53,12 @@ class Material extends Model{
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * invoked by: Controller.GameServer.load_data()
      * @return null
      */
     public function get_player_material()

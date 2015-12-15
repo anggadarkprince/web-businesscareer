@@ -33,7 +33,7 @@ class Achievement extends Model
     }
 
     /**
-     * retrieve player achievement when load data.
+     * retrieve player's achievement when load data.
      * invoked by: Controller.GameServer.load_data()
      * @return null
      */

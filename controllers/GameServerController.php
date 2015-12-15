@@ -19,14 +19,23 @@ class GameServerController extends Controller
     private $model_player;
     private $model_memorycard;
 
+    /**
+     * check login session when enter the game.
+     * retrieve player who play the game.
+     * role: player
+     */
     public function index()
     {
         if (Authenticate::is_player()) {
-
-            if (true || isset($_POST['gameaccess']) && $_POST['gameaccess'] == "businesscareer") {
+            if (isset($_POST['gameaccess']) && $_POST['gameaccess'] == "businesscareer") {
                 $model_player = Player::getInstance();
                 $model_memorycard = Memorycard::getInstance();
 
+                /*
+                 * check session existence.
+                 * check what is the game played for the first time.
+                 * wrap up, encode player data and binding the information.
+                 */
                 $player = $model_player->player_detail($_SESSION['ply_id']);
                 $is_first_play = $model_memorycard->check_game_data();
 
@@ -45,6 +54,10 @@ class GameServerController extends Controller
     }
 
     /**
+     * populating game data.
+     * role: player
+     * invoked by: Controller.GameServer.setup_data()
+     *             Controller.GameServer.save_data()
      * @return array
      */
     public function collectData()
@@ -92,25 +105,32 @@ class GameServerController extends Controller
             "game_data" => $game_data,
             "employee_data" => $_POST["dataEmployee"]
         );
-        return $data;
 
+        return $data;
     }
 
     /**
+     * setup first data when game played for the first time.
+     * role: player
      * @return string
      */
     public function setup_data()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_memorycard = Memorycard::getInstance();
 
+                /*
+                 * populate data with invoking collectData() method.
+                 * invoking memory card model to save first data.
+                 * log this event and wrap it up the result.
+                 */
                 $data = $this->collectData();
 
                 $result = $this->model_memorycard->setup_game_data($data["game_data"]);
 
                 $log = Log::getInstance();
-                $log->logging_game_simulation(json_encode($data));
+                $log->logging_game_setup(json_encode($data));
 
                 if ($result) {
                     $binding = array("result_var" => true);
@@ -129,14 +149,21 @@ class GameServerController extends Controller
     }
 
     /**
+     * saving game data.
+     * role: player
      * @return string
      */
     public function save_data()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_memorycard = Memorycard::getInstance();
 
+                /*
+                 * populate game data via collectData() method.
+                 * invoke another method in memory card model to save data.
+                 * log this event and wrap it up the result.
+                 */
                 $data = $this->collectData();
 
                 $result = $this->model_memorycard->save_game_data($data);
@@ -161,12 +188,14 @@ class GameServerController extends Controller
     }
 
     /**
+     * load game data every play game.
+     * role: player
      * @return string
      */
     public function load_data()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_product = Product::getInstance();
                 $this->model_material = Material::getInstance();
                 $this->model_asset = Asset::getInstance();
@@ -175,6 +204,11 @@ class GameServerController extends Controller
                 $this->model_achievement = Achievement::getInstance();
                 $this->model_journal = Journal::getInstance();
                 $this->model_memorycard = Memorycard::getInstance();
+
+                /*
+                 * retrieve data each component.
+                 * log this event, wrap it up and convert to json format.
+                 */
 
                 $game = $this->model_memorycard->load_game_data();
                 $work_history = $this->model_memorycard->get_work_stress_history();
@@ -200,8 +234,6 @@ class GameServerController extends Controller
 
                 $simulation = $this->model_memorycard->get_simulation();
 
-                Utility::pretty_print(json_encode($player_asset, JSON_PRETTY_PRINT));
-
                 $binding = array
                 (
                     "result_var" => "session_ready",
@@ -221,7 +253,6 @@ class GameServerController extends Controller
                     "work_history_var" => json_encode($work_history, JSON_PRETTY_PRINT),
                     "work_total_var" => $total_work
                 );
-                Utility::pretty_print($binding);
 
                 $log = Log::getInstance();
                 $log->logging_game_load(json_encode($binding));
@@ -237,12 +268,13 @@ class GameServerController extends Controller
     }
 
     /**
+     * role: player
      * @return string
      */
     public function reset_data()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_memorycard = Memorycard::getInstance();
                 $result = $this->model_memorycard->reset_game_data($_SESSION['ply_id']);
 
@@ -263,12 +295,13 @@ class GameServerController extends Controller
     }
 
     /**
+     * role: player
      * @return string
      */
     public function insert_simulation()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_memorycard = Memorycard::getInstance();
 
                 $day = $_POST['day'];
@@ -300,14 +333,20 @@ class GameServerController extends Controller
     }
 
     /**
+     * retrieve another avatar from another user.
+     * role: player
      * @return string
      */
     public function get_simulation_avatar()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_player = Player::getInstance();
 
+                /*
+                 * retrieve at least 3 avatar except player.
+                 * wrap it up and convert to json format.
+                 */
                 $avatar = $this->model_player->fetch_simulation_avatar();
 
                 $binding = array(

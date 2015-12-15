@@ -20,7 +20,6 @@ class Memorycard extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Memorycard
      * get singleton instance
@@ -33,6 +32,10 @@ class Memorycard extends Model
         return self::$instance;
     }
 
+    /**
+     * invoked by: Controller.GameServer.index(()
+     * @return string
+     */
     public function check_game_data()
     {
         $condition = array(
@@ -48,6 +51,11 @@ class Memorycard extends Model
         }
     }
 
+    /**
+     * invoked by: Controller.GameServer.setup_data()
+     * @param $game_data
+     * @return bool
+     */
     public function setup_game_data($game_data)
     {
         $game_data["gme_player"] = $_SESSION['ply_id'];
@@ -65,6 +73,11 @@ class Memorycard extends Model
         return true;
     }
 
+    /**
+     * invoked by: Controller.GameServer.save_data()
+     * @param $data
+     * @return bool
+     */
     public function save_game_data($data)
     {
         $condition = array(
@@ -82,6 +95,10 @@ class Memorycard extends Model
         return true;
     }
 
+    /**
+     * invoked by: Controller.GameServer.load_data()
+     * @return null
+     */
     public function load_game_data()
     {
         $condition = array(
@@ -95,6 +112,11 @@ class Memorycard extends Model
         }
     }
 
+    /**
+     * invoked by: Controller.GameServer.reset_data()
+     * @param $player
+     * @return bool
+     */
     public function reset_game_data($player)
     {
         $this->ManualQuery("DELETE from bc_player_asset WHERE pas_player = $player");
@@ -108,6 +130,10 @@ class Memorycard extends Model
         return true;
     }
 
+    /**
+     * invoked by: Controller.GameServer.load_data()
+     * @return array
+     */
     public function get_simulation()
     {
         $player = $_SESSION['ply_id'];
@@ -120,10 +146,22 @@ class Memorycard extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
+    /**
+     * invoked by: Controller.GameServer.insert_simulation()
+     * @param $day
+     * @param $served
+     * @param $loss
+     * @param $stress
+     * @param $work
+     * @param $location
+     * @param $popularity
+     * @param $overview
+     * @return bool
+     */
     public function insert_simulation($day, $served, $loss, $stress, $work, $location, $popularity, $overview)
     {
         $data = array(
@@ -140,6 +178,10 @@ class Memorycard extends Model
         return $this->Create(Utility::TABLE_SIMULATION, $data);
     }
 
+    /**
+     * invoked by: Controller.GameServer.load_data()
+     * @return null
+     */
     public function get_work_stress_history()
     {
         $player = $_SESSION['ply_id'];
@@ -161,6 +203,10 @@ class Memorycard extends Model
         }
     }
 
+    /**
+     * invoked by: Controller.GameServer.load_data()
+     * @return null|string
+     */
     public function get_total_work()
     {
         $player = $_SESSION['ply_id'];

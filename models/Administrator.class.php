@@ -33,7 +33,6 @@ class Administrator extends Model
         parent::__construct();
     }
 
-
     /**
      * get singleton instance
      */

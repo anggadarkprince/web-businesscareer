@@ -8,7 +8,6 @@
  */
 class Utility
 {
-
     /**
      * web entity
      */
@@ -80,7 +79,6 @@ class Utility
     {
         return md5($value);
     }
-
 
     /**
      * utility helper

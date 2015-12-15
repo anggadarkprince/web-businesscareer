@@ -33,13 +33,17 @@ class Journal extends Model
         return self::$instance;
     }
 
+    /**
+     * invoked by: Controller.GameServer.load_data()
+     * @return array
+     */
     public function get_account()
     {
         $result = $this->Read(Utility::TABLE_ACCOUNT);
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 

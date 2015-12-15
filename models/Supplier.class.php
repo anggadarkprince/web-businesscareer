@@ -22,7 +22,7 @@ class Supplier extends Model
 
 
     /**
-     * @return null|object|User
+     * @return null|object|Supplier
      * get singleton instance
      */
     public static function getInstance()
@@ -33,6 +33,10 @@ class Supplier extends Model
         return self::$instance;
     }
 
+    /**
+     * invoked by: Controller.GameServer.load_data()
+     * @return array
+     */
     public function get_supplier_data()
     {
         $query = "
@@ -73,7 +77,7 @@ class Supplier extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 

@@ -58,6 +58,8 @@ class Log extends Model
 
 
     /**
+     * save game log when player play the game for the first time.
+     * invoked by: Controller.GameServer.setup_data()
      * @param $data
      * @return bool
      */
@@ -73,6 +75,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when play new simulation.
+     * invoked by: Controller.GameServer.insert_simulation()
      * @param $data
      * @return bool
      */
@@ -88,6 +92,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when unlock achievement.
+     * invoked by: Controller.Achievement.unlock_achievement()
      * @param $data
      * @return bool
      */
@@ -103,6 +109,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when game is saved.
+     * invoked by: Controller.GameServer.save_data()
      * @param $data
      * @return bool
      */
@@ -118,6 +126,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when game is loaded.
+     * invoked by: Controller.GameServer.load_data()
      * @param $data
      * @return bool
      */
@@ -133,6 +143,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when player is logged in.
+     * invoked by: Model.Authenticate.authenticate()
      * @return bool
      */
     public function logging_web_auth()
@@ -147,7 +159,8 @@ class Log extends Model
     }
 
     /**
-     * invoked by: Model.Player.logout()
+     * save game log when player is logged out
+     * invoked by: Model.Authenticate.logout()
      * @return bool
      */
     public function logging_web_destroy()
@@ -162,6 +175,9 @@ class Log extends Model
     }
 
     /**
+     * save game log when player updates their profile
+     * invoked by: Model.Player.update_profile()
+     *             Model.Player.update_avatar()
      * @param $data
      * @return bool
      */
@@ -177,6 +193,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when the user has registered
+     * invoked by: Model.Player.register()
      * @param $id
      * @param $data
      * @return bool
@@ -193,6 +211,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when the user confirms the registration
+     * invoked by: Model.Player.confirm()
      * @param $id
      * @param $data
      * @return bool
@@ -209,6 +229,8 @@ class Log extends Model
     }
 
     /**
+     * save game log when the user confirms the registration
+     * invoked by: Controller.Page.game()
      * @param $data
      * @return bool
      */
@@ -224,9 +246,10 @@ class Log extends Model
     }
 
     /**
+     * retrieve player's log from database.
      * invoked by: Controller.Player.logging()
      * @param $player
-     * @return null
+     * @return array
      */
     public function get_log($player)
     {
@@ -234,12 +257,13 @@ class Log extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
-     * @return null
+     * retrieve last 10 logging data
+     * @return array
      */
     public function logging_statistic()
     {
@@ -257,7 +281,7 @@ class Log extends Model
         if ($this->ManualQuery($query)) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 

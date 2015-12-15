@@ -18,17 +18,20 @@ class InventoryController extends Controller
         transport("error404");
     }
 
+    /**
+     * role: player
+     */
     public function retrieve_inventory()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
-                $this->$model_product = Product::getInstance();
-                $this->$model_material = Material::getInstance();
-                $this->$model_asset = Asset::getInstance();
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+                $this->model_product = Product::getInstance();
+                $this->model_material = Material::getInstance();
+                $this->model_asset = Asset::getInstance();
 
-                $product = $this->$model_product->get_player_product();
-                $material = $this->$model_material->get_player_material();
-                $asset = $this->$model_asset->get_player_asset();
+                $product = $this->model_product->get_player_product();
+                $material = $this->model_material->get_player_material();
+                $asset = $this->model_asset->get_player_asset();
 
                 $binding = array(
                     "result_var" => "session_ready",
@@ -47,10 +50,13 @@ class InventoryController extends Controller
         }
     }
 
+    /**
+     * role: player
+     */
     public function buy_material()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_material = Material::getInstance();
 
                 if ($_POST['action'] == "new") {
@@ -84,10 +90,13 @@ class InventoryController extends Controller
         }
     }
 
+    /**
+     * role: player
+     */
     public function remove_material()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_material = Material::getInstance();
 
                 $material = $_POST["material_id"];
@@ -108,11 +117,13 @@ class InventoryController extends Controller
         }
     }
 
-
+    /**
+     * role: player
+     */
     public function upgrade_asset()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_asset = Asset::getInstance();
 
                 $asset = $_POST['asset'];
@@ -136,10 +147,13 @@ class InventoryController extends Controller
         }
     }
 
+    /**
+     * role: player
+     */
     public function repair_asset()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_asset = Asset::getInstance();
 
                 $result = $this->model_asset->repair_asset();

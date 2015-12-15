@@ -20,7 +20,6 @@ class Leaderboard extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Leaderboard
      * get singleton instance
@@ -33,6 +32,11 @@ class Leaderboard extends Model
         return self::$instance;
     }
 
+    /**
+     * invoked by: Controller.Leaderboard.retrieve_leaderboard()
+     * @param null $player_id
+     * @return array
+     */
     public function get_player_ranking($player_id = null)
     {
         if ($player_id == null) {
@@ -93,12 +97,17 @@ class Leaderboard extends Model
                     return $data[$i];
                 }
             }
-            return null;
+            return [];
         } else {
-            return null;
+            return [];
         }
     }
 
+    /**
+     * invoked by: Controller.Leaderboard.retrieve_leaderboard()
+     * @param null $top
+     * @return array
+     */
     public function get_global_ranking($top = null)
     {
         if ($top == null) {
@@ -154,10 +163,9 @@ class Leaderboard extends Model
             }
             return $data;
         } else {
-            return null;
+            return [];
         }
     }
-
 
     /**
      * invoked by: Controller.Report.get_overall()

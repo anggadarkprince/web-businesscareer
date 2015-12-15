@@ -9,7 +9,6 @@
  */
 class User extends Model
 {
-
     // applied singleton pattern
     private static $instance = NULL;
 
@@ -37,7 +36,6 @@ class User extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|User
      * get singleton instance
@@ -50,15 +48,15 @@ class User extends Model
         return self::$instance;
     }
 
-
     /**
      * create new user admin
+     * @param $data
+     * @return bool
      */
     public function register($data)
     {
         return $this->Create(Utility::TABLE_USER, $data);
     }
-
 
     /**
      * retrieve all data user admin
@@ -70,7 +68,6 @@ class User extends Model
         }
         return null;
     }
-
 
     /**
      * retrieve user admin by id
@@ -86,7 +83,6 @@ class User extends Model
         }
         return null;
     }
-
 
     /**
      * @param $password
@@ -107,7 +103,6 @@ class User extends Model
         return false;
     }
 
-
     /**
      * @param $data
      * @return bool
@@ -115,7 +110,7 @@ class User extends Model
     public function update_user($data)
     {
         if (isset($_FILES['profile_avatar']['name']) && !empty($_FILES['profile_avatar']['name'])) {
-            $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
+            $valid_exts = ['jpeg', 'jpg', 'png', 'gif'];
             $max_file_size = 1024 * 1024; #200kb
             $filename = $_SESSION["web_id"] . uniqid();
             if (!$_FILES['profile_avatar']['error'] && $_FILES['profile_avatar']['size'] < $max_file_size) {
@@ -151,9 +146,7 @@ class User extends Model
      */
     public function suspend()
     {
-        $data = array(
-            User::COLUMN_USR_STATE => User::SUSPEND
-        );
+        $data = [User::COLUMN_USR_STATE => User::SUSPEND];
 
         return $this->Update(Utility::TABLE_USER, $data, array(User::COLUMN_USR_USERNAME => $_SESSION['web_username']));
     }
@@ -165,13 +158,10 @@ class User extends Model
      */
     public function reactive()
     {
-        $data = array(
-            User::COLUMN_USR_STATE => User::ACTIVE
-        );
+        $data = [User::COLUMN_USR_STATE => User::ACTIVE];
 
         return $this->Update(Utility::TABLE_USER, $data, array(User::COLUMN_USR_USERNAME => $_SESSION['web_username']));
     }
-
 
 }
 

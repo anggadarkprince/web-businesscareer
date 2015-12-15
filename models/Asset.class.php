@@ -20,7 +20,7 @@ class Asset extends Model{
     }
 
     /**
-     * @return null|object|Product
+     * @return null|object|Asset
      * get singleton instance
      */
     public static function getInstance()
@@ -33,6 +33,7 @@ class Asset extends Model{
 
     /**
      * initializing asset when open game for the first time
+     * invoked by: Controller.MemoryCard.setup_game_data()
      */
     public function initialize_asset()
     {
@@ -61,7 +62,8 @@ class Asset extends Model{
     }
 
     /**
-     * @return null
+     * invoked by: Controller.GameServer.load_data()
+     * @return array
      */
     public function get_asset_data()
     {
@@ -82,12 +84,16 @@ class Asset extends Model{
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
-     * @return null
+     * retrieve player's asset from database
+     * invoked by: Controller.GameServer.load_data()
+     *             Controller.Inventory.retrieve_inventory()
+     *             Controller.Inventory.upgrade_asset()
+     * @return array
      */
     public function get_player_asset()
     {
@@ -131,11 +137,13 @@ class Asset extends Model{
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * upgrade player's asset level
+     * invoked by: Controller.Inventory.upgrade_asset()
      * @param $asset
      * @return bool
      */
@@ -149,16 +157,14 @@ class Asset extends Model{
     }
 
     /**
+     * repair player's asset from deprecation
+     * invoked by: Controller.Inventory.repair_asset()
      * @return bool
      */
     public function repair_asset()
     {
-        $data = array(
-            "pas_depreciation" => 0
-        );
-        $condition = array(
-            "pas_player" => $_SESSION['ply_id']
-        );
-        return $this->Update(Utility::TABLE_PLAYER_ASSET, $data, $condition);
+        $data = ["pas_depreciation" => 0];
+        $criteria = ["pas_player" => $_SESSION['ply_id']];
+        return $this->Update(Utility::TABLE_PLAYER_ASSET, $data, $criteria);
     }
 } 
