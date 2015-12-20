@@ -20,7 +20,6 @@ class Product extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Product
      * get singleton instance
@@ -34,6 +33,8 @@ class Product extends Model
     }
 
     /**
+     * init product with standard price when player play the game for the first time.
+     * invoked by: Model.Memorycard.setup_game_data()
      * initializing product when open game for the first time
      */
     public function initialize_product()
@@ -51,7 +52,9 @@ class Product extends Model
 
 
     /**
+     * retrieve master product data from database.
      * invoked by: Controller.GameServer.load_data()
+     *             Model.Product.initialize_product()
      * @return array
      */
     public function get_product_data()
@@ -84,12 +87,14 @@ class Product extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
-     * @return null
+     * retrieve player's product from database.
+     * invoked by: Controller.Inventory.retrieve_inventory()
+     * @return array
      */
     public function get_player_product()
     {
@@ -113,11 +118,12 @@ class Product extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * update player's product.
      * @param $product
      * @return bool
      */
@@ -127,13 +133,11 @@ class Product extends Model
 
         $this->getInstance()->beginTransaction();
         foreach ($product as $attribute) {
-            $data = array(
-                "ppr_price" => $attribute["ppr_price"]
-            );
-            $condition = array(
+            $data = ["ppr_price" => $attribute["ppr_price"]];
+            $condition = [
                 "ppr_product" => $attribute["ppr_product"],
                 "ppr_player" => $_SESSION['ply_id']
-            );
+            ];
             $result = $this->Update(Utility::TABLE_PLAYER_PRODUCT, $data, $condition);
 
             if (!$result) {
@@ -146,6 +150,7 @@ class Product extends Model
     }
 
     /**
+     * retrieve master of product's material from database.
      * invoked by: Controller.GameServer.load_data()
      * @return array
      */

@@ -35,7 +35,7 @@ class Achievement extends Model
     /**
      * retrieve player's achievement when load data.
      * invoked by: Controller.GameServer.load_data()
-     * @return null
+     * @return array
      */
     public function get_achievement()
     {
@@ -72,7 +72,7 @@ class Achievement extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
@@ -84,11 +84,11 @@ class Achievement extends Model
      */
     public function unlock_achievement($achievement)
     {
-        $data = array(
+        $criteria = [
             "pac_player" => $_SESSION['ply_id'],
             "pac_achievement" => $achievement,
-        );
-        return $this->Create(Utility::TABLE_PLAYER_ACHIEVEMENT, $data);
+        ];
+        return $this->Create(Utility::TABLE_PLAYER_ACHIEVEMENT, $criteria);
     }
 
 }

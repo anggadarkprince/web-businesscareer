@@ -99,13 +99,15 @@ class Feedback extends Model
         $email_password = $setting['email']['email_password'];
 
         // instantiate PHPMailer and setup for configuration
-        $mail = new PHPMailer();
+        $mail = new PHPMailer;
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
+        $mail->Host = 'ssl://smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = $email_address;
         $mail->Password = $email_password;
-        $mail->SMTPSecure = 'tls';
+        $mail->SMTPSecure = 'ssl';
+        $mail->Port = 465;
+
         $mail->From = 'no-reply@seriousgame.com';
         $mail->FromName = 'SeriousGame.Inc';
         $mail->addAddress($email, $name);

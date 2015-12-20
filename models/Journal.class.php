@@ -20,7 +20,6 @@ class Journal extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Journal
      * get singleton instance
@@ -94,7 +93,7 @@ class Journal extends Model
      * invoked by: Controller.Accounting.get_general_journal()
      *             Model.Journal.get_general_ledger()
      * @param null $day
-     * @return null
+     * @return array
      */
     public function get_general_journal($day = null)
     {
@@ -128,7 +127,7 @@ class Journal extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 

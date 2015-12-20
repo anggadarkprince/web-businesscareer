@@ -147,7 +147,7 @@ class Administrator extends Model
               COUNT(lgg_id) as total,
               DATE_FORMAT(lgg_created_at, '%M') AS month
             FROM bc_log
-            WHERE lgg_module = 'MODULE_GAME_START'
+            WHERE lgg_module = 'MODULE_WEB_PLAY_GAME'
             GROUP BY month
             ORDER BY lgg_created_at
             LIMIT 12

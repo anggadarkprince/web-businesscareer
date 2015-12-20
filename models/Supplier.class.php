@@ -20,7 +20,6 @@ class Supplier extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Supplier
      * get singleton instance
@@ -34,6 +33,7 @@ class Supplier extends Model
     }
 
     /**
+     * retrieve master supplier data.
      * invoked by: Controller.GameServer.load_data()
      * @return array
      */

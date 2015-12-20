@@ -34,7 +34,6 @@ class Player extends Model
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Player
      * get singleton instance
@@ -48,6 +47,8 @@ class Player extends Model
     }
 
     /**
+     * registering visitor become player.
+     * invoked by: Controller.Player.register()
      * @param $data
      * @return bool
      */
@@ -60,9 +61,14 @@ class Player extends Model
             if ($retrieve) {
                 $player = $this->FetchDataRow();
 
-                // create registration log
-                //$log = Log::getInstance();
-                //$log->logging_web_registration($player[Player::COLUMN_PLY_ID], json_encode($data));
+                // create registration log supposed to meLog::logging_web_registration()
+                $data = array(
+                    "lgg_module" => "MODULE_WEB_REGISTRATION",
+                    "lgg_operation" => "INSERT",
+                    "lgg_value" => $data,
+                    "lgg_player" => $player[Player::COLUMN_PLY_ID]
+                );
+                $this->Create(Utility::TABLE_LOGGING, $data);
             }
 
             return $result;
@@ -72,6 +78,8 @@ class Player extends Model
     }
 
     /**
+     * send email confirmation.
+     * invoked by: Model.Player.register()
      * @param $email
      * @param $name
      * @param $key
@@ -81,12 +89,18 @@ class Player extends Model
     {
         include_once __SITE_PATH . '/library/PHPMailer/PHPMailerAutoload.php';
 
+        // get separated .ini configuration from stealing my email and password which used to sent email
+        $setting = parse_ini_file(get_base_url().'/setting.ini', true);
+        $email_address = $setting['email']['email_address'];
+        $email_password = $setting['email']['email_password'];
+
+        // instantiate PHPMailer and setup for configuration
         $mail = new PHPMailer;
         $mail->isSMTP();
         $mail->Host = 'ssl://smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'anggadarkprince@gmail.com';
-        $mail->Password = 'guardianoftime';
+        $mail->Username = $email_address;
+        $mail->Password = $email_password;
         $mail->SMTPSecure = 'ssl';
         $mail->Port = 465;
 
@@ -94,7 +108,6 @@ class Player extends Model
         $mail->FromName = 'SeriousGame.Inc';
         $mail->addAddress($email, $name);
         $mail->addReplyTo('no-reply@seriousgame.com', 'SeriousGame.Inc');
-        $mail->WordWrap = 50;
         $mail->isHTML(true);
 
         $mail->Subject = 'Business Career The Game Registration';
@@ -112,6 +125,8 @@ class Player extends Model
     }
 
     /**
+     * retrieve template and formatting email.
+     * invoked by: Model.Player.send_email()
      * @param $format
      * @param $email
      * @param $name
@@ -138,6 +153,8 @@ class Player extends Model
     }
 
     /**
+     * generate unique number combination for player's token.
+     * invoked by: Controller.Player.register()
      * @param $name
      * @param $email
      * @return string
@@ -149,6 +166,8 @@ class Player extends Model
     }
 
     /**
+     * check email availability, check if user trying to register email which registered before.
+     * invoked by: Controller.Player.register()
      * @param $email
      * @return bool
      */
@@ -165,6 +184,7 @@ class Player extends Model
     }
 
     /**
+     * confirm account activation from email.
      * invoked by: Controller.Player.confirm()
      * @param $email
      * @param $key
@@ -172,10 +192,9 @@ class Player extends Model
      */
     public function confirm($email, $key)
     {
-        $data = array(
-            player::COLUMN_PLY_STATE => player::ACTIVE
-        );
-        if ($this->Update(Utility::TABLE_PLAYER, $data, array(player::COLUMN_PLY_KEY => $key))) {
+        $criteria = [player::COLUMN_PLY_STATE => player::ACTIVE];
+
+        if ($this->Update(Utility::TABLE_PLAYER, $criteria, array(player::COLUMN_PLY_KEY => $key))) {
             $state = array(
                 player::COLUMN_PLY_EMAIL => $email,
                 player::COLUMN_PLY_KEY => $key
@@ -188,8 +207,8 @@ class Player extends Model
                     $player = $this->FetchDataRow();
 
                     // create confirm log
-                    //$log = Log::getInstance();
-                    //$log->logging_web_confirm($player[Player::COLUMN_PLY_ID], json_encode($data));
+                    $log = Log::getInstance();
+                    $log->logging_web_confirm($player[Player::COLUMN_PLY_ID], json_encode($criteria));
                 }
 
                 return true;
@@ -200,6 +219,7 @@ class Player extends Model
     }
 
     /**
+     * update player's state to suspend.
      * invoked by: Controller.Player.suspend()
      * @param $id
      * @return bool
@@ -216,6 +236,7 @@ class Player extends Model
     }
 
     /**
+     * update player's state to active.
      * invoked by: Controller.Player.reactive()
      * @param $id
      * @return bool
@@ -232,6 +253,7 @@ class Player extends Model
     }
 
     /**
+     * retrieve simulation avatar for AI, get another player's avatar.
      * invoked by: Controller.GameServer.get_simulation_avatar()
      * @return array
      */
@@ -273,7 +295,7 @@ class Player extends Model
      * invoked by: Controller.Player.index()
      *             Controller.Player.detail()
      * @param null $id
-     * @return null
+     * @return array
      */
     public function fetch($id = null)
     {
@@ -328,24 +350,24 @@ class Player extends Model
                 return $this->FetchDataRow();
             }
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * general function to update player state.
      * @param $state
      * @param $id
      * @return bool
      */
     public function update_state($state, $id)
     {
-        $data = array(
-            player::COLUMN_PLY_STATE => $state
-        );
-        return $this->Update(Utility::TABLE_PLAYER, $data, array(player::COLUMN_PLY_ID => $id));
+        $criteria = [player::COLUMN_PLY_STATE => $state];
+        return $this->Update(Utility::TABLE_PLAYER, $criteria, array(player::COLUMN_PLY_ID => $id));
     }
 
     /**
+     * update player's data, name and password.
      * invoked by: Controller.Player.update_profile()
      * @param $data
      * @return bool
@@ -359,28 +381,42 @@ class Player extends Model
     }
 
     /**
+     * crop, upload and update player's avatar.
+     * invoked by: Controller.Player.update_avatar()
      * @return bool
      */
     public function update_avatar()
     {
-        $valid_exts = array('jpeg', 'jpg', 'png', 'gif');
+        /*
+         * prepare sets of property needed.
+         * check request is post and avatar file input is set.
+         */
+        $valid_exts = ['jpeg', 'jpg', 'png', 'gif'];
         $max_file_size = 500 * 1024; #200kb
         $nw = $nh = 500; # image with # height
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (isset($_FILES['avatar'])) {
+
+                // check if file is larger than criteria and if error key is exist
                 if (!$_FILES['avatar']['error'] && $_FILES['avatar']['size'] < $max_file_size) {
+
+                    // get file extension
                     $ext = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
+
+                    // check valid file format
                     if (in_array($ext, $valid_exts)) {
                         $filename = $_SESSION["ply_id"] . uniqid();
                         $path = __SITE_PATH . '/assets/images/avatar/' . $filename . '.' . $ext;
                         $size = getimagesize($_FILES['avatar']['tmp_name']);
 
+                        // get crop image dimension
                         $x = (int)$_POST['x'];
                         $y = (int)$_POST['y'];
                         $w = (int)$_POST['w'] ? $_POST['w'] : $size[0];
                         $h = (int)$_POST['h'] ? $_POST['h'] : $size[1];
 
+                        // retrieve cropped file data.
                         $data = file_get_contents($_FILES['avatar']['tmp_name']);
                         $vImg = imagecreatefromstring($data);
                         $dstImg = imagecreatetruecolor($nw, $nh);
@@ -411,10 +447,12 @@ class Player extends Model
                         }
 
                     } else {
+                        // error extension validation
                         echo 'unknown problem!';
                         return false;
                     }
                 } else {
+                    // error image dimension
                     echo 'file is too small or large';
                     return false;
                 }
@@ -430,10 +468,11 @@ class Player extends Model
 
 
     /**
+     * retrieve single player data from database.
      * invoked by: Controller.Player.detail()
      *             Controller.GameServer.index()
      * @param $id
-     * @return null
+     * @return array
      */
     public function player_detail($id)
     {
@@ -441,13 +480,15 @@ class Player extends Model
         if ($result && $this->CountRow() == 1) {
             return $this->FetchDataRow();
         } else {
-            return null;
+            return [];
         }
     }
 
 
     /**
-     * @return null
+     * return statistic of player data that registered last 10 days.
+     * invoked by: Controller.Dashboard.index()
+     * @return array
      */
     public function registration_statistic()
     {
@@ -465,7 +506,7 @@ class Player extends Model
         if ($this->ManualQuery($query)) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 

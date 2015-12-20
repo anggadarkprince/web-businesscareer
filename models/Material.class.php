@@ -19,7 +19,6 @@ class Material extends Model{
         parent::__construct();
     }
 
-
     /**
      * @return null|object|Material
      * get singleton instance
@@ -33,6 +32,7 @@ class Material extends Model{
     }
 
     /**
+     * retrieve master material from database.
      * invoked by: Controller.GameServer.load_data()
      * @return array
      */
@@ -58,8 +58,9 @@ class Material extends Model{
     }
 
     /**
+     * retrieve player's material from database.
      * invoked by: Controller.GameServer.load_data()
-     * @return null
+     * @return array
      */
     public function get_player_material()
     {
@@ -86,11 +87,13 @@ class Material extends Model{
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * player buy new material, insert stock and save expired date.
+     * invoked by: Controller.Inventory.buy_material()
      * @param $material
      * @param $stock
      * @param $expired
@@ -108,6 +111,8 @@ class Material extends Model{
     }
 
     /**
+     * player buy material which exist already, update new stock.
+     * invoked by: Controller.Inventory.buy_material()
      * @param $id
      * @param $stock
      * @param $expired
@@ -115,27 +120,32 @@ class Material extends Model{
      */
     public function update_material($id, $stock, $expired)
     {
-        $data = array(
+        // populate material data.
+        $data = [
             "pma_stock" => $stock,
             "pma_expired_remaining" => $expired
-        );
-        $condition = array(
+        ];
+
+        // material record criteria according to player record.
+        $criteria = [
             "pma_id" => $id,
             "pma_player" => $_SESSION['ply_id']
-        );
-        return $this->Update(Utility::TABLE_PLAYER_MATERIAL, $data, $condition);
+        ];
+        return $this->Update(Utility::TABLE_PLAYER_MATERIAL, $data, $criteria);
     }
 
     /**
+     * expired date has pass or player throw away the material.
+     * invoked by: Controller.Inventory.remove_material()
      * @param $material
      * @return bool
      */
     public function remove_material($material)
     {
-        $condition = array(
+        $criteria = [
             "pma_id" => $material,
             "pma_player" => $_SESSION['ply_id']
-        );
-        return $this->Delete(Utility::TABLE_PLAYER_MATERIAL, $condition);
+        ];
+        return $this->Delete(Utility::TABLE_PLAYER_MATERIAL, $criteria);
     }
-} 
+}

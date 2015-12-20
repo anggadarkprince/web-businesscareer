@@ -46,6 +46,7 @@ class Log extends Model
     }
 
     /**
+     * @return null|object|Log
      * get singleton instance
      */
     public static function getInstance()
@@ -55,7 +56,6 @@ class Log extends Model
         }
         return self::$instance;
     }
-
 
     /**
      * save game log when player play the game for the first time.
@@ -262,7 +262,7 @@ class Log extends Model
     }
 
     /**
-     * retrieve last 10 logging data
+     * retrieve last 10 logging data.
      * @return array
      */
     public function logging_statistic()

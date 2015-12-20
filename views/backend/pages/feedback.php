@@ -8,7 +8,7 @@
     <div class="content">
         <div class="row" id="printable">
             <div class="col-md-12">
-                <div class="alert pam">Hello</div>
+                <div class="alert pam"></div>
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs">
                     <li class="active"><a href="#feedback" data-toggle="tab"><span class="fui-mail"></span> Feedback Record</a></li>
@@ -92,27 +92,28 @@
 
                                     reset_alert();
                                     alert.fadeIn().addClass("alert-info");
-                                    alert.html("<span class='fui-time'></span> Data updating, Please wait...."); // change submit button text
+                                    alert.html("<small><span class='fui-time'></span> Data updating, Please wait....</small>"); // change submit button text
                                 },
                                 success: function(data) {
+                                    console.log(data);
                                     if(data){
                                         reset_alert();
                                         alert.fadeIn().addClass("alert-success");
-                                        alert.html("<span class='fui-check'></span> Feedback successfully replied"); // fade in response data
+                                        alert.html("<button type='button' class='close' data-dismiss='alert'>&times;</button><small><span class='fui-check'></span> Feedback successfully replied</small>"); // fade in response data
                                         form_important.trigger('reset'); // reset form
                                         reload_table();
                                     }
                                     else{
                                         reset_alert();
                                         alert.fadeIn().addClass("alert-danger");
-                                        alert.html("<span class='fui-cross'></span> Feedback reply failed, try again..."+data);
+                                        alert.html("<button type='button' class='close' data-dismiss='alert'>&times;</button><small><span class='fui-cross'></span> Feedback reply failed, try again...</small>");
                                     }
 
                                 },
                                 error: function(e) {
                                     console.log(e);
                                     reset_alert();
-                                    alert.html("<span class='fui-cross'></span> Sending request failed, try again...");
+                                    alert.html("<button type='button' class='close' data-dismiss='alert'>&times;</button><small><span class='fui-cross'></span> Sending request failed, try again...</small>");
                                 }
                             });
                         });
@@ -261,7 +262,7 @@
                                     }
                                     else{
                                         $.each(json_data,function(i,row){
-                                            output+="<tr data-name='"+row.fdb_name+"' data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_timestamp+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
+                                            output+="<tr data-name='"+row.fdb_name+"' data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_updated_at+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
                                             output+="<td>"+(count++)+"</td>";
                                             output+="<td>"+row.fdb_name+"</td>";
                                             output+="<td>"+row.fdb_subject+"</td>";
@@ -297,7 +298,7 @@
                                     }
                                     else{
                                         $.each(json_data,function(i,row){
-                                            output+="<tr data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_timestamp+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
+                                            output+="<tr data-id='"+row.fdb_id+"' data-email='"+row.fdb_email+"' data-date='"+row.fdb_updated_at+"' data-subject='"+row.fdb_subject+"' data-content='"+row.fdb_message+"'>";
                                             output+="<td>"+(count++)+"</td>";
                                             output+="<td>"+row.fdb_name+"</td>";
                                             output+="<td>"+row.fdb_subject+"</td>";
@@ -333,7 +334,7 @@
                                     else{
                                         $.each(json_data,function(i,row){
                                             output+="<tr>";
-                                            output+="<td>"+row.fdb_timestamp+"</td>";
+                                            output+="<td>"+row.fdb_updated_at+"</td>";
                                             output+="<td>"+row.fdb_id+"</td>";
                                             output+="<td>"+row.fdb_subject+"</td>";
                                             output+="<td>"+row.fdb_email+"</td>";

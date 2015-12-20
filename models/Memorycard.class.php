@@ -33,16 +33,15 @@ class Memorycard extends Model
     }
 
     /**
+     * check if player play the game for the first time or not.
      * invoked by: Controller.GameServer.index(()
      * @return string
      */
     public function check_game_data()
     {
-        $condition = array(
-            "gme_player" => $_SESSION['ply_id']
-        );
+        $criteria = ["gme_player" => $_SESSION['ply_id']];
 
-        $result = $this->ReadWhere(Utility::TABLE_GAME_DATA, $condition);
+        $result = $this->ReadWhere(Utility::TABLE_GAME_DATA, $criteria);
 
         if ($result && $this->CountRow() > 0) {
             return "load";
@@ -52,6 +51,7 @@ class Memorycard extends Model
     }
 
     /**
+     * setup initial game data when player play the game for the first time.
      * invoked by: Controller.GameServer.setup_data()
      * @param $game_data
      * @return bool
@@ -67,52 +67,44 @@ class Memorycard extends Model
         $asset = Asset::getInstance();
         $asset->initialize_asset();
 
-        //$model_journal = Journal::getInstance();
-        //$model_journal->post_transaction($description, 111, $credit, 8000000, 1);
-
         return true;
     }
 
     /**
+     * save game data.
      * invoked by: Controller.GameServer.save_data()
      * @param $data
      * @return bool
      */
     public function save_game_data($data)
     {
-        $condition = array(
-            "gme_player" => $_SESSION['ply_id']
-        );
+        $condition = ["gme_player" => $_SESSION['ply_id']];
         $this->Update(Utility::TABLE_GAME_DATA, $data["game_data"], $condition);
 
         $modal_employee = Employee::getInstance();
         $modal_employee->update_employee_status($data["employee_data"]);
 
-        //$modal_inventory = Inventory::getInstance();
-        //$modal_inventory->update_material_status($data["material_data"]);
-        //$modal_inventory->update_asset_status($data["asset_data"]);
-
         return true;
     }
 
     /**
+     * load game data.
      * invoked by: Controller.GameServer.load_data()
-     * @return null
+     * @return array
      */
     public function load_game_data()
     {
-        $condition = array(
-            "gme_player" => $_SESSION['ply_id']
-        );
+        $condition = ["gme_player" => $_SESSION['ply_id']];
         $result = $this->ReadWhere(Utility::TABLE_GAME_DATA, $condition);
         if ($result && $this->CountRow() > 0) {
             return $this->FetchDataRow();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * remove all game data by player id.
      * invoked by: Controller.GameServer.reset_data()
      * @param $player
      * @return bool
@@ -131,6 +123,7 @@ class Memorycard extends Model
     }
 
     /**
+     * retrieve last 6 days simulation report in row from database.
      * invoked by: Controller.GameServer.load_data()
      * @return array
      */
@@ -151,6 +144,7 @@ class Memorycard extends Model
     }
 
     /**
+     * create simulation data when simulation get started.
      * invoked by: Controller.GameServer.insert_simulation()
      * @param $day
      * @param $served
@@ -179,8 +173,9 @@ class Memorycard extends Model
     }
 
     /**
+     * retrieve last 6 days simulation stress in row.
      * invoked by: Controller.GameServer.load_data()
-     * @return null
+     * @return array
      */
     public function get_work_stress_history()
     {
@@ -199,13 +194,14 @@ class Memorycard extends Model
         if ($result && $this->CountRow() > 0) {
             return $this->FetchData();
         } else {
-            return null;
+            return [];
         }
     }
 
     /**
+     * get total work of player played in simulation.
      * invoked by: Controller.GameServer.load_data()
-     * @return null|string
+     * @return string
      */
     public function get_total_work()
     {
@@ -227,7 +223,7 @@ class Memorycard extends Model
                 return "0";
             }
         } else {
-            return null;
+            return "0";
         }
     }
 

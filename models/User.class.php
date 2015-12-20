@@ -49,7 +49,7 @@ class User extends Model
     }
 
     /**
-     * create new user admin
+     * create new user administrator.
      * @param $data
      * @return bool
      */
@@ -59,32 +59,35 @@ class User extends Model
     }
 
     /**
-     * retrieve all data user admin
+     * retrieve all data user administrator.
+     * @return bool
      */
     public function retrieve_all()
     {
         if ($this->Read(Utility::TABLE_USER)) {
             return $this->FetchData();
         }
-        return null;
+        return [];
     }
 
     /**
      * retrieve user admin by id
+     * invoked by: Controller.Dashboard.setting()
+     * @return array
      */
     public function retrieve_user()
     {
-        $data = array(
-            User::COLUMN_USR_USERNAME => $_SESSION['web_username']
-        );
+        $criteria = [User::COLUMN_USR_USERNAME => $_SESSION['web_username']];
 
-        if ($this->ReadWhere(Utility::TABLE_USER, $data)) {
+        if ($this->ReadWhere(Utility::TABLE_USER, $criteria)) {
             return $this->FetchDataRow();
         }
-        return null;
+        return [];
     }
 
     /**
+     * check if password is valid to perform the operation.
+     * invoked by: Controller.Dashboard.profile_update()
      * @param $password
      * @return bool
      */
@@ -104,6 +107,8 @@ class User extends Model
     }
 
     /**
+     * update administrator profile.
+     * invoked by: Controller.Dashboard.profile_update()
      * @param $data
      * @return bool
      */
@@ -139,10 +144,9 @@ class User extends Model
         return $this->Update(Utility::TABLE_USER, $data, array(User::COLUMN_USR_USERNAME => $_SESSION['web_username']));
     }
 
-
     /**
-     * @return bool
      * suspend user, we never delete database record for business purpose
+     * @return bool
      */
     public function suspend()
     {
@@ -151,10 +155,9 @@ class User extends Model
         return $this->Update(Utility::TABLE_USER, $data, array(User::COLUMN_USR_USERNAME => $_SESSION['web_username']));
     }
 
-
     /**
-     * @return bool
      * reactive user, we never delete database record for business purpose
+     * @return bool
      */
     public function reactive()
     {

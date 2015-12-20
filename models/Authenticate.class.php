@@ -64,7 +64,6 @@ class Authenticate extends Model
         $this->password = $password;
     }
 
-
     /**
      * @return mixed type getter {PLAYER|SUPERUSER}
      */
