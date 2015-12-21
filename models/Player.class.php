@@ -512,8 +512,12 @@ class Player extends Model
 
 
     /**
-     * store total player.
+     * retrieve total player from database.
      * invoked by: Controller.Report.index()
+     *             Controller.Dashboard.index()
+     *             Controller.Player.index()
+     *             Controller.Statistic.index()
+     *             Controller.Feedback.index()
      */
     public function get_total_player()
     {
@@ -527,7 +531,7 @@ class Player extends Model
     }
 
     /**
-     * store unread new player
+     * store unread new player into database.
      * invoked by: Controller.Report.index()
      */
     public function unread_new_player()
@@ -543,7 +547,8 @@ class Player extends Model
     }
 
     /**
-     * update new player has read
+     * update new players have read.
+     * invoked by: Controller.Player.index()
      */
     public function read_new_player()
     {
@@ -551,7 +556,9 @@ class Player extends Model
     }
 
     /**
+     * retrieve player status statistic from database.
      * invoked by: Controller.Report.index()
+     *             Controller.Report.get_overall()
      * @return array
      */
     public function get_player_report()
@@ -586,11 +593,96 @@ class Player extends Model
         }
     }
 
+    /**
+     * delete player from database and all data related to the record.
+     * invoked by: Controller.Player.delete()
+     * @param $id
+     * @return bool
+     */
     public function delete_player($id)
     {
         $criteria = [Player::COLUMN_PLY_ID => $id];
 
         return $this->Delete(Utility::TABLE_PLAYER, $criteria);
+    }
+
+    public function performance($id)
+    {
+        $game_data = $this->ReadWhere(Utility::TABLE_GAME_DATA, ["gme_player" => $id]);
+        if($game_data){
+            $game_value = $this->FetchDataRow();
+
+            // booster data
+            $boosters = json_decode($game_value["gme_booster"]);
+            $booster_value = 0;
+            foreach($boosters as $boost):
+                $booster_value += $boost;
+            endforeach;
+            $booster = round((10 * $booster_value) / 20);
+
+            // advertisement data
+            $advertisements = json_decode($game_value["shp_advertising_data"]);
+            $advertisement_value = 0;
+            foreach($advertisements as $advertise):
+                $advertisement_value += $advertise[1] + $advertise[2];
+            endforeach;
+            $advertisement = round((10 * $advertisement_value) / 36);
+
+            // shop data
+            $research_value = json_decode($game_value["shp_research_data"]);
+            $program_value = json_decode($game_value["shp_program_data"]);
+            $research = array_sum($research_value);
+            $program = array_sum($program_value);
+            $shop = round((10 * ($research + $program)) / (count($research_value) + count($program_value)));
+        }
+        else{
+            $booster = 0;
+        }
+
+        // achievement data
+        $achievement_data = $this->ManualQuery("SELECT * FROM bc_player_achievement WHERE pac_player = $id GROUP BY pac_achievement");
+        if($achievement_data){
+            $achievement = $this->CountRow();
+        }
+        else{
+            $achievement = 0;
+        }
+
+        // employee data
+        $employee_data = $this->ReadWhere(Utility::TABLE_PLAYER_EMPLOYEE, ["pem_player" => $id]);
+        if($employee_data){
+            $employees = $this->FetchData();
+            $employee_value = 0;
+            foreach($employees as $emp):
+                $employee_value += $emp["pem_level"];
+            endforeach;
+            $employee = round((10 * $employee_value) / 35);
+        }
+        else{
+            $employee = 0;
+        }
+
+        // assets
+        $assets_data = $this->ReadWhere(Utility::TABLE_PLAYER_ASSET, ["pas_player" => $id]);
+        if($assets_data){
+            $assets_value = $this->CountRow();
+            $assets = round((10 * $assets_value) / 18);
+        }
+        else{
+            $assets = 0;
+        }
+
+        $performance = [
+            "achievement"   => $achievement,
+            "booster"       => $booster,
+            "employee"      => $employee,
+            "advertisement" => $advertisement,
+            "shop"          => $shop,
+            "assets"        => $assets
+        ];
+
+        return $performance;
+
     }
 
 }

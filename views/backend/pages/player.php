@@ -41,7 +41,7 @@
                 <th width="20%">Player</th>
                 <th width="15%">Rating</th>
                 <th width="15%">Detail</th>
-                <th width="15%">Asset</th>
+                <th width="15%">Cash</th>
                 <th width="10%">Status</th>
                 <th width="5%">Action</th>
             </tr>

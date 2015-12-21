@@ -181,6 +181,7 @@ class PlayerController extends Controller
     {
         if (Authenticate::is_authorized()) {
             $model_player = Player::getInstance();
+            $model_journal = Journal::getInstance();
 
             $id = $this->framework->url->url_part(3);
 
@@ -188,6 +189,8 @@ class PlayerController extends Controller
             $this->framework->view->content = "/backend/pages/player_detail";
             $this->framework->view->player_detail = $model_player->player_detail($id);
             $this->framework->view->player_summary = $model_player->fetch($id);
+            $this->framework->view->player_performance = $model_player->performance($id);
+            $this->framework->view->player_finance = $model_journal->finance_summaries($id);
             $this->framework->view->show("backend/template");
         } else {
             transport("administrator");

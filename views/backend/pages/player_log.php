@@ -28,7 +28,7 @@
                                 <td><?=$logging["lgg_created_at"]?></td>
                                 <td><?=$logging["lgg_module"]?></td>
                                 <td><?=$logging["lgg_operation"]?></td>
-                                <td><?=$logging["lgg_value"]?></td>
+                                <td><?=substr($logging["lgg_value"], 0, 40)?><?php if(strlen($logging["lgg_value"])>40) echo "..."; else echo "";?></td>
                             </tr>
                         <?php
                         }

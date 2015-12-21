@@ -32,7 +32,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Rating</label>
                             <div class="col-sm-9">
-                                <p class="form-control-static"><div class="star-rating"><?php if(isset($summary["star"])){echo $summary["star"];} else{ echo "0";}?></div></p>
+                                <p class="form-control-static"><div class="star-rating"><?php if(isset($summary["star"])){echo $summary["star"];} else{ echo "1";}?></div></p>
                             </div>
                         </div>
                     </form>

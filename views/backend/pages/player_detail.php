@@ -43,19 +43,19 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Email</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static"><?php if(isset($player_detail)) echo $player_detail["ply_email"]?></p>
+                                    <p class="form-control-static"><?php if(isset($player_detail["ply_email"])) echo $player_detail["ply_email"]?></p>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Name</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static"><?php if(isset($player_detail)) echo $player_detail["ply_name"]?></p>
+                                    <p class="form-control-static"><?php if(isset($player_detail["ply_name"])) echo $player_detail["ply_name"]?></p>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Balance</label>
+                                <label class="col-sm-3 control-label">Cash</label>
                                 <div class="col-sm-9">
-                                    <p class="form-control-static">IDR <?php if(isset($player_summary)) echo Utility::thousandsCurrencyFormat($player_summary["ply_cash"])?></p>
+                                    <p class="form-control-static">IDR <?php if(isset($player_summary["ply_cash"])) echo Utility::thousandsCurrencyFormat($player_summary["ply_cash"])?></p>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -69,26 +69,36 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-striped table-hover table-condensed mtl">
+                        <table class="table table-hover table-condensed mtl">
                             <tr>
-                                <th class="text-right">Assets</th>
-                                <td>IDR 3,500,000</td>
+                                <th class="text-center">No</th>
+                                <th>Detail</th>
+                                <th>Value</th>
                             </tr>
                             <tr>
-                                <th class="text-right">Revenue</th>
-                                <td>IDR 2,750,000</td>
+                                <th class="text-center">1</th>
+                                <th>Assets</th>
+                                <td>IDR <?=Utility::format_currency($player_finance["assets"])?></td>
                             </tr>
                             <tr>
-                                <th class="text-right">Equity</th>
-                                <td>IDR 300,000</td>
+                                <th class="text-center">2</th>
+                                <th>Revenue</th>
+                                <td>IDR <?=Utility::format_currency($player_finance["revenue"])?></td>
                             </tr>
                             <tr>
-                                <th class="text-right">Payable</th>
-                                <td>IDR 2,500,000</td>
+                                <th class="text-center">3</th>
+                                <th>Equity</th>
+                                <td>IDR <?=Utility::format_currency($player_finance["equity"])?></td>
                             </tr>
                             <tr>
-                                <th class="text-right">Receivable</th>
-                                <td>IDR 158,000</td>
+                                <th class="text-center">4</th>
+                                <th>Payable</th>
+                                <td>IDR <?=Utility::format_currency($player_finance["payable"])?></td>
+                            </tr>
+                            <tr>
+                                <th class="text-center">5</th>
+                                <th>Receivable</th>
+                                <td>IDR <?=Utility::format_currency($player_finance["expense"])?></td>
                             </tr>
                         </table>
                         <div class="clearfix mtl"></div>
@@ -133,39 +143,41 @@
                 polar: true,
                 type: 'line'
             },
-
             title: {
                 text: 'Player Achievements'
             },
             subtitle: {
-                text: 'Player: Sangrila Adiwinanta'
+                text: 'Player: <?php if(isset($player_detail["ply_name"])) echo $player_detail["ply_name"]?>'
             },
             pane: {
                 size: '80%'
             },
-
             xAxis: {
-                categories: ['Sales', 'Marketing', 'Development', 'Customer Support',
-                    'Information Technology', 'Administration'],
+                categories: ['Shop', 'Sales Promotion', 'Employee', 'Game Booster',
+                    'Assets', 'Game Achievement'],
                 tickmarkPlacement: 'on',
                 lineWidth: 0
             },
-
             yAxis: {
                 gridLineInterpolation: 'polygon',
                 lineWidth: 0,
-                min: 0
+                min: -2,
+                max: 10,
             },
-
             tooltip: {
                 shared: true,
                 pointFormat: '<span style="color:{series.color}">{series.name}: <b>${point.y:,.0f}</b><br/>'
             },
-
-
             series: [{
                 name: 'Business Achievements',
-                data: [43000, 29000, 60000, 35000, 17000, 10000],
+                data: [
+                    <?=$player_performance["shop"]?>,
+                    <?=$player_performance["advertisement"]?>,
+                    <?=$player_performance["employee"]?>,
+                    <?=$player_performance["booster"]?>,
+                    <?=$player_performance["assets"]?>,
+                    <?=$player_performance["achievement"]?>
+                ],
                 pointPlacement: 'on'
             }]
 
