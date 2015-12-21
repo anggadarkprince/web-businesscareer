@@ -35,11 +35,18 @@ class Achievement extends Model
     /**
      * retrieve player's achievement when load data.
      * invoked by: Controller.GameServer.load_data()
+     * @param null $player_id
      * @return array
      */
-    public function get_achievement()
+    public function get_achievement($player_id = null)
     {
-        $player = $_SESSION['ply_id'];
+        if($player_id != null){
+            $player = $player_id;
+        }
+        else{
+            $player = $_SESSION['ply_id'];
+        }
+
         $query = "
           SELECT
             ach_id,

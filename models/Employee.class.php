@@ -77,11 +77,18 @@ class Employee extends Model
      * retrieve player employee from database.
      * invoked by: Controller.Employee.get_player_employee()
      *             Model.GameServer.load_data()
+     * @param null $player_id
      * @return array
      */
-    public function get_player_employee()
+    public function get_player_employee($player_id = null)
     {
-        $player = $_SESSION['ply_id'];
+        if($player_id != null){
+            $player = $player_id;
+        }
+        else{
+            $player = $_SESSION['ply_id'];
+        }
+
         $query = "
             SELECT
               emp_id,

@@ -90,11 +90,18 @@ class Memorycard extends Model
     /**
      * load game data.
      * invoked by: Controller.GameServer.load_data()
+     * @param null $player_id
      * @return array
      */
-    public function load_game_data()
+    public function load_game_data($player_id = null)
     {
-        $condition = ["gme_player" => $_SESSION['ply_id']];
+        if($player_id != null){
+            $condition = ["gme_player" => $player_id];
+        }
+        else{
+            $condition = ["gme_player" => $_SESSION['ply_id']];
+        }
+
         $result = $this->ReadWhere(Utility::TABLE_GAME_DATA, $condition);
         if ($result && $this->CountRow() > 0) {
             return $this->FetchDataRow();

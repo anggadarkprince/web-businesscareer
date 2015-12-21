@@ -182,6 +182,11 @@ class PlayerController extends Controller
         if (Authenticate::is_authorized()) {
             $model_player = Player::getInstance();
             $model_journal = Journal::getInstance();
+            $model_achievement = Achievement::getInstance();
+            $model_asset = Asset::getInstance();
+            $model_material = Material::getInstance();
+            $model_employee = Employee::getInstance();
+            $model_memorycard = Memorycard::getInstance();
 
             $id = $this->framework->url->url_part(3);
 
@@ -191,6 +196,11 @@ class PlayerController extends Controller
             $this->framework->view->player_summary = $model_player->fetch($id);
             $this->framework->view->player_performance = $model_player->performance($id);
             $this->framework->view->player_finance = $model_journal->finance_summaries($id);
+            $this->framework->view->player_achievements = $model_achievement->get_achievement($id);
+            $this->framework->view->player_assets = $model_asset->get_player_asset($id);
+            $this->framework->view->player_employees = $model_employee->get_player_employee($id);
+            $this->framework->view->player_materials = $model_material->get_player_material($id);
+            $this->framework->view->player_game = $model_memorycard->load_game_data($id);
             $this->framework->view->show("backend/template");
         } else {
             transport("administrator");

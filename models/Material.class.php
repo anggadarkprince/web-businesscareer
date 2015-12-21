@@ -60,11 +60,18 @@ class Material extends Model{
     /**
      * retrieve player's material from database.
      * invoked by: Controller.GameServer.load_data()
+     * @param null $player_id
      * @return array
      */
-    public function get_player_material()
+    public function get_player_material($player_id = null)
     {
-        $player = $_SESSION['ply_id'];
+        if($player_id != null){
+            $player = $player_id;
+        }
+        else{
+            $player = $_SESSION['ply_id'];
+        }
+
         $query = "
             SELECT
               pma_id,

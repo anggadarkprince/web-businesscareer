@@ -93,11 +93,18 @@ class Asset extends Model{
      * invoked by: Controller.GameServer.load_data()
      *             Controller.Inventory.retrieve_inventory()
      *             Controller.Inventory.upgrade_asset()
+     * @param null $player_id
      * @return array
      */
-    public function get_player_asset()
+    public function get_player_asset($player_id = null)
     {
-        $player = $_SESSION['ply_id'];
+        if($player_id != null){
+            $player = $player_id;
+        }
+        else{
+            $player = $_SESSION['ply_id'];
+        }
+
         $query = "
             SELECT
               ast_id,
