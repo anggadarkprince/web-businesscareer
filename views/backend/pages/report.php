@@ -9,27 +9,17 @@
         <div class="row" id="printable">
             <div class="col-md-12">
                 <div>
-                    <div>
-                        <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/logo-dark.png">
-                    </div>
-                    <div class="row mtl ptl">
-                        <div class="col-md-9">
-                            <address>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="<?=$this->framework->url->get_base_url()?>/assets/images/layout/logo-dark.png">
+                        </div>
+                        <div class="col-md-6">
+                            <address class="text-right">
                                 <strong>Jawa Street Block 6th No.5</strong><br>
-                                <small>Sumbersari Jember</small><br>
+                                <small>Sumbersari Jember</small>
                                 <small>Indonesia</small><br>
                                 <small><abbr title="Phone">P:</abbr> (+62) 085655479868</small>
                             </address>
-                        </div>
-                        <div class="col-md-3 small">
-                            <div class="pull-right">
-                                <p>report no.<?=substr(uniqid(),0,7)?>-AU23</p>
-                            </div>
-                            <div>
-                                <div class="pull-left"> REPORT DATE : </div>
-                                <div class="pull-right"> <?=Utility::date() ?></div>
-                                <div class="clearfix"></div>
-                            </div>
                         </div>
                     </div>
 

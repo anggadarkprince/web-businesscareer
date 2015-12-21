@@ -433,6 +433,16 @@ address {
     font-weight: bold;
 }
 
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-track{
+    background-color: #ddd;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #aaa;
+}
+
 @media (max-width: 767px) {
     .navbar-default > .navbar-header > .navbar-brand {
         background-size: 70%;

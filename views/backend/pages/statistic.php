@@ -92,7 +92,7 @@
                 }
             },
             series: [{
-                name: 'Game Point',
+                name: 'Game Point (X100)',
                 data: [
                     <?php
                         if(isset($leaderboard)){

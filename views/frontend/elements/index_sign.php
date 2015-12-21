@@ -1,4 +1,4 @@
-<div class="container content" style="padding-top: 90px; padding-bottom: 70px">
+<div class="container content" style="padding-top: 90px;">
     <div class="row form-menu">
         <div class="col-md-4 menu-login">
             <div class="row">

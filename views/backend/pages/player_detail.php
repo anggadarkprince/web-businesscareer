@@ -17,7 +17,7 @@
                         ?>
                         <div class="alert alert-warning alert-block pam">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <small><span class="fui-check-inverted"></span> &nbsp; Alhamdulillah sesuatu banget, Player Now <?php if(isset($player_detail)) echo $player_detail["ply_state"]?></small>
+                            <small><span class="fui-check-inverted"></span> &nbsp; Player's state updated successfully, Player Now <?php if(isset($player_detail)) echo $player_detail["ply_state"]?></small>
                         </div>
                     <?php
                     }
@@ -25,7 +25,7 @@
                         ?>
                         <div class="alert alert-danger alert-block pam">
                             <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            <small><span class="fui-cross"></span> &nbsp; Innalilahi, ada yang salah, gagal</small>
+                            <small><span class="fui-cross"></span> &nbsp; Player's state update failed.</small>
                         </div>
                     <?php
                     }

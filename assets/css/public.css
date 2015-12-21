@@ -157,7 +157,7 @@ hr{
 .form-menu{
     position: relative;
     z-index: 1;
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 .form-menu input,
 .form-menu textarea{
@@ -266,7 +266,7 @@ hr{
 
 /* DISCOVERY STYLE */
 .discovery{
-    margin-bottom: 30px;
+    margin-bottom: 50px;
 }
 .discovery > div{
     padding: 30px;
@@ -308,6 +308,9 @@ hr{
     color: #ffffff;
 }
 
+.main-article{
+    margin-bottom: 50px;
+}
 .main-article section{
     margin-bottom: 30px;
 }
@@ -324,7 +327,8 @@ hr{
     margin-bottom: 3px;
     color: #eaeaea;
 }
-.main-article p{
+.main-article p,
+.main-article ol{
     font-size: 0.85em;
 }
 .main-article .well{
@@ -562,6 +566,17 @@ label.error{
 
 .alert{
     font-size: 14px;
+}
+
+
+::-webkit-scrollbar{
+    width: 8px;
+}
+::-webkit-scrollbar-track{
+    background-color: #ddd;
+}
+::-webkit-scrollbar-thumb{
+    background-color: #aaa;
 }
 
 /* Medium */
