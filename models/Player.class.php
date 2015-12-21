@@ -9,10 +9,12 @@
  */
 class Player extends Model
 {
-    // applied singleton pattern
+    // define ENUM vars
     const ACTIVE = "ACTIVE";
     const SUSPEND = 'SUSPEND';
     const PENDING = 'PENDING';
+
+    // define column player table
     const COLUMN_PLY_ID = "ply_id";
     const COLUMN_PLY_KEY = "ply_key";
     const COLUMN_PLY_NAME = "ply_name";
@@ -24,6 +26,7 @@ class Player extends Model
     const COLUMN_PLY_UPDATED_AT = "ply_updated_at";
     const COLUMN_PLY_CREATED_AT = "ply_created_at";
 
+    // applied singleton pattern
     private static $instance = NULL;
 
     /**
@@ -492,16 +495,16 @@ class Player extends Model
      */
     public function registration_statistic()
     {
-        $query = "SELECT
-                    date(" . player::COLUMN_PLY_CREATED_AT . ") as date,
-                    COUNT(" . player::COLUMN_PLY_ID . ") as total
+        $query = "
+            SELECT
+                date(" . player::COLUMN_PLY_CREATED_AT . ") as date,
+                COUNT(" . player::COLUMN_PLY_ID . ") as total
 
-                    FROM
-                        " . Utility::TABLE_PLAYER . "
+            FROM " . Utility::TABLE_PLAYER . "
 
-                        GROUP BY date(" . player::COLUMN_PLY_CREATED_AT . ")
+            GROUP BY date(" . player::COLUMN_PLY_CREATED_AT . ")
 
-                        LIMIT 10";
+            LIMIT 10";
 
         if ($this->ManualQuery($query)) {
             return $this->FetchData();

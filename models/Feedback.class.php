@@ -9,21 +9,21 @@
  */
 class Feedback extends Model
 {
-    // applied singleton pattern
-    private static $instance = NULL;
-
     // define ENUM vars
     const STANDARD = "STANDARD";
     const IMPORTANT = 'IMPORTANT';
     const DELETED = 'DELETED';
 
-    // define column if feedback table
+    // define column feedback table
     const COLUMN_FDB_ID = "fdb_id";
     const COLUMN_FDB_NAME = "fdb_name";
     const COLUMN_FDB_EMAIL = "fdb_email";
     const COLUMN_FDB_SUBJECT = "fdb_subject";
     const COLUMN_FDB_MESSAGE = "fdb_message";
     const COLUMN_FDB_STATE = "fdb_state";
+
+    // applied singleton pattern
+    private static $instance = NULL;
 
     /**
      * default constructor
