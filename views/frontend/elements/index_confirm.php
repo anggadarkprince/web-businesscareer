@@ -13,7 +13,7 @@
                 <div class="col-md-8 col-sm-8 col-xs-8">
                     <h1>Registration Complete</h1>
                     <h3>Thanks for joining us, enjoy playful business</h3>
-                    <p>User has been confirmed. Thank-You!!, <a href="<?=$this->framework->url->get_base_url()?>">click here</a> to login</p>
+                    <p>User has been confirmed. Thank you!!, <a href="<?=$this->framework->url->get_base_url()?>">click here</a> to login</p>
                 </div>
             </div>
         <?php
@@ -26,7 +26,7 @@
                 </div>
                 <div class="col-md-8 col-sm-8 col-xs-8">
                     <h1>Confirm Failed</h1>
-                    <h3>Double check your email</h3>
+                    <h3>Check again your email</h3>
                     <p>Confirmation failed, <a href="<?=$this->framework->url->get_base_url()?>">click here</a> to register</p>
                 </div>
             </div>

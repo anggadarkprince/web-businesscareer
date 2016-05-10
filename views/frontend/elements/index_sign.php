@@ -12,26 +12,26 @@
                 <div class="col-md-12 col-sm-8">
                     <form class="form-horizontal basic-information" role="form">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Email</label>
-                            <div class="col-sm-9">
+                            <label class="col-xs-3 control-label">Email</label>
+                            <div class="col-xs-9">
                                 <p class="form-control-static"><?php echo $_SESSION['ply_username'];?></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Name</label>
-                            <div class="col-sm-9">
+                            <label class="col-xs-3 control-label">Name</label>
+                            <div class="col-xs-9">
                                 <p class="form-control-static"><?php echo $_SESSION['ply_name'];?></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Balance</label>
-                            <div class="col-sm-9">
+                            <label class="col-xs-3 control-label">Balance</label>
+                            <div class="col-xs-9">
                                 <p class="form-control-static">IDR <?php if(isset($summary["gme_cash"])){echo number_format($summary["gme_cash"], 0, ',', '.');} else{ echo "0";} ?></p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Rating</label>
-                            <div class="col-sm-9">
+                            <label class="col-xs-3 control-label">Rating</label>
+                            <div class="col-xs-9">
                                 <p class="form-control-static"><div class="star-rating"><?php if(isset($summary["star"])){echo $summary["star"];} else{ echo "1";}?></div></p>
                             </div>
                         </div>
