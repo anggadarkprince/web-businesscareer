@@ -220,7 +220,7 @@ class Authenticate extends Model
             } // if result return zero or more than 1 row
             else {
                 $result_data["granted"] = false;
-                $result_data["state"] = "<strong>Failed : </strong> username or password wrong";
+                $result_data["state"] = "Username or password is incorrect";
             }
         } // query failed
         else {

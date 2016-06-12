@@ -30,6 +30,7 @@ function binding_data($data){
             $string .= "&".$key."=".$value;
         }
     }
+	header('Content-Type: application/json');
     echo $string;
 }
 
