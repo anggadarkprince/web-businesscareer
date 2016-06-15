@@ -62,7 +62,7 @@
                         <td><img src="<?= $this->framework->url->get_base_url() ?>/assets/images/avatar/<?= $player['ply_avatar'] ?>" class="img-circle mini-avatar"> <span class="player-name"><?= $player['ply_name'] ?></span></td>
                         <td><div class="star-rating"><?= $player['ply_star'] ?></div></td>
                         <td><a href="<?= $this->framework->url->get_base_url() ?>/player/detail/<?= $player['ply_id'] ?>">Player Details</a></td>
-                        <td><span class="muted">IDR <?= $player['ply_cash'] ?></span></td>
+                        <td><span class="muted">IDR <?= number_format($player['ply_cash'], 0, ',', '.') ?></span></td>
                         <td>
                             <?php
                             $label = "label-default";

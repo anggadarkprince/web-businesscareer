@@ -209,17 +209,17 @@
                     <tr>
                         <th class="text-left" style="vertical-align: top">Game World</th>
                         <td class="text-left">
-                            <strong style="display: inline-block; width: 100px">Population</strong>: <?=$player_game["par_population"]?><br>
-                            <strong style="display: inline-block; width: 100px">Weather</strong>: <?=$player_game["par_weather"]?><br>
-                            <strong style="display: inline-block; width: 100px">Event</strong>: <?=$player_game["par_event"]?><br>
-                            <strong style="display: inline-block; width: 100px">Competitor</strong>: <?=$player_game["par_competitor"]?>
+                            <strong style="display: inline-block; width: 130px">Population</strong>: <?=$player_game["par_population"]?><br>
+                            <strong style="display: inline-block; width: 130px">Weather</strong>: <?=$player_game["par_weather"]?><br>
+                            <strong style="display: inline-block; width: 130px">Event</strong>: <?=$player_game["par_event"]?><br>
+                            <strong style="display: inline-block; width: 130px">Competitor</strong>: <?=$player_game["par_competitor"]?>
                         </td>
                         <th class="text-left" style="vertical-align: top">Consumer</th>
                         <td class="text-left">
-                            <strong style="display: inline-block; width: 100px">Variant</strong>: <?=$player_game["par_population"]?><br>
-                            <strong style="display: inline-block; width: 100px">Addicted</strong>: <?=$player_game["par_weather"]?><br>
-                            <strong style="display: inline-block; width: 100px">Buying Power</strong>: <?=$player_game["par_event"]?><br>
-                            <strong style="display: inline-block; width: 100px">Emotion</strong>: <?=$player_game["par_competitor"]?>
+                            <strong style="display: inline-block; width: 130px">Variant</strong>: <?=$player_game["par_population"]?><br>
+                            <strong style="display: inline-block; width: 130px">Addicted</strong>: <?=$player_game["par_weather"]?><br>
+                            <strong style="display: inline-block; width: 130px">Buying Power</strong>: <?=$player_game["par_event"]?><br>
+                            <strong style="display: inline-block; width: 130px">Emotion</strong>: <?=$player_game["par_competitor"]?>
                         </td>
                     </tr>
                     <tr>
