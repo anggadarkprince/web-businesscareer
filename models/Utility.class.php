@@ -124,5 +124,4 @@ class Utility
     {
         return number_format($value, $decimal, $decimal_separator, $thousand_separator);
     }
-
 } 

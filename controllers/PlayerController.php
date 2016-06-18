@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/16/13
  * Time: 6:56 AM
- * To change this template use File | Settings | File Templates.
  */
 class PlayerController extends Controller
 {
@@ -113,11 +112,11 @@ class PlayerController extends Controller
          * set player state to pending, wait for activate by player
          */
         $data = [
-            player::COLUMN_PLY_KEY      => $model_player->generate_key($_POST['reg-name'], $_POST['reg-email']),
-            player::COLUMN_PLY_NAME     => $_POST['reg-name'],
-            player::COLUMN_PLY_EMAIL    => $_POST['reg-email'],
-            player::COLUMN_PLY_PASSWORD => md5($_POST['reg-password']),
-            player::COLUMN_PLY_STATE    => player::PENDING
+            Player::COLUMN_PLY_KEY      => $model_player->generate_key($_POST['reg-name'], $_POST['reg-email']),
+            Player::COLUMN_PLY_NAME     => $_POST['reg-name'],
+            Player::COLUMN_PLY_EMAIL    => $_POST['reg-email'],
+            Player::COLUMN_PLY_PASSWORD => md5($_POST['reg-password']),
+            Player::COLUMN_PLY_STATE    => Player::PENDING
         ];
 
         session_start();
@@ -277,7 +276,7 @@ class PlayerController extends Controller
      */
     public function get_player_detail()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_player = Player::getInstance();
 
             $id = $this->framework->url->url_part(3);
@@ -296,7 +295,7 @@ class PlayerController extends Controller
      */
     public function get_player_logging()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_logging = Log::getInstance();
 
             $id = $this->framework->url->url_part(3);
@@ -324,7 +323,7 @@ class PlayerController extends Controller
              * populate data and hash password if not empty.
              * double check the password and confirm password has exact same character.
              */
-            $data = [player::COLUMN_PLY_NAME => $_POST["sgn-name"]];
+            $data = [Player::COLUMN_PLY_NAME => $_POST["sgn-name"]];
 
             if (isset($_POST['sgn-password']) && !empty($_POST['sgn-password'])) {
                 $data[Player::COLUMN_PLY_PASSWORD] = md5($_POST['sgn-password']);
@@ -388,5 +387,4 @@ class PlayerController extends Controller
             transport("administrator");
         }
     }
-
 }

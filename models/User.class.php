@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
- * To change this template use File | Settings | File Templates.
  */
 class User extends Model
 {
@@ -165,7 +164,6 @@ class User extends Model
 
         return $this->Update(Utility::TABLE_USER, $data, array(User::COLUMN_USR_USERNAME => $_SESSION['web_username']));
     }
-
 }
 
 

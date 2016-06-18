@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/16/13
  * Time: 6:56 AM
- * To change this template use File | Settings | File Templates.
  */
 class FeedbackController extends Controller
 {
@@ -18,7 +17,7 @@ class FeedbackController extends Controller
      */
     public function index()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_player = Player::getInstance();
             $model_player->get_total_player();
             $model_player->unread_new_player();

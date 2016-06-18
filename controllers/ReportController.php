@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/16/13
  * Time: 6:56 AM
- * To change this template use File | Settings | File Templates.
  */
 class ReportController extends Controller
 {
@@ -15,7 +14,7 @@ class ReportController extends Controller
      */
     public function index()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_player = Player::getInstance();
             $model_feedback = Feedback::getInstance();
             $model_administrator = Administrator::getInstance();
@@ -41,7 +40,7 @@ class ReportController extends Controller
      */
     public function get_overall()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_player = Player::getInstance();
             $model_feedback = Feedback::getInstance();
             $model_administrator = Administrator::getInstance();
@@ -55,5 +54,4 @@ class ReportController extends Controller
             transport("administrator");
         }
     }
-
 }

@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
- * To change this template use File | Settings | File Templates.
  */
 class Player extends Model
 {
@@ -177,7 +176,7 @@ class Player extends Model
     public function check_email($email)
     {
         $state = array(
-            player::COLUMN_PLY_EMAIL => $email
+            Player::COLUMN_PLY_EMAIL => $email
         );
         $query = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
         if ($query && $this->CountRow() == 1) {
@@ -195,12 +194,12 @@ class Player extends Model
      */
     public function confirm($email, $key)
     {
-        $criteria = [player::COLUMN_PLY_STATE => player::ACTIVE];
+        $criteria = [Player::COLUMN_PLY_STATE => Player::ACTIVE];
 
-        if ($this->Update(Utility::TABLE_PLAYER, $criteria, array(player::COLUMN_PLY_KEY => $key))) {
+        if ($this->Update(Utility::TABLE_PLAYER, $criteria, array(Player::COLUMN_PLY_KEY => $key))) {
             $state = array(
-                player::COLUMN_PLY_EMAIL => $email,
-                player::COLUMN_PLY_KEY => $key
+                Player::COLUMN_PLY_EMAIL => $email,
+                Player::COLUMN_PLY_KEY => $key
             );
             $query = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
             if ($query && $this->CountRow() == 1) {
@@ -230,9 +229,9 @@ class Player extends Model
     public function suspend($id)
     {
         $data = array(
-            player::COLUMN_PLY_STATE => player::SUSPEND
+            Player::COLUMN_PLY_STATE => Player::SUSPEND
         );
-        if ($this->Update(Utility::TABLE_PLAYER, $data, array(player::COLUMN_PLY_ID => $id))) {
+        if ($this->Update(Utility::TABLE_PLAYER, $data, array(Player::COLUMN_PLY_ID => $id))) {
             return true;
         }
         return false;
@@ -247,9 +246,9 @@ class Player extends Model
     public function reactive($id)
     {
         $data = array(
-            player::COLUMN_PLY_STATE => player::ACTIVE
+            Player::COLUMN_PLY_STATE => Player::ACTIVE
         );
-        if ($this->Update(Utility::TABLE_PLAYER, $data, array(player::COLUMN_PLY_ID => $id))) {
+        if ($this->Update(Utility::TABLE_PLAYER, $data, array(Player::COLUMN_PLY_ID => $id))) {
             return true;
         }
         return false;
@@ -365,8 +364,8 @@ class Player extends Model
      */
     public function update_state($state, $id)
     {
-        $criteria = [player::COLUMN_PLY_STATE => $state];
-        return $this->Update(Utility::TABLE_PLAYER, $criteria, array(player::COLUMN_PLY_ID => $id));
+        $criteria = [Player::COLUMN_PLY_STATE => $state];
+        return $this->Update(Utility::TABLE_PLAYER, $criteria, array(Player::COLUMN_PLY_ID => $id));
     }
 
     /**
@@ -380,7 +379,7 @@ class Player extends Model
         // create update profile log
         $log = Log::getInstance();
         $log->logging_web_profile(json_encode($data));
-        return $this->Update(Utility::TABLE_PLAYER, $data, array(player::COLUMN_PLY_ID => $_SESSION["ply_id"]));
+        return $this->Update(Utility::TABLE_PLAYER, $data, array(Player::COLUMN_PLY_ID => $_SESSION["ply_id"]));
     }
 
     /**
@@ -430,10 +429,10 @@ class Player extends Model
                         $result = $this->Update(
                             Utility::TABLE_PLAYER,
                             array(
-                                player::COLUMN_PLY_AVATAR => $filename . "." . $ext
+                                Player::COLUMN_PLY_AVATAR => $filename . "." . $ext
                             ),
                             array(
-                                player::COLUMN_PLY_ID => $_SESSION["play_id"]
+                                Player::COLUMN_PLY_ID => $_SESSION["play_id"]
                             )
                         );
 
@@ -479,7 +478,7 @@ class Player extends Model
      */
     public function player_detail($id)
     {
-        $result = $this->ReadSingleData(Utility::TABLE_PLAYER, array(player::COLUMN_PLY_ID => $id));
+        $result = $this->ReadSingleData(Utility::TABLE_PLAYER, array(Player::COLUMN_PLY_ID => $id));
         if ($result && $this->CountRow() == 1) {
             return $this->FetchDataRow();
         } else {
@@ -497,12 +496,12 @@ class Player extends Model
     {
         $query = "
             SELECT
-                date(" . player::COLUMN_PLY_CREATED_AT . ") as date,
-                COUNT(" . player::COLUMN_PLY_ID . ") as total
+                date(" . Player::COLUMN_PLY_CREATED_AT . ") as date,
+                COUNT(" . Player::COLUMN_PLY_ID . ") as total
 
             FROM " . Utility::TABLE_PLAYER . "
 
-            GROUP BY date(" . player::COLUMN_PLY_CREATED_AT . ")
+            GROUP BY date(" . Player::COLUMN_PLY_CREATED_AT . ")
 
             LIMIT 10";
 
@@ -524,7 +523,7 @@ class Player extends Model
      */
     public function get_total_player()
     {
-        $query = "SELECT * FROM " . Utility::TABLE_PLAYER . " WHERE " . player::COLUMN_PLY_STATE . " != '" . authenticate::SUPERUSER . "'";
+        $query = "SELECT * FROM " . Utility::TABLE_PLAYER . " WHERE " . Player::COLUMN_PLY_STATE . " != '" . Authenticate::SUPERUSER . "'";
         $result = $this->ManualQuery($query);
         if ($result) {
             $_SESSION['web_total_player'] = $this->CountRow();
@@ -539,7 +538,7 @@ class Player extends Model
      */
     public function unread_new_player()
     {
-        $state = [player::COLUMN_PLY_READ => 0];
+        $state = [Player::COLUMN_PLY_READ => 0];
         $result = $this->ReadWhere(Utility::TABLE_PLAYER, $state);
 
         if ($result) {
@@ -555,7 +554,7 @@ class Player extends Model
      */
     public function read_new_player()
     {
-        $this->Update(Utility::TABLE_PLAYER, array(player::COLUMN_PLY_READ => 1), array(player::COLUMN_PLY_READ => 0));
+        $this->Update(Utility::TABLE_PLAYER, array(Player::COLUMN_PLY_READ => 1), array(Player::COLUMN_PLY_READ => 0));
     }
 
     /**
@@ -609,6 +608,12 @@ class Player extends Model
         return $this->Delete(Utility::TABLE_PLAYER, $criteria);
     }
 
+    /**
+     * get player stats graphics.
+     * invoked by: Controller.PlayerController.detail
+     * @param $id
+     * @return array
+     */
     public function performance($id)
     {
         $game_data = $this->ReadWhere(Utility::TABLE_GAME_DATA, ["gme_player" => $id]);
@@ -640,6 +645,8 @@ class Player extends Model
         }
         else{
             $booster = 0;
+            $shop = 0;
+            $advertisement = 0;
         }
 
         // achievement data
@@ -685,7 +692,5 @@ class Player extends Model
         ];
 
         return $performance;
-
     }
-
 }

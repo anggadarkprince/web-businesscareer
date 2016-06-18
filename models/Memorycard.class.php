@@ -152,14 +152,14 @@ class Memorycard extends Model
     /**
      * create simulation data when simulation get started.
      * invoked by: Controller.GameServer.insert_simulation()
-     * @param $day current simulation day
-     * @param $served success served
-     * @param $loss loss or negative consumer
-     * @param $stress current stress
-     * @param $work today work hours
-     * @param $location current shop district
-     * @param $popularity market share
-     * @param $overview conclusion
+     * @param $day int current simulation day
+     * @param $served int success served
+     * @param $loss int loss or negative consumer
+     * @param $stress int current stress
+     * @param $work int today work hours
+     * @param $location string current shop district
+     * @param $popularity int market share
+     * @param $overview string conclusion
      * @return bool status of saving into persistent storage
      */
     public function insert_simulation($day, $served, $loss, $stress, $work, $location, $popularity, $overview)

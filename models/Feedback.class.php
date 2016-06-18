@@ -194,7 +194,7 @@ class Feedback extends Model
      * role: administrator
      * invoked by: Controller.Report.index()
      *             Controller.Report.get_overall()
-     * @return Array
+     * @return Feedback array
      */
     public function retrieve_feedback_report()
     {

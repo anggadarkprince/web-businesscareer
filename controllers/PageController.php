@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/16/13
  * Time: 6:56 AM
- * To change this template use File | Settings | File Templates.
  */
 class PageController extends Controller
 {
@@ -25,7 +24,7 @@ class PageController extends Controller
      */
     public function index()
     {
-        if (authenticate::is_player()) {
+        if (Authenticate::is_player()) {
             transport("page/sign");
         } else {
             $this->framework->view->page = "index";
@@ -96,7 +95,7 @@ class PageController extends Controller
      */
     public function game()
     {
-        if (authenticate::is_player()) {
+        if (Authenticate::is_player()) {
             $this->framework->view->page = "game";
             $this->framework->view->content = "/frontend/pages/game";
             $this->framework->view->show("frontend/game");

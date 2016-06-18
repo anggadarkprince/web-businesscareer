@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/16/13
  * Time: 6:56 AM
- * To change this template use File | Settings | File Templates.
  */
 class EmployeeController extends Controller
 {

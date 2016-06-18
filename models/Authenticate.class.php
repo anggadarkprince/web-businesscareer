@@ -49,7 +49,7 @@ class Authenticate extends Model
     }
 
     /**
-     * @param $email of administrator
+     * @param $email Administrator email
      */
     public function set_email($email)
     {
@@ -57,7 +57,7 @@ class Authenticate extends Model
     }
 
     /**
-     * @param $password if administrator
+     * @param $password Administrator password
      */
     public function set_password($password)
     {
@@ -116,7 +116,7 @@ class Authenticate extends Model
             session_start();
         }
 
-        if (isset($_SESSION['ply_username']) && $_SESSION['ply_state'] == player::ACTIVE) {
+        if (isset($_SESSION['ply_username']) && $_SESSION['ply_state'] == Player::ACTIVE) {
             return true;
         }
         return false;

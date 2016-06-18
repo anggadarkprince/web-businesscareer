@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/16/13
  * Time: 6:56 AM
- * To change this template use File | Settings | File Templates.
  */
 class DashboardController extends Controller
 {
@@ -18,7 +17,7 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_player = Player::getInstance();
 
             $model_player->get_total_player();
@@ -41,7 +40,7 @@ class DashboardController extends Controller
      */
     public function setting()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_administrator = Administrator::getInstance();
             $model_user = User::getInstance();
 
@@ -61,7 +60,7 @@ class DashboardController extends Controller
      */
     public function about()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $this->framework->view->page = "about";
             $this->framework->view->content = "/backend/pages/about";
             $this->framework->view->show("backend/template");
@@ -77,7 +76,7 @@ class DashboardController extends Controller
      */
     public function profile_update()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_user = User::getInstance();
 
             /*
@@ -130,7 +129,7 @@ class DashboardController extends Controller
      */
     public function setting_update()
     {
-        if (authenticate::is_authorized()) {
+        if (Authenticate::is_authorized()) {
             $model_administrator = Administrator::getInstance();
 
             /*
