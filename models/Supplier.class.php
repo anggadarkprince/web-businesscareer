@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
- * To change this template use File | Settings | File Templates.
  */
 class Supplier extends Model
 {
@@ -80,5 +79,4 @@ class Supplier extends Model
             return [];
         }
     }
-
 }

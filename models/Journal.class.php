@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
- * To change this template use File | Settings | File Templates.
  */
 class Journal extends Model
 {
@@ -118,7 +117,7 @@ class Journal extends Model
             WHERE jrl_player = $player
         ";
 
-        if($day != null){
+        if ($day != null) {
             $query .= " AND jrl_day = $day";
         }
 
@@ -144,10 +143,9 @@ class Journal extends Model
          * retrieve general journal before convert into general ledger.
          * retrieve account to compare data.
          */
-        if($day != null){
+        if ($day != null) {
             $journal = $this->get_general_journal($day);
-        }
-        else{
+        } else {
             $journal = $this->get_general_journal();
         }
 
@@ -368,12 +366,11 @@ class Journal extends Model
 
     public function finance_summaries($id)
     {
-        if(isset($_SESSION['ply_id'])){
+        if (isset($_SESSION['ply_id'])) {
             $temp = $_SESSION['ply_id'];
             $data = $this->retrieve_finance_status();
             $_SESSION['ply_id'] = $temp;
-        }
-        else{
+        } else {
             $_SESSION['ply_id'] = $id;
             $data = $this->retrieve_finance_status();
             unset($_SESSION['ply_id']);
@@ -383,11 +380,11 @@ class Journal extends Model
 
     private function retrieve_finance_status()
     {
-        $balance =  $this->get_balance_sheet();
+        $balance = $this->get_balance_sheet();
 
         $asset = 0;
-        for($i = 0; $i < 2; $i++){
-            for($j = 0; $j < count($balance[$i]); $j++){
+        for ($i = 0; $i < 2; $i++) {
+            for ($j = 0; $j < count($balance[$i]); $j++) {
                 $asset = $asset + $balance[$i][$j]["value"];
             }
         }
@@ -400,24 +397,22 @@ class Journal extends Model
         $revenue = $loss_profit[0][0]["value"] + $loss_profit[0][1]["value"];
 
         $expense = 0;
-        for($i = 0; $i < count($loss_profit[1]); $i++){
-            if($i < 2){
-                for($j = 0; $j < count($loss_profit[1][$i]); $j++){
+        for ($i = 0; $i < count($loss_profit[1]); $i++) {
+            if ($i < 2) {
+                for ($j = 0; $j < count($loss_profit[1][$i]); $j++) {
                     $expense = $expense + $loss_profit[1][$i][$j]["value"];
                 }
-            }
-            else{
+            } else {
                 $expense = $expense + $loss_profit[1][$i]["value"];
             }
         }
 
         return [
-            "assets"    => $asset,
-            "equity"    => $equity,
-            "revenue"   => $revenue,
-            "payable"   => $payable,
-            "expense"   => $expense
+            "assets" => $asset,
+            "equity" => $equity,
+            "revenue" => $revenue,
+            "payable" => $payable,
+            "expense" => $expense
         ];
     }
-
 }

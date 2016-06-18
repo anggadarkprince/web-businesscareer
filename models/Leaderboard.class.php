@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
- * To change this template use File | Settings | File Templates.
  */
 class Leaderboard extends Model
 {
@@ -50,7 +49,7 @@ class Leaderboard extends Model
             SELECT * FROM
             (
                 SELECT
-                  (@counter := @counter +1) as ranking,
+                  (@counter := @counter +1) AS ranking,
                   ply_id,
                   ply_name,
                   ply_avatar,
@@ -70,7 +69,7 @@ class Leaderboard extends Model
                     FROM
                       (
                         SELECT
-                        IFNULL(pac_player,gme_player) as pac_player
+                        IFNULL(pac_player,gme_player) AS pac_player
                         FROM bc_game_data LEFT JOIN bc_player_achievement
                         ON gme_player = pac_player
                         GROUP BY pac_achievement,gme_player
@@ -81,12 +80,13 @@ class Leaderboard extends Model
                   ) ply_star
                   ON ply_id = pac_player
 
-                ORDER BY gme_point DESC LIMIT 5
+                ORDER BY gme_point DESC
             ) ranking
         ";
 
         $result = $this->ManualQuery($query);
 
+        // add counter at rows and find if the record is player's
         if ($result && $this->CountRow() > 0) {
             $data = $this->FetchData();
             for ($i = 0; $i < sizeof($data); $i++) {
@@ -97,10 +97,8 @@ class Leaderboard extends Model
                     return $data[$i];
                 }
             }
-            return [];
-        } else {
-            return [];
         }
+        return [];
     }
 
     /**
@@ -162,9 +160,8 @@ class Leaderboard extends Model
                 $data[$i]["ranking"] = $i + 1;
             }
             return $data;
-        } else {
-            return [];
         }
+        return [];
     }
 
     /**
@@ -181,9 +178,9 @@ class Leaderboard extends Model
               ply_avatar,
               ply_name,
               ply_email,
-              IFNULL(star,1) as ply_star,
-              IFNULL(gme_cash,0) as ply_cash,
-              IFNULL(gme_point,0) as ply_point,
+              IFNULL(star,1) AS ply_star,
+              IFNULL(gme_cash,0) AS ply_cash,
+              IFNULL(gme_point,0) AS ply_point,
               ply_state
 
             FROM bc_player
@@ -196,7 +193,7 @@ class Leaderboard extends Model
               FROM
               (
                 SELECT
-                  IFNULL(pac_player,gme_player) as pac_player
+                  IFNULL(pac_player,gme_player) AS pac_player
                   FROM bc_game_data LEFT JOIN bc_player_achievement
                   ON gme_player = pac_player
                   GROUP BY pac_achievement,gme_player
@@ -222,8 +219,7 @@ class Leaderboard extends Model
                 $data[$i]["ranking"] = $i + 1;
             }
             return $data;
-        } else {
-            return [];
         }
+        return [];
     }
 }

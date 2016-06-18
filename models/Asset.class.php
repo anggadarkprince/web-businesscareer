@@ -1,13 +1,13 @@
 <?php
+
 /**
- * Created by PhpStorm.
- * User: Adinda
+ * Created by Vanilla Developer.
+ * User: Angga Ari Wijaya
  * Date: 1/7/15
  * Time: 12:27 AM
  */
-
-class Asset extends Model{
-
+class Asset extends Model
+{
     // applied singleton pattern
     private static $instance = NULL;
 
@@ -98,10 +98,9 @@ class Asset extends Model{
      */
     public function get_player_asset($player_id = null)
     {
-        if($player_id != null){
+        if ($player_id != null) {
             $player = $player_id;
-        }
-        else{
+        } else {
             $player = $_SESSION['ply_id'];
         }
 

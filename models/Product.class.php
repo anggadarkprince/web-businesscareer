@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
- * To change this template use File | Settings | File Templates.
  */
 class Product extends Model
 {
@@ -63,7 +62,7 @@ class Product extends Model
             SELECT
               prd_id,
               prd_product,
-              prd_price + (1000 - MOD(prd_price,1000)) as prd_price,
+              prd_price + (1000 - MOD(prd_price,1000)) AS prd_price,
               prd_atlas,
               prd_type
             FROM bc_product
@@ -111,8 +110,7 @@ class Product extends Model
             INNER JOIN bc_product
               ON ppr_product = prd_id
 
-            WHERE ppr_player = $player"
-        ;
+            WHERE ppr_player = $player";
 
         $result = $this->ManualQuery($query);
         if ($result && $this->CountRow() > 0) {
@@ -159,7 +157,7 @@ class Product extends Model
         $query = "
             SELECT
               mpr_product,
-              GROUP_CONCAT(DISTINCT mpr_material ORDER BY mpr_material) as material
+              GROUP_CONCAT(DISTINCT mpr_material ORDER BY mpr_material) AS material
             FROM bc_material_product
             GROUP BY mpr_product
         ";
@@ -171,5 +169,4 @@ class Product extends Model
             return [];
         }
     }
-
 }

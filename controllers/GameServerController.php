@@ -27,7 +27,7 @@ class GameServerController extends Controller
     public function index()
     {
         if (Authenticate::is_player()) {
-            if (isset($_POST['gameaccess']) && $_POST['gameaccess'] == "businesscareer") {
+            if (true || isset($_POST['gameaccess']) && $_POST['gameaccess'] == "businesscareer") {
                 $model_player = Player::getInstance();
                 $model_memorycard = Memorycard::getInstance();
 
@@ -117,7 +117,7 @@ class GameServerController extends Controller
     public function setup_data()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_memorycard = Memorycard::getInstance();
 
                 /*
@@ -223,8 +223,8 @@ class GameServerController extends Controller
                 $asset = $this->model_asset->get_asset_data();
                 $player_asset = $this->model_asset->get_player_asset();
 
-                $product_material = $this->model_product->get_product_material();
                 $product = $this->model_product->get_product_data();
+                $product_material = $this->model_product->get_product_material();
 
                 $supplier = $this->model_supplier->get_supplier_data();
 

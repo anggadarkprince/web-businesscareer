@@ -1,13 +1,13 @@
 <?php
+
 /**
  * Created by Vanilla Developer.
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
  */
-
-class Material extends Model{
-
+class Material extends Model
+{
     // applied singleton pattern
     private static $instance = NULL;
 
@@ -65,10 +65,9 @@ class Material extends Model{
      */
     public function get_player_material($player_id = null)
     {
-        if($player_id != null){
+        if ($player_id != null) {
             $player = $player_id;
-        }
-        else{
+        } else {
             $player = $_SESSION['ply_id'];
         }
 

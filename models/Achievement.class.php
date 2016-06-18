@@ -40,10 +40,9 @@ class Achievement extends Model
      */
     public function get_achievement($player_id = null)
     {
-        if($player_id != null){
+        if ($player_id != null) {
             $player = $player_id;
-        }
-        else{
+        } else {
             $player = $_SESSION['ply_id'];
         }
 
@@ -54,7 +53,8 @@ class Achievement extends Model
             ach_description,
             ach_reward,
             CONCAT('achievement_', LCASE(ach_achievement)) as ac_title_atlas,
-            ach_atlas, IFNULL(earned,0) as earned
+            ach_atlas, 
+            IFNULL(earned,0) as earned
 
           FROM
             bc_achievement
@@ -97,5 +97,4 @@ class Achievement extends Model
         ];
         return $this->Create(Utility::TABLE_PLAYER_ACHIEVEMENT, $criteria);
     }
-
 }

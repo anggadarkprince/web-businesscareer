@@ -5,7 +5,6 @@
  * User: Angga Ari Wijaya
  * Date: 11/17/13
  * Time: 7:46 AM
- * To change this template use File | Settings | File Templates.
  */
 class Memorycard extends Model
 {
@@ -95,10 +94,9 @@ class Memorycard extends Model
      */
     public function load_game_data($player_id = null)
     {
-        if($player_id != null){
+        if ($player_id != null) {
             $condition = ["gme_player" => $player_id];
-        }
-        else{
+        } else {
             $condition = ["gme_player" => $_SESSION['ply_id']];
         }
 
@@ -125,6 +123,7 @@ class Memorycard extends Model
         $this->ManualQuery("DELETE from bc_player_product WHERE ppr_player = $player");
         $this->ManualQuery("DELETE from bc_journal WHERE jrl_player = $player");
         $this->ManualQuery("DELETE from bc_transaction WHERE trn_player = $player");
+        $this->ManualQuery("DELETE from bc_simulation WHERE sim_player = $player");
 
         return true;
     }
@@ -153,15 +152,15 @@ class Memorycard extends Model
     /**
      * create simulation data when simulation get started.
      * invoked by: Controller.GameServer.insert_simulation()
-     * @param $day
-     * @param $served
-     * @param $loss
-     * @param $stress
-     * @param $work
-     * @param $location
-     * @param $popularity
-     * @param $overview
-     * @return bool
+     * @param $day current simulation day
+     * @param $served success served
+     * @param $loss loss or negative consumer
+     * @param $stress current stress
+     * @param $work today work hours
+     * @param $location current shop district
+     * @param $popularity market share
+     * @param $overview conclusion
+     * @return bool status of saving into persistent storage
      */
     public function insert_simulation($day, $served, $loss, $stress, $work, $location, $popularity, $overview)
     {
