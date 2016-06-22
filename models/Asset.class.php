@@ -163,6 +163,44 @@ class Asset extends Model
     }
 
     /**
+     * increase depreciation
+     * invoked by: Controller.GameServer.insert_simulation()
+     * @return bool
+     */
+    public function increase_depreciation()
+    {
+        $playerId = $_SESSION['ply_id'];
+        echo "test". $playerId;
+
+        $query = "
+          SELECT 
+            ast_id, 
+            ast_economic 
+            FROM bc_asset 
+            
+            INNER JOIN bc_player_asset 
+              ON ast_id = pas_asset 
+              
+              WHERE pas_player = $playerId
+              ";
+
+        $result = $this->ManualQuery($query);
+        if ($result && $this->CountRow() > 0) {
+            $assets = $this->FetchData();
+            foreach ($assets as $attribute) {
+                $query = "
+                  UPDATE bc_player_asset 
+                  SET 
+                  pas_depreciation = pas_depreciation + ".$attribute["ast_economic"]." 
+                  WHERE pas_player = $playerId 
+                  AND pas_asset = ".$attribute["ast_id"];
+                $result = $this->ManualQuery($query);                
+            }
+        }
+        return $result;
+    }
+
+    /**
      * repair player's asset from deprecation
      * invoked by: Controller.Inventory.repair_asset()
      * @return bool

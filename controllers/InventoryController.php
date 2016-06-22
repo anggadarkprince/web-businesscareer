@@ -174,4 +174,34 @@ class InventoryController extends Controller
             binding_data($binding);
         }
     }
+
+    /**
+     * role: player
+     */
+    public function update_material()
+    {
+        if (Authenticate::is_player()) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+                $this->model_material = Material::getInstance();
+                $material = $_POST["material_data"];
+
+                $result = true;
+                foreach (json_decode($material) as $attribute) {
+                    $result = $this->model_material->update_material($attribute->pma_id, $attribute->pma_stock, $attribute->pma_expired_remaining);
+                }
+
+                $binding = array(
+                    "result_var" => "session_ready",
+                    "status_var" => $result
+                );
+
+                binding_data($binding);
+            } else {
+                transport("error404");
+            }
+        } else {
+            $binding = array("result_var" => "no_session");
+            binding_data($binding);
+        }
+    }
 }

@@ -17,6 +17,7 @@ class GameServerController extends Controller
     private $model_journal;
     private $model_player;
     private $model_memorycard;
+    private $model_leaderboard;
 
     /**
      * check login session when enter the game.
@@ -203,6 +204,7 @@ class GameServerController extends Controller
                 $this->model_achievement = Achievement::getInstance();
                 $this->model_journal = Journal::getInstance();
                 $this->model_memorycard = Memorycard::getInstance();
+                $this->model_leaderboard = Leaderboard::getInstance();
 
                 /*
                  * retrieve data each component.
@@ -234,6 +236,8 @@ class GameServerController extends Controller
 
                 $simulation = $this->model_memorycard->get_simulation();
 
+                $star = $this->model_leaderboard->get_player_ranking();
+
                 $binding = array
                 (
                     "result_var" => "session_ready",
@@ -252,7 +256,8 @@ class GameServerController extends Controller
                     "account_var" => json_encode($account, JSON_PRETTY_PRINT),
                     "simulation_var" => json_encode($simulation, JSON_PRETTY_PRINT),
                     "work_history_var" => json_encode($work_history, JSON_PRETTY_PRINT),
-                    "work_total_var" => $total_work
+                    "work_total_var" => $total_work,
+                    "star" => $star["star"]
                 );
 
                 $log = Log::getInstance();
@@ -302,7 +307,7 @@ class GameServerController extends Controller
     public function insert_simulation()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_memorycard = Memorycard::getInstance();
 
                 $day = $_POST['day'];
@@ -316,6 +321,9 @@ class GameServerController extends Controller
 
                 $result = $this->model_memorycard->insert_simulation($day, $served, $loss, $stress, $work, $location, $popularity, $overview);
 
+                $this->model_asset = Asset::getInstance();
+                $this->model_asset->increase_depreciation();
+                
                 $log = Log::getInstance();
                 $log->logging_game_simulation(json_encode(array($day, $served, $loss, $stress, $work, $location, $popularity, $overview)));
 
