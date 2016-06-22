@@ -155,7 +155,7 @@ class GameServerController extends Controller
     public function save_data()
     {
         if (Authenticate::is_player()) {
-            if (true || isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
+            if (isset($_POST['token']) && Authenticate::is_valid_token($_POST['token'])) {
                 $this->model_memorycard = Memorycard::getInstance();
 
                 /*
@@ -223,6 +223,7 @@ class GameServerController extends Controller
                 $player_asset = $this->model_asset->get_player_asset();
 
                 $product = $this->model_product->get_product_data();
+                $player_product = $this->model_product->get_player_product();
                 $product_material = $this->model_product->get_product_material();
 
                 $supplier = $this->model_supplier->get_supplier_data();
@@ -240,6 +241,7 @@ class GameServerController extends Controller
                     "candidate_var" => json_encode($candidate, JSON_PRETTY_PRINT),
                     "employee_var" => json_encode($employee, JSON_PRETTY_PRINT),
                     "product_var" => json_encode($product, JSON_PRETTY_PRINT),
+                    "player_product_var" => json_encode($player_product, JSON_PRETTY_PRINT),
                     "product_material_var" => json_encode($product_material, JSON_PRETTY_PRINT),
                     "material_var" => json_encode($material, JSON_PRETTY_PRINT),
                     "player_material_var" => json_encode($player_material, JSON_PRETTY_PRINT),

@@ -18,6 +18,7 @@ class InventoryController extends Controller
     }
 
     /**
+     * retrieve inventory data.
      * role: player
      */
     public function retrieve_inventory()
@@ -50,6 +51,7 @@ class InventoryController extends Controller
     }
 
     /**
+     * buy material for product, update stock or add new one.
      * role: player
      */
     public function buy_material()
@@ -90,6 +92,7 @@ class InventoryController extends Controller
     }
 
     /**
+     * delete material from inventory.
      * role: player
      */
     public function remove_material()
@@ -117,6 +120,7 @@ class InventoryController extends Controller
     }
 
     /**
+     * upgrade level of asset and return current asset list.
      * role: player
      */
     public function upgrade_asset()
@@ -134,7 +138,7 @@ class InventoryController extends Controller
                 $binding = array(
                     "result_var" => "session_ready",
                     "status_var" => $result,
-                    "player_asset_var" => $player_asset
+                    "player_asset_var" => json_encode($player_asset, JSON_PRETTY_PRINT)
                 );
                 binding_data($binding);
             } else {

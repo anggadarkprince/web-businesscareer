@@ -93,6 +93,7 @@ class Product extends Model
     /**
      * retrieve player's product from database.
      * invoked by: Controller.Inventory.retrieve_inventory()
+     *             Controller.GameServer.load_data()
      * @return array
      */
     public function get_player_product()
@@ -102,7 +103,7 @@ class Product extends Model
             SELECT
               prd_id,
               prd_product,
-              ppr_price,
+              ppr_price as prd_price,
               prd_atlas,
               prd_type
             FROM bc_player_product
@@ -122,27 +123,27 @@ class Product extends Model
 
     /**
      * update player's product.
+     * invoked by : Controller.Product.update_product_price()
      * @param $product
      * @return bool
      */
     public function update_player_product($product)
     {
         $result = true;
-
-        $this->getInstance()->beginTransaction();
-        foreach ($product as $attribute) {
-            $data = ["ppr_price" => $attribute["ppr_price"]];
+        //$this->getInstance()->beginTransaction();
+        foreach (json_decode($product) as $attribute) {
+            $data = ["ppr_price"    => $attribute->prd_price];
             $condition = [
-                "ppr_product" => $attribute["ppr_product"],
-                "ppr_player" => $_SESSION['ply_id']
+                "ppr_product"       => $attribute->prd_id,
+                "ppr_player"        => $_SESSION['ply_id']
             ];
             $result = $this->Update(Utility::TABLE_PLAYER_PRODUCT, $data, $condition);
-
             if (!$result) {
-                $this->getInstance()->rollBack();
+                //$this->getInstance()->rollBack();
+                return false;
             }
         }
-        $this->getInstance()->commit();
+        //$this->getInstance()->commit();
 
         return $result;
     }
